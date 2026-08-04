@@ -1,0 +1,14 @@
+Comando "npm init": cria o arquivo package.json
+Comando "npm install express"
+Modificar o package.json para aceitar um novo tipo de import moder no JS "module": "type": "module",
+Crieie o arquivo index.js para criar as minhas primeiras rotas
+Comando para rodar é: "node index.js"
+
+
+
+Agora irei instalar o HBS, que é o "gerador de páginas automatizado"
+"npm install hbs"
+Criei as views dentro de "/views", "pagina.hbs" e "teste.hbs"
+Fiz as rotas fazer a síntese "pagina.html" e "teste.html" (render)
+
+Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiperlinks
