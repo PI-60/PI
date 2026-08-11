@@ -1,170 +1,35 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFSC 60+</title>
-</head>
-<style>
-    *{
-            box-sizing: border-box;
-        }
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Mulish', Arial, sans-serif;
-        }
+ <!-- LADO ESQUERDO DA FOTO: Conteúdo complementar/Banner -->
+<aside>
+    [ANEXAR FOTO]
+</aside>
 
-        /* Estrutura principal dividida em duas metades semânticas */
-        body {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
+<!-- LADO DIREITO DA FOTO: Fluxo principal da página -->
+<main>
+    <section>
+        <!-- Cabeçalho contendo a imagem corporativa identificadora -->
+        <header>
+            <img class="logo" src="./assets/v70_79.png"
+                    alt="logo">
+        </header>
 
-        /* LADO ESQUERDO: Painel com imagem de impacto/institucional */
-        aside {
-            flex: 1;
-            background-color: #5a1217; /* Tom de vermelho escuro de fundo */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        /* LADO DIREITO: Área Principal do Formulário */
-        main {
-            flex: 1;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        /* Bloco interno para limitar a largura do conteúdo de login */
-        section {
-            width: 100%;
-            max-width: 360px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Cabeçalho do formulário (onde fica a logo) */
-        header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        form {
-            width: 100%;
-        }
-
-        /* Blocos para agrupar campos com parágrafos semânticos */
-        .field-group {
-            position: relative;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            padding-bottom: 5px;
-        }
-
-        /* Removido o padding-left excessivo para alinhar o placeholder no início da linha */
-        .field-group input {
-            width: 100%;
-            border: none;
-            outline: none;
-            padding: 10px 35px 10px 0px; 
-            font-size: 16px;
-        }
-
-        /* Estilo do botão do olho ocultar/mostrar senha */
-        .toggle-password {
-            position: absolute;
-            right: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toggle-password svg {
-            width: 20px;
-            height: 20px;
-            fill: #666;
-        }
-
-        /* Alinhamento da linha de opções adicionais (apenas link de recuperação) */
-        .options-row {
-            display: flex;
-            justify-content: flex-end; /* Joga o link totalmente para a direita */
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .options-row a {
-            color: #666;
-            text-decoration: none;
-        }
-        .options-row a:hover {
-            text-decoration: underline;
-        }
-
-        /* Container do Botão */
-        .actions-row {
-            text-align: center;
-            width: 100%;
-            margin: 0;
-        }
-
-        .actions-row input[type="image"] {
-            width: 100%;
-            max-width: 220px;
-            height: auto;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .actions-row input[type="image"]:hover {
-            opacity: 0.9;
-        }
-</style>
-<body>
-
-    <!-- LADO ESQUERDO DA FOTO: Conteúdo complementar/Banner -->
-    <aside>
-        [ANEXAR FOTO]
-    </aside>
-
-    <!-- LADO DIREITO DA FOTO: Fluxo principal da página -->
-    <main>
-        <section>
-            <!-- Cabeçalho contendo a imagem corporativa identificadora -->
-            <header>
-                [ANEXAR FOTO: Logo]
-            </header>
-
-            <form>
-                <!-- Input username -->
-                <p class="field-group"> 
-                    <input type="text" placeholder="Usuário" aria-label="Usuário">
+        <form>
+            <!-- Input username -->
+            <div>
+                <p class="field-group">
+                    <input type="text" placeholder="Usuário"
+                        aria-label="Usuário">
                 </p>
-                
+
                 <!-- Input senha com o ícone do olho integrado -->
-                <p class="field-group"> 
-                    <input type="password" id="password" placeholder="Senha" aria-label="Senha">
-                    <button type="button" id="toggleBtn" class="toggle-password" aria-label="Mostrar ou ocultar senha">
+                <p class="field-group">
+                    <input type="password" id="password" placeholder="Senha"
+                        aria-label="Senha">
+                    <button type="button" id="toggleBtn" class="toggle-password"
+                        aria-label="Mostrar ou ocultar senha">
                         <!-- Ícone de Olho em SVG -->
                         <svg id="eyeIcon" viewBox="0 0 24 24">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                         </svg>
                     </button>
                 </p>
@@ -175,36 +40,10 @@
                 </p>
 
                 <!-- Botão de submissão do formulário -->
-                <p class="actions-row">
-                    <input type="image" src="botaoDeLogin.png" alt="Entrar">
-                </p>   
-            </form>
-        </section>
-    </main>
+                <img class="btn-login" src="./assets/Login.png"
+                    alt="botão de login">
+            </div>
 
-    <!-- Lógica JS para fazer o olho funcionar -->
-    <script>
-        const passwordInput = document.getElementById('password');
-        const toggleButton = document.getElementById('toggleBtn');
-        const eyeIcon = document.getElementById('eyeIcon');
-
-        toggleButton.addEventListener('click', function () {
-            // Verifica o tipo atual do input
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            
-            if (isPassword) {
-                // Altera para texto livre (torna visível)
-                passwordInput.setAttribute('type', 'text');
-                // Altera o desenho do SVG para um olho cortado (ocultar)
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z M2 2l20 20"/>`;
-            } else {
-                // Volta a esconder a senha
-                passwordInput.setAttribute('type', 'password');
-                // Restaura o ícone original do olho aberto
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
-            }
-        });
-    </script>
-
-</body>
-</html>
+        </form>
+    </section>
+</main>

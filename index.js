@@ -25,7 +25,7 @@ app.get('/teste', (req, res) => {
   res.render("teste")
 })
 app.get('/login', (req, res) => {
-  res.render("telaLogin")
+  res.render("telaLogin", { layout: 'layouts/login' })
 })
  
 app.listen(3000, () => {
