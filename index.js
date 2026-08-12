@@ -27,6 +27,10 @@ app.get('/teste', (req, res) => {
 app.get('/login', (req, res) => {
   res.render("telaLogin", { layout: 'layouts/login' })
 })
+
+app.get('/inicioLogado', (req, res) => {
+  res.render("pagInicialLogado", { layout: 'layouts/mainLogado' })
+})
  
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000')

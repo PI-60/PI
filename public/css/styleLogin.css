@@ -155,8 +155,8 @@
         }
 
         .btn-login {
-            background-color: #5a1217;
-            border-color: #5a1217;
+            background-color: #23a134;
+            border-color: #0a4617;
             color: #ffffff;
             font-weight: bold;
             padding: 10px;
@@ -166,8 +166,8 @@
 
         .btn-login:hover,
         .btn-login:focus {
-            background-color: #7a1a21;
-            border-color: #7a1a21;
+            background-color: #082e13;
+            border-color: #1b4622;
             color: #ffffff;
         }
 

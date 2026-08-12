@@ -87,8 +87,8 @@
     font-weight:800;
     font-size:22px;
   }
-  .brand .a{color:var(--vermelho);}
-  .brand .b{color:var(--laranja);}
+  .brand .a{color:var(--verde-escuro);}
+  .brand .b{color:var(--verde);}
 
   nav.main-nav{
     display:flex;
@@ -147,6 +147,32 @@
     background:#653fab;
     border-color:#653fab;
   }
+
+  /* ================= NAV TOGGLE (collapse mobile) ================= */
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:34px;
+    height:34px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    order:2;
+  }
+  .nav-toggle span{
+    display:block;
+    height:2px;
+    width:100%;
+    background:var(--ink);
+    border-radius:2px;
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
   /* ================= HERO ================= */
   .hero {
@@ -226,7 +252,7 @@
     right:clamp(20px, 8vw, 110px);
     bottom:-64px;
     width:220px;
-    height:220px;
+    height:180px;
     z-index:2;
   }
   .seal svg{
@@ -482,6 +508,25 @@
   /* ================= RESPONSIVE ================= */
   @media (max-width: 900px){
     nav.main-nav{ display:none; }
+
+    .nav-inner{ flex-wrap:wrap; }
+    .nav-toggle{ display:flex; }
+    #logoutBtn{ order:3; }
+
+    nav.main-nav.is-open{
+      display:flex;
+      flex-direction:column;
+      order:4;
+      flex-basis:100%;
+      gap:4px;
+      padding-block:16px 4px;
+    }
+    nav.main-nav.is-open a{
+      padding-block:10px;
+      border-bottom:1px solid var(--line);
+    }
+    nav.main-nav.is-open a::after{ display:none; }
+
     .pillars{ grid-template-columns:1fr; }
     .oficinas-grid{ grid-template-columns:1fr; }
     .equipe-row{ gap:36px; }
