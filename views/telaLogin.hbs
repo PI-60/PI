@@ -1,22 +1,25 @@
  <!-- LADO ESQUERDO DA FOTO: Conteúdo complementar/Banner -->
 <aside>
-    [ANEXAR FOTO]
+    <img class="banner" src="./assets/v332_147.png" alt="banner">
 </aside>
+
+<!-- Barra colorida com as cores da logo, separando as duas metades -->
+<div class="color-bar"></div>
 
 <!-- LADO DIREITO DA FOTO: Fluxo principal da página -->
 <main>
     <section>
         <!-- Cabeçalho contendo a imagem corporativa identificadora -->
         <header>
-            <img class="logo" src="./assets/v70_79.png"
+            <img class="logo" src="./assets/60.webp"
                     alt="logo">
         </header>
 
-        <form>
+        <form id="loginForm">
             <!-- Input username -->
             <div>
                 <p class="field-group">
-                    <input type="text" placeholder="Usuário"
+                    <input type="text" id="username" placeholder="Usuário"
                         aria-label="Usuário">
                 </p>
 
@@ -39,9 +42,11 @@
                     <a href="#">Esqueceu sua senha?</a>
                 </p>
 
+                <!-- Mensagem de erro exibida quando usuário/senha não conferem -->
+                <p id="loginError" class="text-danger" style="display:none;">Usuário/senha incorretos</p>
+
                 <!-- Botão de submissão do formulário -->
-                <img class="btn-login" src="./assets/Login.png"
-                    alt="botão de login">
+                <button type="submit" class="btn btn-login w-100">Entrar</button>
             </div>
 
         </form>

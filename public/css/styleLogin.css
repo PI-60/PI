@@ -26,6 +26,29 @@
             text-align: center;
             font-size: 24px;
             font-weight: bold;
+            overflow: hidden;
+        }
+
+        aside .banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Barra colorida entre a imagem da esquerda e o formulário, com as cores da logo */
+        .color-bar {
+            width: 5px;
+            height: 100%;
+            flex-shrink: 0;
+            background: linear-gradient(
+                180deg,
+                #2e9e4f,
+                #f5821f,
+                #f9c22e,
+                #c0392b,
+                #1e9be9,
+                #6a3fa0
+            );
         }
 
         /* LADO DIREITO: Área Principal do Formulário */
@@ -51,6 +74,11 @@
         header {
             margin-bottom: 30px;
             text-align: center;
+        }
+
+        .logo {
+            width: 170px;
+            height: auto;
         }
 
         form {
@@ -126,10 +154,23 @@
             transition: opacity 0.2s;
         }
 
-        .btn-login{
-            width: 100%;
-            
+        .btn-login {
+            background-color: #5a1217;
+            border-color: #5a1217;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 10px;
+            transition: background-color 0.2s, border-color 0.2s;
         }
+
+        .btn-login:hover,
+        .btn-login:focus {
+            background-color: #7a1a21;
+            border-color: #7a1a21;
+            color: #ffffff;
+        }
+
         .actions-row input[type="image"]:hover {
             opacity: 0.9;
         }
