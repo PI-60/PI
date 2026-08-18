@@ -31,6 +31,10 @@ app.get('/login', (req, res) => {
 app.get('/inicioLogado', (req, res) => {
   res.render("pagInicialLogado", { layout: 'layouts/mainLogado' })
 })
+
+app.get('/cadastro', (req, res) => {
+  res.render("telaCadastroB", { layout: 'layouts/mainLogado' })
+})
  
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000')
