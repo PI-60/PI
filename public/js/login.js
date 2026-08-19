@@ -1,4 +1,7 @@
-        const userTeste = "userTeste";
+const db = require('db');
+
+async function realizarLogin(email, senha) {   
+       const userTeste = "userTeste";
         const senhaTeste = "senhaTeste";
 
         const passwordInput = document.getElementById('password');
@@ -25,11 +28,45 @@
             }
         });
 
-        loginForm.addEventListener('submit', function (event) {
+           /*loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
-
+            const usuarioDigitado = usernameInput.value;
+            const senhaDigitada = passwordInput.value;*/
+        loginForm.addEventListener(type = 'submit', function (event) {
+            event.preventDefault();
             const usuarioDigitado = usernameInput.value;
             const senhaDigitada = passwordInput.value;
+
+            try {
+                const resposta = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        email: usuarioDigitado, 
+                        senha: senhaDigitada 
+                    })
+                });
+
+                const dados = await resposta.json();
+
+                if (resposta.ok && dados.sucesso) {
+                    loginError.style.display = 'none';
+                    localStorage.setItem('logado', 'true');
+                    localStorage.setItem('usuario_nome', dados.usuario.nome);
+                    localStorage.setItem('usuario_papel', dados.usuario.papel);
+                    window.location.href = 'pagInicialLogado.hbs';
+                    
+                } else {
+                    loginError.style.display = 'block';
+                    loginError.innerText = dados.mensagem || 'E-mail ou senha incorretos.';
+                }
+            } catch (erro) {
+                console.error('Erro na requisição:', erro);
+                loginError.style.display = 'block';
+                loginError.innerText = 'Não foi possível conectar ao servidor.';
+            }
 
             /*if (usuarioDigitado === userTeste && senhaDigitada === senhaTeste) {
                 loginError.style.display = 'none';
@@ -38,6 +75,7 @@
             } else {
                 loginError.style.display = 'block';
             }*/
-
-
-        });
+}
+           module.exports = { realizarLogin };
+ });
+       

@@ -12,3 +12,12 @@ Criei as views dentro de "/views", "pagina.hbs" e "teste.hbs"
 Fiz as rotas fazer a síntese "pagina.html" e "teste.html" (render)
 
 Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiperlinks
+
+
+"# PI" 
+
+# como fazer merge
+- criar uma branch com as mudanças
+git checkout -b NomeBranch 
+- voltar para a main 
+git checkout main
