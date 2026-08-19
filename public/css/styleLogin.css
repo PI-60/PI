@@ -155,6 +155,7 @@
         }
 
         .btn-login {
+            width: 100%;
             background-color: #23a134;
             border-color: #0a4617;
             color: #ffffff;

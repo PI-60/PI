@@ -1,5 +1,8 @@
 create database ifsc60;
 
+CREATE USER IF NOT EXISTS 'oliver_11'@'localhost' IDENTIFIED BY 'oliver_11';
+GRANT ALL PRIVILEGES ON ifsc60.* TO 'oliver_11'@'localhost';
+FLUSH PRIVILEGES;
 -- create tables
 
 create table usuario(
@@ -84,11 +87,11 @@ create table ministrante (
 
 insert into usuario
 values 
-('suelen.vicente@ifsc.edu.br', '12345', '44998682401', '00000000001'),
-('fernanda.trentini@ifsc.edu.br', '12345', '47988888888', '00000000001'),
-('oliver.cs11@aluno.ifsc.edu.br', '12345', '47988171843', '00000000001'),
-('heloisa.mr@aluno.ifsc.edu.br', '12345', '12345678900', '00000000001'),
-('kiara.s18@aluno.ifsc.edu.br', '12345', '12345678900', '00000000001'),
+('suelen.vicente@ifsc.edu.br', 'Suelen Vicente Vieira', '12345', '44998682401', '00000000001'),
+('fernanda.trentini@ifsc.edu.br', 'Fernanda Trentini', '12345', '47988888888', '00000000001'),
+('oliver.cs11@aluno.ifsc.edu.br', 'Oliver Cristine Silva dos Santos', '12345', '47988171843', '00000000001'),
+('heloisa.mr@aluno.ifsc.edu.br', 'Heloisa Mafra Reisch', '12345', '12345678900', '00000000001'),
+('kiara.s18@aluno.ifsc.edu.br', 'Kiara Annelie de Souza Silva', '12345', '12345678900', '00000000001');
 
 insert into coordenador 
 values 
@@ -97,8 +100,6 @@ values
 
 insert into bolsista 
 values 
-('heloisa.mr@aluno.ifsc.edu.br),
-('kiara.s18@aluno.ifsc.edu'),
-('oliver.cs11@aluno.ifsc.edu');
-
-
+('heloisa.mr@aluno.ifsc.edu.br'),
+('kiara.s18@aluno.ifsc.edu.br'),
+('oliver.cs11@aluno.ifsc.edu.br');

@@ -31,11 +31,13 @@
             const usuarioDigitado = usernameInput.value;
             const senhaDigitada = passwordInput.value;
 
-            if (usuarioDigitado === userTeste && senhaDigitada === senhaTeste) {
+            /*if (usuarioDigitado === userTeste && senhaDigitada === senhaTeste) {
                 loginError.style.display = 'none';
                 localStorage.setItem('logado', 'true');
                 window.location.href = '/';
             } else {
                 loginError.style.display = 'block';
-            }
+            }*/
+
+
         });
