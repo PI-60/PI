@@ -1,30 +1,51 @@
+<link rel="stylesheet" href="/style.css">
+
+<main class="center"> <!-- chama o arquivo ! -->
 
 
-<main> <!-- chama o arquivo ! -->
+        <section>
+            <h1>Cadastro de Bolsista</h1>
 
-    <section>
-
-       <h1>Cadastro de Bolsista</h1>
-    <!--formulário -->
-        <form id="CadastroB">
-            <!-- username, telefone, cpf.. BOOTSRAP -->
-                <div class="container text-center">
-                    <div class="row row-cols-2">
-                        <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
-                        <div class="col"><input type="text"  id ="nameB" placeholder="Nome Completo">  </div>
-                        <div class="col"><input type="text" id="emailB" placeholder="Email"> </div>
-                        <div class="col"><input type ="text" id="cpfB" placeholder="CPF"></div>
-                        <div class="col"><input type ="text" id="phoneB" placeholder="Telefone"></div>
-                        <div class="col"><input type ="text" id="passwordB" placeholder="Senha"></div>
-
+            <form id="CadastroB">
+                <div class="formulario">
+                    
+                    <div class="campo">
+                        <label for="nameB">Nome Completo</label>
+                        <input type="text" id="nameB" placeholder="Nome Completo" required>
                     </div>
-                  <!-- botão de cadstra -->
-                        <button type="submit" class="button">
-                     <img src="./assets/Cadastra.png" alt="Cadastrar">
-                        </button>
 
-                    </form>
+                    <div class="campo">
+                        <label for="emailB">E-mail</label>
+                        <input type="email" id="emailB" placeholder="E-mail" required>
+                    </div>
 
-            </section>
+                    <div class="campo">
+                        <label for="cpfB">CPF</label>
+                        <input type="text" id="cpfB" placeholder="CPF" required>
+                    </div>
 
-            </main>
+                    <div class="campo">
+                        <label for="phoneB">Telefone</label>
+                        <input type="text" id="phoneB" placeholder="Telefone" required>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <label for="selectB">Tipo de Cadastro</label>
+                        <select id="selectB" class="select" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">Participante</option>
+                            <option value="2">Ministrante</option>
+                            <option value="3">Coordenador</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="button">Cadastrar</button>
+            </form>
+        </section>
+    </main>
+
+
+
+            <
