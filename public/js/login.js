@@ -8,22 +8,66 @@
         const loginForm = document.getElementById('loginForm');
         const loginError = document.getElementById('loginError');
 
-        toggleButton.addEventListener('click', function () {
-            // Verifica o tipo atual do input
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            
-            if (isPassword) {
-                // Altera para texto livre (torna visível)
-                passwordInput.setAttribute('type', 'text');
-                // Altera o desenho do SVG para um olho cortado (ocultar)
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z M2 2l20 20"/>`;
-            } else {
-                // Volta a esconder a senha
-                passwordInput.setAttribute('type', 'password');
-                // Restaura o ícone original do olho aberto
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
-            }
-        });
+       toggleButton.addEventListener('click', function () {
+
+
+    const isPassword = passwordInput.type === 'password';
+
+
+   if (isPassword) {
+
+
+// Mostra a senha
+passwordInput.type = 'text';
+
+
+// OLHO NORMAL
+eyeIcon.innerHTML = `
+<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z
+M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z
+M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+`;
+
+
+    } else {
+
+
+        // Esconde a senha
+        passwordInput.type = 'password';
+
+
+        // OLHO RISCADO
+        eyeIcon.innerHTML = `
+<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z
+M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z
+M2 2l20 20"/>
+
+
+
+
+            <circle
+                cx="12"
+                cy="12"
+                r="3"
+                fill="none"
+                stroke="#808080"
+                stroke-width="2"
+            />
+
+
+            <line
+                x1="3"
+                y1="3"
+                x2="21"
+                y2="21"
+                stroke="#808080"
+                stroke-width="2.5"
+                stroke-linecap="round"
+            />
+        `;
+    }
+});
+
 
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();

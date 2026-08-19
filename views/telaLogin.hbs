@@ -19,10 +19,13 @@
             <!-- Input username -->
             <div>
                 <p class="field-group">
-                    <input type="text" id="username" placeholder="Usuário"
-                        aria-label="Usuário">
-                </p>
+    <input type="text" id="username" placeholder="Usuário"
+        aria-label="Usuário">
+</p>
 
+<p id="usernameRequired" class="text-danger" style="display:none;">
+    Usuário é obrigatório
+</p>
                 <!-- Input senha com o ícone do olho integrado -->
                 <p class="field-group">
                     <input type="password" id="password" placeholder="Senha"
@@ -36,6 +39,9 @@
                         </svg>
                     </button>
                 </p>
+                <p id="passwordRequired" class="text-danger" style="display:none;">
+    Senha é obrigatória
+</p>
 
                 <!-- Opções adicionais de recuperação (Alinhado à direita após descarte do checkbox) -->
                 <p class="options-row">
@@ -46,7 +52,9 @@
                 <p id="loginError" class="text-danger" style="display:none;">Usuário/senha incorretos</p>
 
                 <!-- Botão de submissão do formulário -->
-                <button type="submit" class="button">Entrar</button>
+                <button type="submit" class="button" id="loginButton" disabled>
+    Entrar
+</button>
             </div>
 
         </form>
