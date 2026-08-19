@@ -1,76 +1,10 @@
-/* Centraliza tudo no meio da tela */
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+ .campo {
+  padding-top: 50px;
+  padding-right: 30px;
+  padding-bottom: 50px;
+  padding-left: 80px;
+  height: 100vh;
+  display: flex;
+   justify-content: center;
+   align-items: center;
 }
-
-section {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Estrutura do Formulário */
-.formulario {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.campo {
-    display: flex;
-    flex-direction: column;
-}
-
-.campo label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.campo input, .select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-.button {
-    width: 100%;
-    background-color: #0d6efd;
-    color: white;
-    font-size: 16px;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-}
-/** {
-  box-sizing: border-box;
-}
-
-/* Create two equal columns that floats next to each other */
-/*.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration *//*
-}
-
-/* Clear floats after the columns */
-/*
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
- */
