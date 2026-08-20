@@ -1,57 +1,59 @@
 
 
+<link rel="stylesheet" href="/css/styleCadastro.css">
+<script src="/js/cadastroB.js"></script>
+
 
 <main class="center"> <!-- chama o arquivo ! -->
 
     <section>
-
-       <h1>Cadastro de Bolsista</h1>
+        <!-- titulo -->
+       <h1>Cadastro de Usuário</h1>
 
     <!--formulário -->
-
         <form id="CadastroB">
-
-            <!-- username, telefone, cpf.. BOOTSRAP -->
-
+            <!-- username, telefone, cpf.. -->
                 <div class="formulario">
-
                         <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
                         <div class="campo">
-                             <label for="nameB">Nome Completo</label><br><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
+                             <label for="nameB">Nome Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
                             <input type="text"  id ="nameB" placeholder="Nome Completo" required         >  <!-- required = obrigatório-->
                             <!-- mensagem automatica p/ preenche o campo-->
                              </div>  
 
                         <div class="campo">
-                             <label for="emailB">E-mail</label><br>
-                             <input type="text" id="emailB" placeholder="E-mail" required    > </div>
+                             <label for="emailB">E-mail</label>
+                             <input type="text" id="emailB" placeholder="E-mail" > </div>
 
                         <div class="campo">
-                             <label for="cpfB">CPF</label><br>
-                             <input type ="text" id="cpfB" placeholder="CPF" required    ></div>
+                             <label for="cpfB">CPF</label>
+                             <input type ="text" id="cpfB" placeholder="CPF" required  ></div>
 
                         <div class="campo">
-                             <label for="phoneB">Telefone</label><br>
-                             <input type ="text" id="phoneB" placeholder="Telefone" required    ></div>
+                             <label for="phoneB">Telefone</label>
+                             <input type ="text" id="phoneB" placeholder="Telefone" required></div>
 
                     <br>
                         <div class="campo"> <!-- p ter o mesmo estilo dos outros-->
-                            <label for="Selecione o tipo de Usuário"></label>
-                        <select class="select" required >
+                            <!--  combobox -->
+                            <label for="tipoU"></label>
+                        <select id="tipoU" class="select" required >
                         <option value="">Selecione o tipo de Usuário</option>
-                         <option value="1">Bolsista</option>
-                        <option value="2">Participante</option>
-                        <option value="3">Ministrante</option>
-                        <option value="4">Coordenador</option>
+                         <option value="bolsista">Bolsista</option>
+                        <option value="participante">Participante</option>
+                        <option value="ministrante">Ministrante</option>
+                        <option value="coordenador">Coordenador</option>
                          </select>
 
 
                           <!-- aparece só quando escolher blsista = js-->
-                        <!-- <div class="col"><input type ="text" id="passwordB" placeholder="Senha"></div> -->
-
+                            <div class="campo" style="display: none;"id="passwordB">
+                             <label for="passwordB">Senha</label>
+                             <input type ="password"  placeholder="Senha"  ></div>
+                      
                     </div>
 
-                  <!-- botão de cadstra, tipo submit (form) classe botão, escrita enviar -->
+                  <!-- botão de cadstra, tipo submit (form) classe botão, escrita Cadastrar -->
 
                         <button type="submit" class="button">
                             Cadastrar </button>

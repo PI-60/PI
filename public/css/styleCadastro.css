@@ -1,10 +1,90 @@
- .campo {
-  padding-top: 50px;
-  padding-right: 30px;
-  padding-bottom: 50px;
-  padding-left: 80px;
-  height: 100vh;
-  display: flex;
-   justify-content: center;
-   align-items: center;
+* { /* * = tudo) */
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    background-color: #f5f5f5;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario {
+    width: 100%;
+    max-width: 900px;
+    padding: 35px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* divide o formulario em 2 colunas */
+    gap: 20px; /* 20 pixel de distancia entre os elementos do formulario */
+}
+
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.campo label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #129745;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+}
+
+
+.formulario button {
+    grid-column: 1 / -1; /* começa na coluna 1 */
+
+    width: 120px;
+    height: 42px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: #0b990b;
+    color: rgb(255, 253, 253); /* cor da escrita */
+    transition-duration: 0.4s;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-top: 20xp;
+}
+
+.formulario button:hover {
+    background-color: hsl(133, 75%, 17%); /* cor dop botao ao ser clicado */
 }
