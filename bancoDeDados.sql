@@ -112,31 +112,31 @@ CREATE TABLE ministrante (
     telefone VARCHAR(13)
 );
 
--- USUÁRIOS 
+-- USUÁRIOS FICTÍCIOS
 
 INSERT INTO usuario
     (email, nome, senha, telefone, CPF)
 VALUES
-    ('kiara.teste@ifsc.edu.br', 'Ana Teste', '12345', '47999999999', '00000000001'),
-    ('helo.teste@ifsc.edu.br', 'Bruno Teste', '12345', '47988888888', '00000000002'),
-    ('oliver.teste@aluno.ifsc.edu.br', 'Carla Teste', '12345', '47977777777', '00000000003'),
-    ('maria.teste@aluno.ifsc.edu.br', 'Diego Teste', '12345', '47966666666', '00000000004'),
-    ('eli.teste@aluno.ifsc.edu.br', 'Elisa Teste', '12345', '47955555555', '00000000005');
+    ('ana.teste@ifsc.edu.br', 'Ana Teste', '12345', '47999999999', '00000000001'),
+    ('bruno.teste@ifsc.edu.br', 'Bruno Teste', '12345', '47988888888', '00000000002'),
+    ('carla.teste@aluno.ifsc.edu.br', 'Carla Teste', '12345', '47977777777', '00000000003'),
+    ('diego.teste@aluno.ifsc.edu.br', 'Diego Teste', '12345', '47966666666', '00000000004'),
+    ('elisa.teste@aluno.ifsc.edu.br', 'Elisa Teste', '12345', '47955555555', '00000000005');
 
 -- COORDENADORES
 
 INSERT INTO coordenador
     (email, SIAPE)
 VALUES
-    ('kiara.teste@ifsc.edu.br', '100001'),
-    ('helo.teste@ifsc.edu.br', '100002');
+    ('ana.teste@ifsc.edu.br', '100001'),
+    ('bruno.teste@ifsc.edu.br', '100002');
 
 -- BOLSISTAS
 
 INSERT INTO bolsista
     (email)
 VALUES
-    ('oliver.teste@aluno.ifsc.edu.br'),
-    ('maria.teste@aluno.ifsc.edu.br'),
-    ('eli.teste@aluno.ifsc.edu.br');
+    ('carla.teste@aluno.ifsc.edu.br'),
+    ('diego.teste@aluno.ifsc.edu.br'),
+    ('elisa.teste@aluno.ifsc.edu.br');
 
