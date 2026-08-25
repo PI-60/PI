@@ -5,74 +5,97 @@ document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
 
     const tipoU = document.getElementById("tipoU");
-    const passwordB = document.getElementById("passwordB");
+    const campoSenha = passwordB.closest(".campo");
 
     console.log("Select:", tipoU);
     console.log("Senha:", passwordB);
 
     tipoU.addEventListener("change", function () {
-
-        console.log("Escolheu:", tipoU.value);
-
+       
         if (tipoU.value === "bolsista") {
-            passwordB.style.display = "flex";
+            campoSenha.style.display = "block";
         } else {
-            passwordB.style.display = "none";
+            campoSenha.style.display = "none";
         }
 
     });
 
+    
+
 
 });
 
-    // paeticiapnte;
-
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
 
     const tipoU = document.getElementById("tipoU");
-    const emailB = document.getElementById("phoneB");
+    const campoEmail = emailB.closest(".campo");
+    // cchama o campo + proximo que tenha emailB ja que todas as cedulas sao .campo)
+
 
     console.log("Select:", tipoU);
     console.log("Email:", emailB);
-
+    
     tipoU.addEventListener("change", function () {
 
-        console.log("Escolheu:", tipoU.value);
+        if (tipoU.value == "participante") {
+            campoEmail.style.display = "none";
+       // document.getElementById('emailB').style.display='none'
+      //  document.querySelector('label[for= emailB').style.display ='none'
+        }
+        else{
+                campoEmail.style.display = "block";
+         //   emailB.style.display = "block";
+          //   document.querySelector('label[for= emailB').style.display ='block'
+        }
 
-        if (tipoU.value === "participante") {
-            emailB.style.display = "none";
+    
+        });
+
+});
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const tipoU = document.getElementById("tipoU");
+        const campoCPF = cpfB.closest(".campo");
+
+        console.log("Select:", tipoU);
+        console.log("CPF:", cpfB);
+
+        tipoU.addEventListener("change", function (){
+
+            if(tipoU.value == "ministrante"){
+                campoCPF.style.display = 'none'
+            } else {
+                campoCPF.style.display = 'block'
+            }
+
+        } );
+
+    }   );
+
+    
+// bolsista;
+document.addEventListener("DOMContentLoaded", function () {
+    /*quando clicar nesse botão faça isso.. */
+
+    const tipoU = document.getElementById("tipoU");
+    const campoSiape = siape.closest(".campo");
+
+    console.log("Select:", tipoU);
+    console.log("Siape:", siape);
+
+    tipoU.addEventListener("change", function () {
+       
+        if (tipoU.value === "coordenador") {
+            campoSiape.style.display = "block";
         } else {
-            phoneB.style.display = "flex";
+            campoSiape.style.display = "none";
         }
 
     });
 
-
-});
-
-// ministrante
- document.addEventListener("DOMContentLoaded", function () {
-    /*quando clicar nesse botão faça isso.. */
-
-    const tipoU = document.getElementById("tipoU");
-    const cpfB = document.getElementById("cpfB");
-
-    console.log("Select:", tipoU);
-    console.log("CPF:", cpfB);
-
-    tipoU.addEventListener("change", function () {
-
-        console.log("Escolheu:", tipoU.value);
-
-        if (tipoU.value === "ministrante") {
-            emailB.style.display = "flex";
-        } else {
-            phoneB.style.display = "none";
-        }
-
-     });
-
-
-});
     
+
+
+});

@@ -23,7 +23,7 @@
 
                         <div class="campo">
                              <label for="emailB">E-mail</label>
-                             <input type="text" id="emailB" placeholder="E-mail" required> </div>
+                             <input type="email" id="emailB" placeholder="E-mail" required> </div>
 
                         <div class="campo">
                              <label for="cpfB">CPF</label>
@@ -31,7 +31,7 @@
 
                         <div class="campo">
                              <label for="phoneB">Telefone</label>
-                             <input type ="text" id="phoneB" placeholder="Telefone" required></div>
+                             <input type ="tel" id="phoneB" placeholder="Telefone" required></div>
 
                     <br>
                         <div class="campo"> <!-- p ter o mesmo estilo dos outros-->
@@ -47,15 +47,21 @@
 
 
                           <!-- aparece só quando escolher blsista = js-->
-                            <div class="campo" style="display: none;"id="passwordB">
-                             <label for="passwordB">Senha</label>
-                             <input type ="password"  placeholder="Senha"  required></div>
+                            <div class="campo">
+                             <label for="passwordB" >Senha</label>
+                             <input id="passwordB" type ="password"  placeholder="Senha"  required>
+                             </div>
+
+                              <div class="campo">
+                             <label for="siape">SIAPE</label>
+                             <input type="text" id="siape" placeholder="SIAPE"required> 
+                         </div>
                       
                     </div>
 
                   <!-- botão de cadstra, tipo submit (form) classe botão, escrita Cadastrar -->
 
-                        <button type="submit" class="button">
+                        <button  type="submit" class="button">
                             Cadastrar </button>
                     </form>
 
