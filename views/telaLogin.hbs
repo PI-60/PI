@@ -15,48 +15,37 @@
                     alt="logo">
         </header>
 
-        <form id="loginForm">
-            <!-- Input username -->
-            <div>
-                <p class="field-group">
-    <input type="text" id="username" placeholder="Usuário"
-        aria-label="Usuário">
-</p>
+       <form id="loginForm" action="/login" method="POST">
+    <div>
+        <!-- Campo E-mail -->
+        <p class="field-group">
+            <input type="email" id="username" name="email" placeholder="E-mail" aria-label="E-mail" required>
+        </p>
 
-<p id="usernameRequired" class="text-danger" style="display:none;">
-    Usuário é obrigatório
-</p>
-                <!-- Input senha com o ícone do olho integrado -->
-                <p class="field-group">
-                    <input type="password" id="password" placeholder="Senha"
-                        aria-label="Senha">
-                    <button type="button" id="toggleBtn" class="toggle-password"
-                        aria-label="Mostrar ou ocultar senha">
-                        <!-- Ícone de Olho em SVG -->
-                        <svg id="eyeIcon" viewBox="0 0 24 24">
-                            <path
-                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                        </svg>
-                    </button>
-                </p>
-                <p id="passwordRequired" class="text-danger" style="display:none;">
-    Senha é obrigatória
-</p>
+        <!-- Campo Senha -->
+        <p class="field-group">
+            <input type="password" id="password" name="senha" placeholder="Senha" aria-label="Senha" required>
+            <button type="button" id="toggleBtn" class="toggle-password" aria-label="Mostrar ou ocultar senha">
+                <svg id="eyeIcon" viewBox="0 0 24 24">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                </svg>
+            </button>
+        </p>
 
-                <!-- Opções adicionais de recuperação (Alinhado à direita após descarte do checkbox) -->
-                <p class="options-row">
-                    <a href="#">Esqueceu sua senha?</a>
-                </p>
+        <!-- Link para Recuperação com a URL correta -->
+        <p class="options-row">
+            <a href="/recuperacao-senha">Esqueceu sua senha?</a>
+        </p>
 
-                <!-- Mensagem de erro exibida quando usuário/senha não conferem -->
-                <p id="loginError" class="text-danger" style="display:none;">Usuário/senha incorretos</p>
+        {{#if erro}}
+            <p class="text-danger" style="color: red;">{{erro}}</p>
+        {{/if}}
 
-                <!-- Botão de submissão do formulário -->
-                <button type="submit" class="btn-login" id="loginButton" disabled>
-    Entrar
-</button>
-            </div>
-
-        </form>
+        <!-- Botão habilitado sem o atributo disabled -->
+        <button type="submit" class="btn-login" id="loginButton">
+            Entrar
+        </button>
+    </div>
+</form>
     </section>
 </main>

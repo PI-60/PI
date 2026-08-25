@@ -43,23 +43,15 @@
 
         <!-- A tag form abre aqui e abraça todos os elementos -->
         <form action="/recuperacao-senha" method="POST">
+    <div class="campo">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+    </div>
 
-            <div class="campo">
-                <label for="email">E-mail</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Digite seu e-mail"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="btn-recuperar">
-                Recuperar Senha
-            </button>
-
-        </form> <!-- O form fecha aqui no final -->
+    <button type="submit" class="btn-recuperar">
+        Recuperar Senha
+    </button>
+</form>
 
     </div>
 
