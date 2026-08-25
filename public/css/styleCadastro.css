@@ -24,6 +24,7 @@ section {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     display: grid;
     grid-template-columns: 1fr 1fr; /* divide o formulario em 2 colunas */
+    grid-auto-flow: dense;
     gap: 20px; /* 20 pixel de distancia entre os elementos do formulario */
 }
 
@@ -62,6 +63,7 @@ section {
     border-color: #129745;
     box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
 }
+
 
 
 .formulario button {
