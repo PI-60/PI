@@ -1,0 +1,66 @@
+<!--<main>
+  <h2>Recuperar Senha</h2>
+
+  {{#if erro}}
+    <p style="color: red;">{{erro}}</p>
+  {{/if}}
+
+  {{#if sucesso}}
+    <p style="color: green;">{{sucesso}}</p>
+  {{/if}}
+
+  <form action="/recuperar-senha" method="POST">
+    <div>
+      <label for="email">E-mail cadastrado:</label>
+      <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+    </div>
+
+    <div>
+      <label for="novaSenha">Nova Senha:</label>
+      <input type="password" id="novaSenha" name="novaSenha" placeholder="Digite a nova senha" required />
+    </div>
+
+    <button type="submit">Redefinir Senha</button>
+  </form>
+
+  <br />
+  <a href="/login">Voltar para o Login</a>
+</main>-->
+
+
+<div class="recuperacao-container">
+
+    <h1>Recuperação de Senha</h1>
+
+    <div class="recuperacao-card">
+
+        <h2>Esqueceu sua senha?</h2>
+
+        <p>
+            Digite seu e-mail para receber as instruções
+            para recuperar sua senha.
+        </p>
+
+        <!-- A tag form abre aqui e abraça todos os elementos -->
+        <form action="/recuperacao-senha" method="POST">
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Digite seu e-mail"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn-recuperar">
+                Recuperar Senha
+            </button>
+
+        </form> <!-- O form fecha aqui no final -->
+
+    </div>
+
+</div>

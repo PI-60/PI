@@ -1,104 +1,154 @@
-create database ifsc60;
+drop DATABASE IF EXISTS ifsc60;
+CREATE DATABASE IF NOT EXISTS ifsc60;
+USE ifsc60;
 
--- create tables
+-- TABELA PRINCIPAL DE USUÁRIOS
 
-create table usuario(
-email varchar(100) primary key not null,
-nome varchar(100) not null,
-    senha varchar(50) not null, 
-    telefone varchar(13),
-    CPF varchar (11) not null
-); 
-
-create table oficina(
-	 idOficina int auto_increment primary key not null,
-     email varchar(100),
-     foreign key (email) references usuario (email),
-     titulo varchar (50) not null,
-     descricao varchar (1200),
-     local varchar (1200),
-     dt_inicio date not null,
-     dt_termino date not null,
-     duracaoHr time not null
+CREATE TABLE usuario (
+    email VARCHAR(100) PRIMARY KEY NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    telefone VARCHAR(13),
+    CPF VARCHAR(11) NOT NULL
 );
 
-create table coordenador(
-	email varchar(100) primary key not null,
-	SIAPE varchar(20) not null,
-    foreign key (email) references usuario (email) 
+-- OFICINA
+
+CREATE TABLE oficina (
+    idOficina INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100),
+    titulo VARCHAR(50) NOT NULL,
+    descricao VARCHAR(1200),
+    local VARCHAR(1200),
+    dt_inicio DATE NOT NULL,
+    dt_termino DATE NOT NULL,
+    duracaoHr TIME NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
 );
 
-create table bolsista(
-	email varchar(100) primary key not null,
-    foreign key (email) references usuario (email) 
+-- COORDENADOR
+
+CREATE TABLE coordenador (
+    email VARCHAR(100) PRIMARY KEY NOT NULL,
+    SIAPE VARCHAR(20) NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
 );
 
-create table administrador(
-	email varchar(100) primary key,
-    foreign key (email) references usuario (email)
+-- BOLSISTA
+
+CREATE TABLE bolsista (
+    email VARCHAR(100) PRIMARY KEY NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
 );
 
-create table participante(
-	idParticipante int auto_increment primary key not null,
-    email varchar(100),
-    foreign key (email) references administrador (email),
-    nome varchar (200) not null,
-    CPF varchar(11),
-    telefone varchar (13)
-    );
-    
-create table comparece (
-	email varchar(100) primary key not null,
-	foreign key (email) references bolsista (email),
-    idOficina int auto_increment not null,
-    foreign key (idOficina) references oficina (idOficina)
+-- ADMINISTRADOR
+
+CREATE TABLE administrador (
+    email VARCHAR(100) PRIMARY KEY NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
 );
 
-create table oficinaDia (
-	idOficinaDia int auto_increment primary key not null,
-    dt date not null
+-- PARTICIPANTE
+
+CREATE TABLE participante (
+    idParticipante INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(200) NOT NULL,
+    CPF VARCHAR(11),
+    telefone VARCHAR(13)
 );
 
-create table dia_oficina (
-	idOficina int primary key not null,
-	foreign key (idOficina) references oficina (idOficina),
-	idOficinaDia int not null,
-    foreign key (idOficinaDia) references oficinaDia (idOficinaDia)
+-- COMPARECE
+
+CREATE TABLE comparece (
+    email VARCHAR(100) NOT NULL,
+    idOficina INT NOT NULL,
+
+    PRIMARY KEY (email, idOficina),
+
+    FOREIGN KEY (email) REFERENCES bolsista(email),
+    FOREIGN KEY (idOficina) REFERENCES oficina(idOficina)
 );
 
-create table participa (
-	idParticipante int primary key not null, 
-    idOficinaDia int not null,
-    foreign key (idOficinaDia) references oficinaDia (idOficinaDia),
-    foreign key (idParticipante) references participante (idParticipante),
-    frequencia boolean
+-- OFICINA DIA
+
+CREATE TABLE oficinaDia (
+    idOficinaDia INT AUTO_INCREMENT PRIMARY KEY,
+    dt DATE NOT NULL
 );
 
-create table ministrante (
-	email varchar(100) primary key not null, 
-    nome varchar (200) not null,
-    telefone varchar (13)
+-- DIA_OFICINA
+
+CREATE TABLE dia_oficina (
+    idOficina INT NOT NULL,
+    idOficinaDia INT NOT NULL,
+
+    PRIMARY KEY (idOficina, idOficinaDia),
+
+    FOREIGN KEY (idOficina) REFERENCES oficina(idOficina),
+    FOREIGN KEY (idOficinaDia) REFERENCES oficinaDia(idOficinaDia)
 );
 
--- inserts
+-- PARTICIPA
 
-insert into usuario
-values 
-('suelen.vicente@ifsc.edu.br', '12345', '44998682401', '00000000001'),
-('fernanda.trentini@ifsc.edu.br', '12345', '47988888888', '00000000001'),
-('oliver.cs11@aluno.ifsc.edu.br', '12345', '47988171843', '00000000001'),
-('heloisa.mr@aluno.ifsc.edu.br', '12345', '12345678900', '00000000001'),
-('kiara.s18@aluno.ifsc.edu.br', '12345', '12345678900', '00000000001'),
+CREATE TABLE participa (
+    idParticipante INT NOT NULL,
+    idOficinaDia INT NOT NULL,
+    frequencia BOOLEAN,
 
-insert into coordenador 
-values 
-('suelen.vicente@ifsc.edu.br', '12345'),
-('fernanda.trentini@ifsc.edu.br', '12345');
+    PRIMARY KEY (idParticipante, idOficinaDia),
 
-insert into bolsista 
-values 
-('heloisa.mr@aluno.ifsc.edu.br),
-('kiara.s18@aluno.ifsc.edu'),
-('oliver.cs11@aluno.ifsc.edu');
+    FOREIGN KEY (idParticipante) REFERENCES participante(idParticipante),
+    FOREIGN KEY (idOficinaDia) REFERENCES oficinaDia(idOficinaDia)
+);
 
+-- MINISTRANTE
+
+CREATE TABLE ministrante (
+    email VARCHAR(100) PRIMARY KEY NOT NULL,
+    nome VARCHAR(200) NOT NULL,
+    telefone VARCHAR(13)
+);
+
+-- USUÁRIOS FICTÍCIOS
+
+INSERT INTO usuario
+    (email, nome, senha, telefone, CPF)
+VALUES
+    ('ana.teste@ifsc.edu.br', 'Ana Teste', '12345', '47999999999', '00000000001'),
+    ('bruno.teste@ifsc.edu.br', 'Bruno Teste', '12345', '47988888888', '00000000002'),
+    ('carla.teste@aluno.ifsc.edu.br', 'Carla Teste', '12345', '47977777777', '00000000003'),
+    ('diego.teste@aluno.ifsc.edu.br', 'Diego Teste', '12345', '47966666666', '00000000004'),
+    ('elisa.teste@aluno.ifsc.edu.br', 'Elisa Teste', '12345', '47955555555', '00000000005');
+
+-- COORDENADORES
+
+INSERT INTO coordenador
+    (email, SIAPE)
+VALUES
+    ('ana.teste@ifsc.edu.br', '100001'),
+    ('bruno.teste@ifsc.edu.br', '100002');
+
+-- BOLSISTAS
+
+INSERT INTO bolsista
+    (email)
+VALUES
+    ('carla.teste@aluno.ifsc.edu.br'),
+    ('diego.teste@aluno.ifsc.edu.br'),
+    ('elisa.teste@aluno.ifsc.edu.br');
+      
+    USE ifsc60;
+
+CREATE TABLE recuperacao_senha (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    codigo VARCHAR(6) NOT NULL,
+    expira_em DATETIME NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
+);
 

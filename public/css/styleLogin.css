@@ -104,25 +104,26 @@
             font-size: 16px;
         }
 
-        /* Estilo do botão do olho ocultar/mostrar senha */
-        .toggle-password {
-            position: absolute;
-            right: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+       /* Estilo do botão do olho ocultar/mostrar senha */
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* <--- O SEGREDO: Traz o botão para a frente do input */
+}
 
-        .toggle-password svg {
-            width: 20px;
-            height: 20px;
-            fill: #666;
-        }
-
+.toggle-password svg {
+    width: 20px;
+    height: 20px;
+    fill: #666;
+    pointer-events: none; /* <--- O SEGREDO: Impede que o ícone bloqueie o clique do botão */
+}
         /* Alinhamento da linha de opções adicionais (apenas link de recuperação) */
         .options-row {
             display: flex;
