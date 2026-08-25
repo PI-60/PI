@@ -153,15 +153,18 @@
             cursor: pointer;
             transition: opacity 0.2s;
         }
-
+        
         .btn-login {
+            width: 100%;
             background-color: #23a134;
-            border-color: #0a4617;
             color: #ffffff;
             font-weight: bold;
             padding: 10px;
             margin-top: 10px;
             transition: background-color 0.2s, border-color 0.2s;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 26px;
         }
 
         .btn-login:hover,
