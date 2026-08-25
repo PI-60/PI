@@ -1,3 +1,4 @@
+drop DATABASE IF EXISTS ifsc60;
 CREATE DATABASE IF NOT EXISTS ifsc60;
 USE ifsc60;
 
@@ -139,4 +140,15 @@ VALUES
     ('carla.teste@aluno.ifsc.edu.br'),
     ('diego.teste@aluno.ifsc.edu.br'),
     ('elisa.teste@aluno.ifsc.edu.br');
+      
+    USE ifsc60;
+
+CREATE TABLE recuperacao_senha (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    codigo VARCHAR(6) NOT NULL,
+    expira_em DATETIME NOT NULL,
+
+    FOREIGN KEY (email) REFERENCES usuario(email)
+);
 

@@ -32,8 +32,12 @@ app.get('/teste', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('telaLogin', { layout: 'layouts/login' });
-});
+}); 
 
+// Altere para /recuperar-senha no seu index.js:
+app.get('/recuperar-senha', (req, res) => {
+  res.render('recuperacaoSenha');
+});
 app.get('/inicioLogado', (req, res) => {
   res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });
 });
@@ -42,9 +46,6 @@ app.get('/cadastro', (req, res) => {
   res.render('telaCadastroB', { layout: 'layouts/mainLogado' });
 });
 
-app.get('/recuperar-senha', (req, res) => {
-  res.render('telaRecuperarSenha', { layout: 'login' });
-});
 
 // --- ROTAS POST (Processam ações e formulários) ---
 
@@ -88,29 +89,26 @@ app.post('/cadastro', async (req, res) => {
 });
 
 // Recuperação / Redefinição de Senha
-app.post('/recuperar-senha', async (req, res) => {
-  const { email, novaSenha } = req.body;
+app.post('/recuperacao-senha', async (req, res) => {
+  const { email } = req.body;
+
+  console.log('E-mail informado:', email);
 
   try {
-    const [resultado] = await db.execute(
-      'UPDATE usuario SET senha = ? WHERE email = ?',
-      [novaSenha, email]
+    const [usuarios] = await db.execute(
+      'SELECT * FROM usuario WHERE email = ?',
+      [email]
     );
 
-    if (resultado.affectedRows > 0) {
-      res.render('telaLogin', {
-        layout: 'layouts/login',
-        mensagem: 'Senha alterada com sucesso! Faça login novamente.'
-      });
+    if (usuarios.length > 0) {
+      res.send('E-mail encontrado! Agora vamos fazer a próxima etapa da recuperação.');
     } else {
-      res.render('telaRecuperarSenha', {
-        layout: 'layouts/login',
-        erro: 'E-mail não encontrado no sistema.'
-      });
+      res.send('E-mail não encontrado no sistema.');
     }
+
   } catch (error) {
-    console.error('Erro na redefinição de senha:', error);
-    res.status(500).send('Erro ao atualizar a senha.');
+    console.error('Erro na recuperação:', error);
+    res.status(500).send('Erro interno do servidor.');
   }
 });
 
