@@ -3,43 +3,54 @@
 <link rel="stylesheet" href="/css/styleCadastro.css">
 <script src="/js/cadastroB.js"></script>
 
+    
+   <div id="back">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+ <!-- alterar link p pagina talvez -->
+        </div>
 
 <main class="center"> <!-- chama o arquivo ! -->
 
     <section>
-        <!-- titulo -->
-       <h1>Cadastro de Usuário</h1>
-
+     
     <!--formulário -->
         <form id="CadastroB">
             <!-- username, telefone, cpf.. -->
                 <div class="formulario">
+                         
+                           <h1 id="titulo">Cadastro de Usuário</h1>
+
                         <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
-                        <div class="campo">
+                        <div class="campo esquerda">
                              <label for="nameB">Nome Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
                             <input type="text"  id ="nameB" placeholder="Nome Completo" required         >  <!-- required = obrigatório-->
                             <!-- mensagem automatica p/ preenche o campo-->
                              </div>  
 
-                        <div class="campo">
+                             <div class=" campo direita">
+                               
+                             </div>
+
+                        <div class="campo direita">
                              <label for="emailB">E-mail</label>
                              <input type="email" id="emailB" placeholder="E-mail" required> </div>
 
-                        <div class="campo">
+                        <div class="campo direita">
                              <label for="cpfB">CPF</label>
                              <input type ="text" id="cpfB" placeholder="CPF" required  ></div>
 
-                        <div class="campo">
+                        <div class="campo esquerda">
                              <label for="phoneB">Telefone</label>
                              <input type ="tel" id="phoneB" placeholder="Telefone" required></div>
 
-                    <br>
-                        <div class="campo"> <!-- p ter o mesmo estilo dos outros-->
+                
+                        <div class="campo esquerda"> <!-- p ter o mesmo estilo dos outros-->
                             <!--  combobox -->
                             <label for="tipoU"></label>
                         <select id="tipoU" class="select" required >
                         <option value="">Selecione o tipo de Usuário</option>
-                         <option value="bolsista">Bolsista</option>
+                        <option value="bolsista">Bolsista</option>
                         <option value="participante">Participante</option>
                         <option value="ministrante">Ministrante</option>
                         <option value="coordenador">Coordenador</option>
@@ -47,12 +58,12 @@
 
 
                           <!-- aparece só quando escolher blsista = js-->
-                            <div class="campo">
+                            <div class="campo direita">
                              <label for="passwordB" >Senha</label>
                              <input id="passwordB" type ="password"  placeholder="Senha"  required>
                              </div>
 
-                              <div class="campo">
+                              <div class="campo esquerda">
                              <label for="siape">SIAPE</label>
                              <input type="text" id="siape" placeholder="SIAPE"required> 
                          </div>
@@ -67,3 +78,4 @@
 
             </section>
            </main> 
+           

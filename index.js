@@ -43,7 +43,7 @@ app.get('/inicioLogado', (req, res) => {
 });
 
 app.get('/cadastro', (req, res) => {
-  res.render('telaCadastroB', { layout: 'layouts/mainLogado' });
+  res.render('telaCadastroB', { layout: 'layouts/cadastro' });
 });
 
 
@@ -61,6 +61,9 @@ app.get('/atividades', (req, res) => {
     ]
   })
 })
+
+
+
 
 
 

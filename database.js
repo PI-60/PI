@@ -5,6 +5,7 @@ const db = await mysql.createConnection({
     user: 'root',
     password: 'pi.2026', 
     database: 'ifsc60'
+    
 });
 
 console.log('Conectado ao banco de dados ifsc60!');

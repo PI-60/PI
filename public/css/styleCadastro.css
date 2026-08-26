@@ -14,10 +14,19 @@ section {
     align-items: center;
 }
 
+
+#back {
+        
+        font-size: 50px;
+        border-bottom: none;
+
+}
+
 .formulario {
-    width: 100%;
-    max-width: 900px;
-    padding: 35px;
+    width: 400%;
+    max-width: 1000px;
+    min-width: 1000px;
+    padding: 70px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 12px;
@@ -28,6 +37,19 @@ section {
     gap: 20px; /* 20 pixel de distancia entre os elementos do formulario */
 }
 
+
+
+.esquerda {
+    grid-column: 1;
+}
+
+.direita {
+    grid-column: 2;
+}
+
+#titulo{
+     padding: 10px;
+}
 
 .campo {
     display: flex;
