@@ -36,7 +36,7 @@ app.get('/login', (req, res) => {
 
 // Altere para /recuperacao-senha no seu index.js:
 app.get('/recuperacao-senha', (req, res) => {
-  res.render('recuperacaoSenha');
+  res.render('recuperacaoSenha', );
 }); 
 app.get('/inicioLogado', (req, res) => {
   res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });

@@ -12,3 +12,30 @@ Criei as views dentro de "/views", "pagina.hbs" e "teste.hbs"
 Fiz as rotas fazer a síntese "pagina.html" e "teste.html" (render)
 
 Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiperlinks
+
+
+#como conectar o banco de dados
+
+- npm install
+-npm install mysql2
+- dpois ddio abra o mysql e vá em File - Open Sql Script - Procura a pasta do pi, e clica no banco dados
+- da run no banco
+- na Query 1 rode: ALTER USER 'root'@'localhost' IDENTIFIED BY 'pi.2026';
+- depois disso de npm run dev
+
+#como fazer o merge
+
+- na sua branch faça
+git status
+git add .
+git status
+git commit -m "Descrição da alteração"
+git push -u origin NomeDaSuaBranche
+
+PARA MANDAR PARA A MAIN ATRAVES DO MERGE
+git checkout main
+git pull origin main
+git merge NomeDaSuaBranche
+git push origin main
+git status
+
