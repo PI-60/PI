@@ -1,8 +1,4 @@
 "# PI" 
 
-# como fazer merge
-- criar uma branch com as mudanças
-git checkout -b NomeBranch 
-- voltar para a main 
-git checkout main
-
+# IFSC 60+
+O presente projeto tem o objetivo de desenvover um sistema web de divulgação e gestão o projeto IFSC 60+.   
