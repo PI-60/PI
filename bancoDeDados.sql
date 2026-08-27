@@ -152,3 +152,5 @@ CREATE TABLE recuperacao_senha (
     FOREIGN KEY (email) REFERENCES usuario(email)
 );
 
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'pi.2026';
+
