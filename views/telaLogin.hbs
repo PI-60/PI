@@ -14,8 +14,9 @@
             <img class="logo" src="./assets/60.webp"
                     alt="logo">
         </header>
-
+<!-- dados serão enviados para a rota /login usando o método POST"-->
        <form id="loginForm" action="/login" method="POST">
+
     <div>
         <!-- Campo E-mail -->
         <p class="field-group">
@@ -23,6 +24,8 @@
         </p>
 
       <!-- Campo Senha -->
+       <!-- "type="password" faz o navegador esconder os caracteres digitados, 
+       "onclick=mostrarSenha()" Quando o usuário clicar nesse botão, execute a função mostrarSenha().  -->
 <p class="field-group">
     <input type="password" id="password" name="senha" placeholder="Senha" aria-label="Senha" required>
     <button type="button" class="toggle-password" aria-label="Mostrar ou ocultar senha" onclick="mostrarSenha()">
@@ -30,18 +33,18 @@
     </button>
 </p>
 
-        <!-- Link para Recuperação com a URL correta -->
+        <!-- link para tela de rec de senha -->
         <p class="options-row">
             <a href="/recuperacao-senha">Esqueceu sua senha?</a>
         </p>
-
+   <!-- Handlebars -->
         {{#if erro}}
             <p class="text-danger" style="color: red;">{{erro}}</p>
         {{/if}}
 
         <!-- Botão habilitado sem o atributo disabled -->
         <button type="submit" class="btn-login" id="loginButton">
-            Entrar
+            Entrar  
         </button>
     </div>
 </form>

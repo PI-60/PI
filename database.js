@@ -1,4 +1,4 @@
-import mysql from  'mysql2/promise';
+import mysql from  'mysql2/promise'; //permite que o Node.js converse com o MySQL
 
 const db = await mysql.createConnection({
     host: 'localhost',
@@ -10,4 +10,4 @@ const db = await mysql.createConnection({
 
 console.log('Conectado ao banco de dados ifsc60!');
 
-export default db;
+export default db;  // isponibiliza essa conexão para outros arquivos

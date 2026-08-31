@@ -1,11 +1,14 @@
  *{
             box-sizing: border-box;
+            /* Seleciona todos os elementos da página,
+                 box-sizing: border-box faz com que o tamanho definido de um elemento já considere padding e borda.*/
         }
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Mulish', Arial, sans-serif;
+            /* p  configurae a página inteira, elementos zerados para irar a config padrão*/
         }
 
         /* Estrutura principal dividida em duas metades semânticas */
@@ -33,9 +36,10 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* a imagem ocupa toda a área do aside(lado esquerdoo)*/
         }
 
-        /* Barra colorida entre a imagem da esquerda e o formulário, com as cores da logo */
+        /* linha colorida */
         .color-bar {
             width: 5px;
             height: 100%;
@@ -51,7 +55,7 @@
             );
         }
 
-        /* LADO DIREITO: Área Principal do Formulário */
+        /* lado direito, contendo o formulário */
         main {
             flex: 1;
             background-color: #ffffff;
@@ -61,7 +65,7 @@
             padding: 40px;
         }
 
-        /* Bloco interno para limitar a largura do conteúdo de login */
+        /*  limitar a largura do conteúdo de login */
         section {
             width: 100%;
             max-width: 360px;
@@ -70,7 +74,7 @@
             align-items: center;
         }
 
-        /* Cabeçalho do formulário (onde fica a logo) */
+        /* cabeçalho do formulário (onde fica a logo) */
         header {
             margin-bottom: 30px;
             text-align: center;
@@ -85,7 +89,7 @@
             width: 100%;
         }
 
-        /* Blocos para agrupar campos com parágrafos semânticos */
+        /* blocos para agrupar campos com parágrafos semânticos */
         .field-group {
             position: relative;
             margin-bottom: 25px;
@@ -95,7 +99,7 @@
             padding-bottom: 5px;
         }
 
-        /* Removido o padding-left excessivo para alinhar o placeholder no início da linha */
+        /* removido o padding-left excessivo para alinhar o placeholder no início da linha */
         .field-group input {
             width: 100%;
             border: none;

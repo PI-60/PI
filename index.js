@@ -1,12 +1,16 @@
+
+// criar o servidor e trabalhar com rotas.  
+
 import express from 'express';
 import hbs from 'hbs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
-import db from './database.js';
+import db from './database.js'; //pega a conexão com o banco que eu configurei no database.js
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+//criando meu servido
 const app = express();
 
 // Configuração de Views e Partials (Handlebars)
@@ -17,10 +21,11 @@ hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true })); // Leitura de dados dos formulários HTML
+app.use(express.urlencoded({ extended: true })); // permite que o Express consiga interpretar os dados enviados por formulários HTML
+// sem isso o req.body poderia não pegar direito
 app.use(express.json());
 
-// --- ROTAS GET (Carregam as telas) ---
+// --- rotas get  (c  arregam as telas) ---
 
 app.get('/', (req, res) => {
   res.render('paginaInicial');
@@ -67,7 +72,8 @@ app.get('/atividades', (req, res) => {
 
 
 
-// --- ROTAS POST (Processam ações e formulários) ---
+// rotas  POST: cria uma rota que recebe dadosdoss formulários  enviados através de POST  ---
+
 
 // Login de Usuários
 app.post('/login', async (req, res) => {
@@ -77,6 +83,7 @@ app.post('/login', async (req, res) => {
     const [usuarios] = await db.execute(
       'SELECT * FROM usuario WHERE email = ? AND senha = ?',
       [email, senha]
+      // procura no banco de dados se existe esse usuario  que tenha esse e-mail e essa senha 
     );
 
     if (usuarios.length > 0) {
