@@ -102,7 +102,7 @@ app.post('/login', async (req, res) => {
 
 // Cadastro de Usuários
 app.post('/cadastro', async (req, res) => {
-  const { nome, email, senha, telefone, cpf } = req.body;
+  const { nome, email, cpf, senha, telefone } = req.body;
 
   try {
     const sql = 'INSERT INTO usuario (nome, email, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Senha:", passwordB);
 
     tipoU.addEventListener("change", function () {
-       
+
         if (tipoU.value === "bolsista") {
             campoSenha.style.display = "block";
         } else {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    
+
 
 
 });
@@ -35,46 +35,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Select:", tipoU);
     console.log("Email:", emailB);
-    
+
     tipoU.addEventListener("change", function () {
 
         if (tipoU.value == "participante") {
             campoEmail.style.display = "none";
-       // document.getElementById('emailB').style.display='none'
-      //  document.querySelector('label[for= emailB').style.display ='none'
+            // document.getElementById('emailB').style.display='none'
+            //  document.querySelector('label[for= emailB').style.display ='none'
         }
-        else{
-                campoEmail.style.display = "block";
-         //   emailB.style.display = "block";
-          //   document.querySelector('label[for= emailB').style.display ='block'
+        else {
+            campoEmail.style.display = "block";
+            //   emailB.style.display = "block";
+            //   document.querySelector('label[for= emailB').style.display ='block'
         }
 
-    
-        });
+
+    });
 
 });
 
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const tipoU = document.getElementById("tipoU");
-        const campoCPF = cpfB.closest(".campo");
+    const tipoU = document.getElementById("tipoU");
+    const campoCPF = cpfB.closest(".campo");
 
-        console.log("Select:", tipoU);
-        console.log("CPF:", cpfB);
+    console.log("Select:", tipoU);
+    console.log("CPF:", cpfB);
 
-        tipoU.addEventListener("change", function (){
+    tipoU.addEventListener("change", function () {
 
-            if(tipoU.value == "ministrante"){
-                campoCPF.style.display = 'none'
-            } else {
-                campoCPF.style.display = 'block'
-            }
+        if (tipoU.value == "ministrante") {
+            campoCPF.style.display = 'none'
+        } else {
+            campoCPF.style.display = 'block'
+        }
 
-        } );
+    });
 
-    }   );
+});
 
-    
+
 // bolsista;
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Siape:", siape);
 
     tipoU.addEventListener("change", function () {
-       
+
         if (tipoU.value === "coordenador") {
             campoSiape.style.display = "block";
         } else {
@@ -95,7 +95,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    
+
 
 
 });
+
+// Mascaras
+window.addEventListener("load", (event) => {
+
+    // Telefone
+    document.getElementById('phoneB').addEventListener('input', function (e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    }); document.getElementById('phoneB').addEventListener('input', function (e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+
+
+    // CPF
+    const inputCpf = document.getElementById('cpfB');
+    inputCpf.addEventListener('input', (e) => {
+        let valor = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+
+        // Aplica a máscara usando regex
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+        e.target.value = valor;
+    });
+});
+

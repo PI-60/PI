@@ -1,81 +1,89 @@
 
 
 <link rel="stylesheet" href="/css/styleCadastro.css">
-<script src="/js/cadastroB.js"></script>
+<script src="/js/cadastroB.js" defer></script>
 
-    
-   <div id="back">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
- <!-- alterar link p pagina talvez -->
-        </div>
+<div id="back">
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+     <!-- alterar link p pagina talvez -->
+</div>
 
 <main class="center"> <!-- chama o arquivo ! -->
 
-    <section>
-     
-    <!--formulário -->
-        <form id="CadastroB">
-            <!-- username, telefone, cpf.. -->
-                <div class="formulario">
-                         
-                           <h1 id="titulo">Cadastro de Usuário</h1>
+     <section>
 
-                        <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
-                        <div class="campo esquerda">
-                             <label for="nameB">Nome Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
-                            <input type="text"  id ="nameB" placeholder="Nome Completo" required         >  <!-- required = obrigatório-->
-                            <!-- mensagem automatica p/ preenche o campo-->
-                             </div>  
+          <!--formulário -->
+          <form id="CadastroB" action="/cadastro" method="post">
+               <!-- username, telefone, cpf.. -->
+               <div class="formulario">
 
-                             <div class=" campo direita">
-                               
-                             </div>
+                    <h1 id="titulo">Cadastro de Usuário</h1>
 
-                        <div class="campo direita">
-                             <label for="emailB">E-mail</label>
-                             <input type="email" id="emailB" placeholder="E-mail" required> </div>
-
-                        <div class="campo direita">
-                             <label for="cpfB">CPF</label>
-                             <input type ="text" id="cpfB" placeholder="CPF" required  ></div>
-
-                        <div class="campo esquerda">
-                             <label for="phoneB">Telefone</label>
-                             <input type ="tel" id="phoneB" placeholder="Telefone" required></div>
-
-                
-                        <div class="campo esquerda"> <!-- p ter o mesmo estilo dos outros-->
-                            <!--  combobox -->
-                            <label for="tipoU"></label>
-                        <select id="tipoU" class="select" required >
-                        <option value="">Selecione o tipo de Usuário</option>
-                        <option value="bolsista">Bolsista</option>
-                        <option value="participante">Participante</option>
-                        <option value="ministrante">Ministrante</option>
-                        <option value="coordenador">Coordenador</option>
-                         </select>
-
-
-                          <!-- aparece só quando escolher blsista = js-->
-                            <div class="campo direita">
-                             <label for="passwordB" >Senha</label>
-                             <input id="passwordB" type ="password"  placeholder="Senha"  required>
-                             </div>
-
-                              <div class="campo esquerda">
-                             <label for="siape">SIAPE</label>
-                             <input type="text" id="siape" placeholder="SIAPE"required> 
-                         </div>
-                      
+                    <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
+                    <div class="campo esquerda">
+                         <label for="nameB">Nome
+                              Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
+                         <input type="text" id="nameB"
+                              placeholder="Nome Completo" name="nome" required>
+                         <!-- required = obrigatório-->
+                         <!-- mensagem automatica p/ preenche o campo-->
                     </div>
 
-                  <!-- botão de cadstra, tipo submit (form) classe botão, escrita Cadastrar -->
+                    <div class=" campo direita">
 
-                        <button  type="submit" class="button">
-                            Cadastrar </button>
-                    </form>
+                    </div>
 
-            </section>
-           </main> 
-           
+                    <div class="campo direita">
+                         <label for="emailB">E-mail</label>
+                         <input type="email" id="emailB" placeholder="E-mail"
+                              name="email" required>
+                    </div>
+
+                    <div class="campo direita">
+                         <label for="cpfB">CPF</label>
+                         <input type="text" id="cpfB" maxlength="14"
+                              placeholder="000.000.000-00" name="cpf" required>
+                    </div>
+
+                    <div class="campo esquerda">
+                         <label for="phoneB">Telefone</label>
+                         <input type="tel" id="phoneB"
+                              placeholder="(99) 99999-9999" maxlength="15"
+                             name="telefone" required></div>
+
+                    <div class="campo esquerda">
+                         <!-- p ter o mesmo estilo dos outros-->
+                         <!--  combobox -->
+                         <label for="tipoU">Tipo de Usuário</label>
+                         <select id="tipoU" class="select" name="tipo " required>
+                              <option value>Selecione o tipo de Usuário</option>
+                              <option value="bolsista">Bolsista</option>
+                              <option value="participante">Participante</option>
+                              <option value="ministrante">Ministrante</option>
+                              <option value="coordenador">Coordenador</option>
+                         </select>
+
+                         <!-- aparece só quando escolher blsista = js-->
+                         <div class="campo direita">
+                              <label for="passwordB">Senha</label>
+                              <input id="passwordB" type="password"
+                                   placeholder="Senha" required>
+                         </div>
+
+                         <div class="campo esquerda">
+                              <label for="siape">SIAPE</label>
+                              <input type="text" id="siape" placeholder="SIAPE"
+                                   required>
+                         </div>
+
+                    </div>
+
+                    <!-- botão de cadstra, tipo submit (form) classe botão, escrita Cadastrar -->
+
+                    <button type="submit" class="button">
+                         Cadastrar </button>
+               </form>
+
+          </section>
+     </main>
