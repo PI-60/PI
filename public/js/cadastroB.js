@@ -1,14 +1,16 @@
 
 
 // bolsista;
+/*
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
-
+/*
     const tipoU = document.getElementById("tipoU");
     const campoSenha = passwordB.closest(".campo");
 
     console.log("Select:", tipoU);
     console.log("Senha:", passwordB);
+     
 
     tipoU.addEventListener("change", function () {
 
@@ -19,11 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     });
+    });
+    */
 
 
-
-
-});
 
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
