@@ -102,11 +102,44 @@ app.post('/login', async (req, res) => {
 
 // Cadastro de Usuários
 app.post('/cadastro', async (req, res) => {
-  const { nome, email, cpf, senha, telefone } = req.body;
+  const { nome, email, cpf, telefone, tipo, senha, siape } = req.body;
+
+  console.log(req.body);
 
   try {
-    const sql = 'INSERT INTO usuario (nome, email, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';
-    await db.execute(sql, [nome, email, senha, telefone, cpf]);
+
+    let sql;
+
+    // MINIRANTE
+
+    if(tipo == "ministrante"){
+      sql = 'INSERT INTO ministrante (email, nome, telefone) VALUES (?, ?, ?)';
+      await db.execute(sql, [email, nome, telefone]);
+    }
+
+    // BOLSISTA
+    if(tipo == "bolsista"){
+      sql = 'INSERT INTO usuario (email, nome, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';
+      await db.execute(sql, [email, nome, senha, telefone, cpf]);
+      sql = 'INSERT INTO bolsista (email) VALUES (?)';
+      await db.execute(sql, [email]);
+    }
+
+    // PARTICIPANTE
+    if(tipo == "participante"){
+      sql = 'INSERT INTO participante (nome, cpf, telefone) VALUES (?, ?, ?)';
+      await db.execute(sql, [nome, cpf, telefone]);
+    }
+
+    //COORDENADOR
+    if(tipo == "coordenador"){
+       sql = 'INSERT INTO usuario (email, nome, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';
+      await db.execute(sql, [email, nome, senha, telefone, cpf]);
+      sql = 'INSERT INTO coordenador (email, siape) VALUES (?, ?)';
+      await db.execute(sql, [email, siape]);
+     
+    }
+
 
     res.redirect('/login');
   } catch (error) {
