@@ -1,4 +1,4 @@
-* {
+* { /* * = tudo) */
     box-sizing: border-box;
 }
 
@@ -6,6 +6,7 @@ body {
     margin: 0;
     font-family: 'Manrope', sans-serif;
     background-color: #f5f5f5;
+    justify-content: center;
 }
 
 section {
@@ -34,8 +35,8 @@ form {
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Alinha o conteúdo no topo */
-    padding-top: 40px; /* Controla a distância exata do topo */
+    justify-content: flex-start;/* Alinha o conteúdo no topo */
+    padding-top: 40px;/*  Controla a distância exata do topo */
     
 }
 
@@ -49,6 +50,7 @@ form {
     font-size: 14px;
     font-weight: 600;
     color: #333;
+    left: 30px;
 }
 
 .campo input {
@@ -92,4 +94,11 @@ form {
 
 .formulario-recuperacao button:hover {
     background-color: hsl(133, 75%, 17%);
+}
+
+#back {
+        
+        font-size: 50px;
+        border-bottom: none;
+
 }
