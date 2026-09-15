@@ -39,3 +39,8 @@ git merge NomeDaSuaBranche
 git push origin main
 git status
 
+criar branch
+gti checkout -b NomeDaSuaBranche
+muda p ela 
+git checkout NomeDaSuaBranche
+

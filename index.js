@@ -161,6 +161,40 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// ROTA SESSAO
+/* app.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    const [usuarios] = await db.execute(
+      'SELECT * FROM usuario WHERE email = ? AND senha = ?',
+      [email, senha]
+    );
+
+    if (usuarios.length > 0) {
+
+      // Salva o usuário na sessão
+      req.session.usuario = {
+        id: usuarios[0].id,
+        email: usuarios[0].email
+      };
+
+      res.redirect('/inicioLogado');
+
+    } else {
+      res.render('telaLogin', {
+        layout: 'layouts/login',
+        erro: 'E-mail ou senha incorretos!'
+      });
+    }
+
+  } catch (error) {
+    console.error('Erro no login:', error);
+    res.status(500).send('Erro interno do servidor.');
+  }
+});
+ */
+
 // Cadastro de Usuários
 app.post('/cadastro', async (req, res) => {
   const { nome, email, cpf, telefone, tipo, senha, siape } = req.body;
