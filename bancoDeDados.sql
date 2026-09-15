@@ -359,3 +359,5 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 
 COMMIT;
 
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'pi.2026';
+

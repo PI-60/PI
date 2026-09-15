@@ -203,6 +203,8 @@ nav.main-nav a:hover::after{
 /* ================= HERO ================= */ 
 
 .hero { 
+    position: relative;
+
   background: 
     linear-gradient(
       190deg,
@@ -296,8 +298,8 @@ nav.main-nav a:hover::after{
 
 .seal{ 
   position:absolute; 
-  right:clamp(20px, 8vw, 110px); 
-  bottom:-64px; 
+  right:40px; 
+  bottom:-170px; 
   width:220px; 
   height:170px; 
   z-index:2; 
@@ -706,12 +708,6 @@ footer .contato-item{
     grid-template-columns:1fr; 
   } 
 
-  .seal{ 
-    width:150px; 
-    height:150px; 
-    right:20px; 
-    bottom:-40px; 
-  } 
 
   .hero-inner{ 
     padding-block:64px 110px; 
