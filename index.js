@@ -51,6 +51,24 @@ app.get('/cadastro', (req, res) => {
   res.render('telaCadastroB', { layout: 'layouts/cadastro' });
 });
 
+app.get('/frequencia', async (req, res) => {
+  try {
+    const [participantes] = await db.execute(
+      'SELECT idParticipante, nome FROM participante'
+    );
+
+    console.log('PARTICIPANTES:', participantes);
+
+    res.render('telaFrequencia', {
+      layout: 'layouts/mainLogado',
+      participantes: participantes
+    });
+
+  } catch (error) {
+    console.error('ERRO:', error);
+    res.status(500).send('Erro ao carregar participantes.');
+  }
+});
 
 
 app.get('/atividades', (req, res) => {
