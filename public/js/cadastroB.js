@@ -1,31 +1,21 @@
 
 
-// bolsista;
-/*
+// para todos ficarem escondidos ate mudar o tpo de ususrio 
 document.addEventListener("DOMContentLoaded", function () {
-    /*quando clicar nesse botão faça isso.. */
-/*
     const tipoU = document.getElementById("tipoU");
-    const campoSenha = passwordB.closest(".campo");
-
-    console.log("Select:", tipoU);
-    console.log("Senha:", passwordB);
-     
+    const escondido = document.getElementById("hidden");
 
     tipoU.addEventListener("change", function () {
-
-        if (tipoU.value === "bolsista") {
-            campoSenha.style.display = "block";
+        // se o valor for diferente de "usuario" ele mostra as outras op 
+        if (tipoU.value !== "usuario") {
+            escondido.style.display = "contents"; 
         } else {
-            campoSenha.style.display = "none";
+         //   se ele voltar para a op uusrio esconde tudo de novo
+            escondido.style.display = "none";  
         }
-
     });
-    });
-    */
-
-
-
+});
+// partiipante
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
 
@@ -38,23 +28,21 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Email:", emailB);
 
     tipoU.addEventListener("change", function () {
-
+        // quando escolher particiante ele some = none 
         if (tipoU.value == "participante") {
             campoEmail.style.display = "none";
-            // document.getElementById('emailB').style.display='none'
-            //  document.querySelector('label[for= emailB').style.display ='none'
         }
+        // se nao le continua
         else {
             campoEmail.style.display = "block";
-            //   emailB.style.display = "block";
-            //   document.querySelector('label[for= emailB').style.display ='block'
+           
         }
 
 
     });
 
 });
-
+// minirante
 document.addEventListener("DOMContentLoaded", function () {
 
     const tipoU = document.getElementById("tipoU");
@@ -64,10 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("CPF:", cpfB);
 
     tipoU.addEventListener("change", function () {
-
+  // quando escolher particiante ele some = none 
         if (tipoU.value == "ministrante") {
             campoCPF.style.display = 'none'
-        } else {
+        } 
+       // se nao ele cntinua
+        else {
             campoCPF.style.display = 'block'
         }
 
@@ -76,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// bolsista;
+// coordenaor;
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
 
@@ -87,19 +77,39 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Siape:", siape);
 
     tipoU.addEventListener("change", function () {
-
-        if (tipoU.value === "coordenador") {
+        // quando for coordendr ele aparece 
+        if (tipoU.value == "coordenador") {
             campoSiape.style.display = "block";
         } else {
             campoSiape.style.display = "none";
         }
 
     });
+    });
 
+    //bolsista
+    document.addEventListener("DOMContentLoaded", function () {
+    /*quando clicar nesse botão faça isso.. */
 
+    const tipoU = document.getElementById("tipoU");
+    const campoSenha= passwordB.closest(".campo")
+
+    console.log("Select:", tipoU);
+    console.log("Senha:", passwordB);
+
+    tipoU.addEventListener("change", function () {
+
+        if (tipoU.value == "bolsista") {
+           campoSenha.style.display = "block";
+        } else {
+            campoSenha.style.display = "none";
+        }
+
+    });
 
 
 });
+
 
 // Mascaras
 window.addEventListener("load", (event) => {

@@ -23,6 +23,7 @@ section {
 }
 
 .formulario {
+     
     width: 400%;
     max-width: 1000px;
     min-width: 1000px;
@@ -37,6 +38,9 @@ section {
     gap: 20px; /* 20 pixel de distancia entre os elementos do formulario */
 }
 
+#hidden{
+    display: none;
+}
 
 
 .esquerda {
@@ -112,3 +116,4 @@ section {
 .formulario button:hover {
     background-color: hsl(133, 75%, 17%); /* cor dop botao ao ser clicado */
 }
+
