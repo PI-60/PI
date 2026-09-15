@@ -6,12 +6,19 @@ import hbs from 'hbs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import db from './database.js'; //pega a conexão com o banco que eu configurei no database.js
+import session from 'express-session';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 //criando meu servido
 const app = express();
+
+app.use(session({
+  secret: 'chave-secreta-do-projeto',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // Configuração de Views e Partials (Handlebars)
 app.set('view engine', 'hbs');
@@ -27,28 +34,57 @@ app.use(express.json());
 
 // --- rotas get  (c  arregam as telas) ---
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.render('paginaInicial');
 });
 
-app.get('/teste', (req, res) => {
+app.get('/teste', async (req, res) => {
   res.render('teste');
 });
 
-app.get('/login', (req, res) => {
-  res.render('telaLogin', { layout: 'layouts/login' });
+app.get('/login', async (req, res) => {
+  res.render('telaLogin', { layout: 'layouts/login' }); 
 }); 
 
 // Altere para /recuperacao-senha no seu index.js:
-app.get('/recuperacao-senha', (req, res) => {
+app.get('/recuperacao-senha', async (req, res) => {
   res.render('recuperacaoSenha', { layout: "layouts/recuperacao"});
 }); 
 app.get('/inicioLogado', (req, res) => {
-  res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });
+
+  if(req.session.usuario)
+  {
+
+    res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });
+  }
+  else{
+    res.redirect("/login");
+  }
+
 });
 
-app.get('/cadastro', (req, res) => {
-  res.render('telaCadastroB', { layout: 'layouts/cadastro' });
+app.get('/cadastro', async (req, res) => {
+  // Verifica se o usuário está logado
+  if(req.session.usuario)
+  {
+    // Faço a consulta para verificar se é um coordenador (utilizando o email do usuário logado)
+    const [coordenador] = await db.execute(
+      'SELECT * FROM coordenador WHERE email = ?',
+      [req.session.usuario.email]
+    );
+    // se encontrou carrega a página
+    if (coordenador.length > 0){
+      res.render('telaCadastroB', { layout: 'layouts/cadastro' });
+    }
+    else{
+      // faz o redirect caso não possa acessar
+      res.redirect("/inicioLogado");
+    }
+  }
+  else{
+    // caso não esteja logado
+    res.redirect("/login");
+  }
 });
 
 app.get('/frequencia', async (req, res) => {
@@ -71,7 +107,7 @@ app.get('/frequencia', async (req, res) => {
 });
 
 
-app.get('/atividades', (req, res) => {
+app.get('/atividades', async (req, res) => {
   res.render("telaAtividades", {
     layout: false,
     atividades: [
@@ -105,6 +141,13 @@ app.post('/login', async (req, res) => {
     );
 
     if (usuarios.length > 0) {
+
+      // Salva o usuário na sessão
+      req.session.usuario = {
+        nome: usuarios[0].nome,
+        email: usuarios[0].email
+      };
+
       res.redirect('/inicioLogado');
     } else {
       res.render('telaLogin', {

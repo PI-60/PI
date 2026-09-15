@@ -12,41 +12,45 @@
         <!-- Cabeçalho contendo a imagem corporativa identificadora -->
         <header>
             <img class="logo" src="./assets/60.webp"
-                    alt="logo">
+                alt="logo">
         </header>
-<!-- dados serão enviados para a rota /login usando o método POST"-->
-       <form id="loginForm" action="/login" method="POST">
+        <!-- dados serão enviados para a rota /login usando o método POST"-->
+        <form id="loginForm" action="/login" method="POST">
 
-    <div>
-        <!-- Campo E-mail -->
-        <p class="field-group">
-            <input type="email" id="username" name="email" placeholder="E-mail" aria-label="E-mail" required>
-        </p>
+            <div>
+                <!-- Campo E-mail -->
+                <p class="field-group">
+                    <input type="email" id="username" name="email"
+                        placeholder="E-mail" aria-label="E-mail" required>
+                </p>
 
-      <!-- Campo Senha -->
-       <!-- "type="password" faz o navegador esconder os caracteres digitados, 
+                <!-- Campo Senha -->
+                <!-- "type="password" faz o navegador esconder os caracteres digitados, 
        "onclick=mostrarSenha()" Quando o usuário clicar nesse botão, execute a função mostrarSenha().  -->
-<p class="field-group">
-    <input type="password" id="password" name="senha" placeholder="Senha" aria-label="Senha" required>
-    <button type="button" class="toggle-password" aria-label="Mostrar ou ocultar senha" onclick="mostrarSenha()">
-        <i id="toggleBtn" class="bi bi-eye-fill"></i>
-    </button>
-</p>
+                <p class="field-group">
+                    <input type="password" id="password" name="senha"
+                        placeholder="Senha" aria-label="Senha" required>
+                    <button type="button" class="toggle-password"
+                        aria-label="Mostrar ou ocultar senha"
+                        onclick="mostrarSenha()">
+                        <i id="toggleBtn" class="bi bi-eye-fill"></i>
+                    </button>
+                </p>
 
-        <!-- link para tela de rec de senha -->
-        <p class="options-row">
-            <a href="/recuperacao-senha">Esqueceu sua senha?</a>
-        </p>
-   <!-- Handlebars -->
-        {{#if erro}}
-            <p class="text-danger" style="color: red;">{{erro}}</p>
-        {{/if}}
+                <!-- link para tela de rec de senha -->
+                <p class="options-row">
+                    <a href="/recuperacao-senha">Esqueceu sua senha?</a>
+                </p>
+                <!-- Handlebars -->
+                {{#if erro}}
+                <p class="text-danger" style="color: red;">{{erro}}</p>
+                {{/if}}
 
-        <!-- Botão habilitado sem o atributo disabled -->
-        <button type="submit" class="btn-login" id="loginButton">
-            Entrar  
-        </button>
-    </div>
-</form>
+                <!-- Botão habilitado sem o atributo disabled -->
+                <button type="submit" class="btn-login" id="loginButton">
+                    Entrar
+                </button>
+            </div>
+        </form>
     </section>
 </main>
