@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="/css/styleFrequencia.css">
+
+<div id="back">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+</div>
+
+<main class="center">
+
+    <section>
+
+        <form id="Frequencia">
+
+            <div class="formulario-frequencia">
+
+                <h1 id="titulo">Aferir Frequência</h1>
+
+                <!-- Escolha da oficina -->
+                <div class="campo-frequencia">
+                    <label for="oficina">Oficina</label>
+
+                    <select id="oficina" name="oficina">
+                        <option value="">Selecione a oficina</option>
+                        <option value="1">Curso MySQL</option>
+                        <option value="2">Curso Javascript</option>
+                    </select>
+                </div>
+
+                <!-- Escolha do dia -->
+                <div class="campo-frequencia">
+                    <label for="data">Data</label>
+
+                    <select id="data" name="data">
+                        <option value="">Selecione a data</option>
+                        <option value="2026-09-08">08/09/2026</option>
+                        <option value="2026-09-09">09/09/2026</option>
+                        <option value="2026-09-10">10/09/2026</option>
+                    </select>
+                </div>
+
+                <!-- Cabeçalho da lista -->
+                <div class="cabecalho-frequencia">
+                    <span>Nome do Participante</span>
+                    <span>Frequência</span>
+                </div>
+
+               <!-- Participantes vindos do banco -->
+{{#each participantes}}
+
+    <div class="linha-participante">
+
+        <span class="nome-participante">
+            {{nome}}
+        </span>
+
+        <select class="select-frequencia">
+    <option value="presenca">Presença</option>
+    <option value="falta">Falta</option>
+</select>
+
+    </div>
+
+{{/each}}
+                <button type="submit" class="button">
+                    Salvar
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>

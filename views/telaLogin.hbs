@@ -12,44 +12,52 @@
         <!-- Cabeçalho contendo a imagem corporativa identificadora -->
         <header>
             <img class="logo" src="./assets/60.webp"
-                    alt="logo">
+                alt="logo">
         </header>
+        <!-- dados serão enviados para a rota /login usando o método POST"-->
+        <form id="loginForm" action="/login" method="POST">
 
+<<<<<<< HEAD
         <form id="loginForm">
             
             <div>
                 <!-- Input username -->
+=======
+            <div>
+                <!-- Campo E-mail -->
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022
                 <p class="field-group">
-                    <input type="text" id="username" placeholder="Usuário"
-                        aria-label="Usuário">
+                    <input type="email" id="username" name="email"
+                        placeholder="E-mail" aria-label="E-mail" required>
                 </p>
 
-                <!-- Input senha com o ícone do olho integrado -->
+                <!-- Campo Senha -->
+                <!-- "type="password" faz o navegador esconder os caracteres digitados, 
+       "onclick=mostrarSenha()" Quando o usuário clicar nesse botão, execute a função mostrarSenha().  -->
                 <p class="field-group">
-                    <input type="password" id="password" placeholder="Senha"
-                        aria-label="Senha">
-                    <button type="button" id="toggleBtn" class="toggle-password"
-                        aria-label="Mostrar ou ocultar senha">
-                        <!-- Ícone de Olho em SVG -->
-                        <svg id="eyeIcon" viewBox="0 0 24 24">
-                            <path
-                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                        </svg>
+                    <input type="password" id="password" name="senha"
+                        placeholder="Senha" aria-label="Senha" required>
+                    <button type="button" class="toggle-password"
+                        aria-label="Mostrar ou ocultar senha"
+                        onclick="mostrarSenha()">
+                        <i id="toggleBtn" class="bi bi-eye-fill"></i>
                     </button>
                 </p>
 
-                <!-- Opções adicionais de recuperação (Alinhado à direita após descarte do checkbox) -->
+                <!-- link para tela de rec de senha -->
                 <p class="options-row">
-                    <a href="#">Esqueceu sua senha?</a>
+                    <a href="/recuperacao-senha">Esqueceu sua senha?</a>
                 </p>
+                <!-- Handlebars -->
+                {{#if erro}}
+                <p class="text-danger" style="color: red;">{{erro}}</p>
+                {{/if}}
 
-                <!-- Mensagem de erro exibida quando usuário/senha não conferem -->
-                <p id="loginError" class="text-danger" style="display:none;">Usuário/senha incorretos</p>
-
-                <!-- Botão de submissão do formulário -->
-                <button type="submit" class="button">Entrar</button>
+                <!-- Botão habilitado sem o atributo disabled -->
+                <button type="submit" class="btn-login" id="loginButton">
+                    Entrar
+                </button>
             </div>
-
         </form>
     </section>
     <script src="/login.js"></script>

@@ -1,33 +1,25 @@
+<<<<<<< HEAD
 const db = require('db');
 
 async function realizarLogin(email, senha) {   
        const userTeste = "userTeste";
         const senhaTeste = "senhaTeste";
+=======
+function mostrarSenha() {
+    var inputPass = document.getElementById('password');
+    var btnShowPass = document.getElementById('toggleBtn');
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022
 
-        const passwordInput = document.getElementById('password');
-        const toggleButton = document.getElementById('toggleBtn');
-        const eyeIcon = document.getElementById('eyeIcon');
-        const usernameInput = document.getElementById('username');
-        const loginForm = document.getElementById('loginForm');
-        const loginError = document.getElementById('loginError');
+    // Troca o tipo do input
+    const isPassword = inputPass.type === 'password';
+    inputPass.type = isPassword ? 'text' : 'password';
 
-        toggleButton.addEventListener('click', function () {
-            // Verifica o tipo atual do input
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            
-            if (isPassword) {
-                // Altera para texto livre (torna visível)
-                passwordInput.setAttribute('type', 'text');
-                // Altera o desenho do SVG para um olho cortado (ocultar)
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z M2 2l20 20"/>`;
-            } else {
-                // Volta a esconder a senha
-                passwordInput.setAttribute('type', 'password');
-                // Restaura o ícone original do olho aberto
-                eyeIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
-            }
-        });
+    // Alterna a classe de forma instantânea sem reescrever a string inteira
+    btnShowPass.classList.toggle('bi-eye-fill', isPassword);
+    btnShowPass.classList.toggle('bi-eye-slash-fill', !isPassword);
+}
 
+<<<<<<< HEAD
            /*loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
             const usuarioDigitado = usernameInput.value;
@@ -79,3 +71,11 @@ async function realizarLogin(email, senha) {
            module.exports = { realizarLogin };
  });
        
+=======
+
+// fuction cria uma função chamada mostrarSenha, var inputPass JavaScript procura no HTML o elemento que possui: id="password"
+//var btnShowPass  encontra o ícone do olho
+// const isPassword verifica se o campo atualmente está como senha
+// inputPass.type operador ternário onde se for password muda para text senão muda para password
+//btnShowPass Isso troca o ícone do olho
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022

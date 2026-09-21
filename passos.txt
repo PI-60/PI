@@ -14,6 +14,7 @@ Fiz as rotas fazer a síntese "pagina.html" e "teste.html" (render)
 Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiperlinks
 
 
+<<<<<<< HEAD
 "# PI" 
 
 # como fazer merge
@@ -21,3 +22,35 @@ Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiper
 git checkout -b NomeBranch 
 - voltar para a main 
 git checkout main
+=======
+#como conectar o banco de dados
+
+- npm install
+-npm install mysql2
+- dpois ddio abra o mysql e vá em File - Open Sql Script - Procura a pasta do pi, e clica no banco dados
+- da run no banco
+- na Query 1 rode: ALTER USER 'root'@'localhost' IDENTIFIED BY 'pi.2026';
+- depois disso de npm run dev
+
+#como fazer o merge
+
+- na sua branch faça
+git status
+git add .
+git status
+git commit -m "Descrição da alteração"
+git push -u origin NomeDaSuaBranche
+
+PARA MANDAR PARA A MAIN ATRAVES DO MERGE
+git checkout main
+git pull origin main
+git merge NomeDaSuaBranche
+git push origin main
+git status
+
+criar branch
+gti checkout -b NomeDaSuaBranche
+muda p ela 
+git checkout NomeDaSuaBranche
+
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022
