@@ -46,6 +46,7 @@ app.get('/login', async (req, res) => {
   res.render('telaLogin', { layout: 'layouts/login' }); 
 }); 
 
+
 // Altere para /recuperacao-senha no seu index.js:
 app.get('/recuperacao-senha', async (req, res) => {
   res.render('recuperacaoSenha', { layout: "layouts/recuperacao"});
@@ -105,6 +106,22 @@ app.get('/frequencia', async (req, res) => {
     res.status(500).send('Erro ao carregar participantes.');
   }
 });
+
+// rota para tela participantes
+app.get('/participantes', async (req, res) => {
+
+  if (req.session.usuario) {
+    res.render('telaParticipante', {
+      layout: 'layouts/mainLogado'
+       
+    });
+  } else {
+    res.redirect('/login');
+  }
+
+});
+
+
 
 
 app.get('/atividades', async (req, res) => {

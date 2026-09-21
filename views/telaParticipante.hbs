@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/css/styleCadastro.css">
+ <!--<script src="/js/cadastroB.js" defer></script> -->
+
+<cadastro>
+
+<div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+     <!-- alterar link p pagina talvez -->
+</div>
+
+<section>
+    <H1>Participantes</H1>
+
+         <div id="pesquisa">
+            <label for="nome">Nome  Completo</label>
+            <input type="text" id="nome" name="nome">
+         </div>
+                   <!-- mostrar participantes no banco -->
+        {{#each participantes}}
+
+    <div class="linha-participante">
+
+        <span class="nome-participante">
+            {{nome}}
+        </span>
+
+        <span class="telefone-participante">
+            {{telefone}}
+        </span>
+
+        <span class="cpf-participante">
+            {{cpf}}
+        </span>
+
+    </div>
+
+{{/each}}
+
+     
+</section>
+
+
+
+</cadastro>
