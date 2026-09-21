@@ -11,10 +11,15 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+<<<<<<< HEAD
+    "hbs": "^4.2.1",
+    "mysql2": "^3.23.3"
+=======
     "express-session": "^1.19.0",
     "hbs": "^4.3.0",
     "mysql2": "^3.24.4",
     "nodemailer": "^9.1.1"
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

@@ -14,6 +14,15 @@ Fiz as rotas fazer a síntese "pagina.html" e "teste.html" (render)
 Foi utilizado na pagina.hbs o bootstrap para dar a aparencia de botão aos hiperlinks
 
 
+<<<<<<< HEAD
+"# PI" 
+
+# como fazer merge
+- criar uma branch com as mudanças
+git checkout -b NomeBranch 
+- voltar para a main 
+git checkout main
+=======
 #como conectar o banco de dados
 
 - npm install
@@ -44,3 +53,4 @@ gti checkout -b NomeDaSuaBranche
 muda p ela 
 git checkout NomeDaSuaBranche
 
+>>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022
