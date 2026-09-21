@@ -245,11 +245,15 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('ana.teste@ifsc.edu.br', 'Ana Teste', '12345', '47999999999', '00000000001');
-INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('bruno.teste@ifsc.edu.br', 'Bruno Teste', '12345', '47999999999', '00000000002');
-INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('carla.teste@aluno.ifsc.edu.br', 'Carla Teste', '12345', '47999999999', '00000000003');
-INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('diego.teste@aluno.ifsc.edu.br', 'Diego Teste', '12345', '47999999999', '00000000004');
-INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('elisa.teste@aluno.ifsc.edu.br', 'Elisa Teste', '12345', '47999999999', '00000000005');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('kiara.s18@ifsc.edu.br', 'Kiara Annelise da Silva Souza', '12345', '47999999999', '00000000001');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('heloisa.mr@aluno.ifsc.edu.br', 'Heloísa Mafra Reisch', '12345', '47999999999', '00000000002');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('oliver.cs11@aluno.ifsc.edu.br', 'Oliver Cristine da Silva dos Santo', '12345', '47999999999', '00000000003');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('eric.sa2009@aluno.ifsc.edu.br', 'Eric da Silveira Arend', '12345', '47999999999', '00000000004');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('maria.s2009@aluno.ifsc.edu.br', 'Maria Eduarda dos Santos Schäfer', '12345', '47999999999', '00000000005');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('eli.ep2009@aluno.ifsc.edu.br', 'Eli Eric Freitas Pinheiro', '12345', '47999999999', '00000000006');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('fabiano.mjj27@aluno.ifsc.edu.br', 'Fabiano Marcelo Junkes Júnior', '12345', '47999999999', '00000000007');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('suelen.vicente@ifsc.edu.br', 'Suelen Vicente Vieira', '12345', '47999999999', '00000000008');
+INSERT INTO `ifsc60`.`usuario` (`email`, `nome`, `senha`, `telefone`, `CPF`) VALUES ('joao.mtm@aluno.ifsc.edu.br', 'João Marcelo Thainer Meleu', '12345', '47999999999', '00000000009');
 
 COMMIT;
 
@@ -259,9 +263,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('carla.teste@aluno.ifsc.edu.br');
-INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('diego.teste@aluno.ifsc.edu.br');
-INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('elisa.teste@aluno.ifsc.edu.br');
+
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('kiara.s18@ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('heloisa.mr@aluno.ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('oliver.cs11@aluno.ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('eric.sa2009@aluno.ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('maria.s2009@aluno.ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('eli.ep2009@aluno.ifsc.edu.br');
+INSERT INTO `ifsc60`.`bolsista` (`email`) VALUES ('fabiano.mjj27@aluno.ifsc.edu.br');
+
+
 
 COMMIT;
 
@@ -271,8 +282,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`coordenador` (`email`, `SIAPE`) VALUES ('ana.teste@ifsc.edu.br', '100001');
-INSERT INTO `ifsc60`.`coordenador` (`email`, `SIAPE`) VALUES ('bruno.teste@ifsc.edu.br', '100002');
+INSERT INTO `ifsc60`.`coordenador` (`email`, `SIAPE`) VALUES ('suelen.vicente@ifsc.edu.br', '100001');
+
+
 
 COMMIT;
 
@@ -282,10 +294,23 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`ministrante` (`email`, `nome`, `telefone`) VALUES ('kiara@gmail.com', 'Kiara', '47955555555');
+INSERT INTO `ifsc60`.`ministrante` (`email`, `nome`, `telefone`) VALUES ('graciane@gmail.com', 'Graciane', '47955555555');
 INSERT INTO `ifsc60`.`ministrante` (`email`, `nome`, `telefone`) VALUES ('pedro@gmail.com', 'Pedro', '47955555555');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `ifsc60`.`administrador`
+-- -----------------------------------------------------
+START TRANSACTION;
+
+USE `ifsc60`;
+
+INSERT INTO `administrador` (`email`) VALUES ('joao.mtm@aluno.ifsc.edu.br');
+
+COMMIT;
+
+
 
 
 -- -----------------------------------------------------
@@ -293,7 +318,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`oficina` (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`, `duracaoHr`) VALUES (1, 'kiara@gmail.com', 'Curso MySQL', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-09', 8);
+INSERT INTO `ifsc60`.`oficina` (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`, `duracaoHr`) VALUES (1, 'graciane@gmail.com', 'Curso MySQL', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-09', 8);
 INSERT INTO `ifsc60`.`oficina` (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`, `duracaoHr`) VALUES (2, 'pedro@gmail.com', 'Curso Javascript', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-10', 8);
 
 COMMIT;
@@ -316,9 +341,14 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (1, 'Sr. João', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (2, 'Sra. Maria', NULL, NULL);
-
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (1, 'Ana G. Gaulke ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (2, 'Beatriz ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (3, 'Elizangela Schmidt ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (4, 'Elza Guimarães Rickman', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (5, 'Elza Satoko Kamigashima', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (6, 'Luiza Schmidt ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (7, 'Magali Siqueira Correa ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (8, 'Maria Martha Losada  ', NULL, NULL);
 COMMIT;
 
 
@@ -340,9 +370,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('carla.teste@aluno.ifsc.edu.br', 1);
-INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('diego.teste@aluno.ifsc.edu.br', 1);
-INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('elisa.teste@aluno.ifsc.edu.br', 2);
+
+INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('kiara.s18@ifsc.edu.br', 1);
+INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('heloisa.mr@aluno.ifsc.edu.br', 1);
+INSERT INTO `ifsc60`.`usuario_monitora_oficina` (`usuario_email`, `oficina_idOficina`) VALUES ('oliver.cs11@aluno.ifsc.edu.br', 2);
 
 COMMIT;
 
@@ -358,4 +389,5 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficinaDia`) VALUES (2, '2026-09-10');
 
 COMMIT;
+
 
