@@ -84,8 +84,3 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
   </tr>
 </table>
 
-<<<<<<< HEAD
-# IFSC 60+
-O presente projeto tem o objetivo de ivulgar e auxiliar no desenvolvimento do projeto IFSC 60+. 
-=======
->>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022

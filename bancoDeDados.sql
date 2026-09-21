@@ -3,16 +3,9 @@
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
 
-<<<<<<< HEAD:server/bancoDeDados.sql
-CREATE USER IF NOT EXISTS 'oliver_11'@'localhost' IDENTIFIED BY 'oliver_11';
-GRANT ALL PRIVILEGES ON ifsc60.* TO 'oliver_11'@'localhost';
-FLUSH PRIVILEGES;
--- create tables
-=======
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
->>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022:bancoDeDados.sql
 
 -- -----------------------------------------------------
 -- Schema mydb
@@ -28,86 +21,6 @@ DROP SCHEMA IF EXISTS `ifsc60` ;
 CREATE SCHEMA IF NOT EXISTS `ifsc60` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `ifsc60` ;
 
-<<<<<<< HEAD:server/bancoDeDados.sql
-create table coordenador(
-	email varchar(100) primary key not null,
-	SIAPE varchar(20) not null,
-    foreign key (email) references usuario (email) 
-);
-
-create table bolsista(
-	email varchar(100) primary key not null,
-    foreign key (email) references usuario (email) 
-);
-
-create table administrador(
-	email varchar(100) primary key,
-    foreign key (email) references usuario (email)
-);
-
-create table participante(
-	idParticipante int auto_increment primary key not null,
-    email varchar(100),
-    foreign key (email) references administrador (email),
-    nome varchar (200) not null,
-    CPF varchar(11),
-    telefone varchar (13)
-    );
-    
-create table comparece (
-	email varchar(100) primary key not null,
-	foreign key (email) references bolsista (email),
-    idOficina int auto_increment not null,
-    foreign key (idOficina) references oficina (idOficina)
-);
-
-create table oficinaDia (
-	idOficinaDia int auto_increment primary key not null,
-    dt date not null
-);
-
-create table dia_oficina (
-	idOficina int primary key not null,
-	foreign key (idOficina) references oficina (idOficina),
-	idOficinaDia int not null,
-    foreign key (idOficinaDia) references oficinaDia (idOficinaDia)
-);
-
-create table participa (
-	idParticipante int primary key not null, 
-    idOficinaDia int not null,
-    foreign key (idOficinaDia) references oficinaDia (idOficinaDia),
-    foreign key (idParticipante) references participante (idParticipante),
-    frequencia boolean
-);
-
-create table ministrante (
-	email varchar(100) primary key not null, 
-    nome varchar (200) not null,
-    telefone varchar (13)
-);
-
--- inserts
-
-insert into usuario
-values 
-('suelen.vicente@ifsc.edu.br', 'Suelen Vicente Vieira', '12345', '44998682401', '00000000001'),
-('fernanda.trentini@ifsc.edu.br', 'Fernanda Trentini', '12345', '47988888888', '00000000001'),
-('oliver.cs11@aluno.ifsc.edu.br', 'Oliver Cristine Silva dos Santos', '12345', '47988171843', '00000000001'),
-('heloisa.mr@aluno.ifsc.edu.br', 'Heloisa Mafra Reisch', '12345', '12345678900', '00000000001'),
-('kiara.s18@aluno.ifsc.edu.br', 'Kiara Annelie de Souza Silva', '12345', '12345678900', '00000000001');
-
-insert into coordenador 
-values 
-('suelen.vicente@ifsc.edu.br', '12345'),
-('fernanda.trentini@ifsc.edu.br', '12345');
-
-insert into bolsista 
-values 
-('heloisa.mr@aluno.ifsc.edu.br'),
-('kiara.s18@aluno.ifsc.edu.br'),
-('oliver.cs11@aluno.ifsc.edu.br');
-=======
 -- -----------------------------------------------------
 -- Table `ifsc60`.`usuario`
 -- -----------------------------------------------------
@@ -446,4 +359,3 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 
 COMMIT;
 
->>>>>>> ac8251e7f641f0ed2445dde5951030c16f1dd022:bancoDeDados.sql
