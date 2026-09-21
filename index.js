@@ -122,12 +122,44 @@ app.get('/atividades', async (req, res) => {
 })
 
 
-
-
-
+//teste cadastro de atividades
+app.get('/cadastroA', async (req, res) => {
+ if(req.session.usuario)
+  {
+    // Faço a consulta para verificar se é um coordenador (utilizando o email do usuário logado)
+    const [coordenador] = await db.execute(
+      'SELECT * FROM coordenador WHERE email = ?',
+      [req.session.usuario.email]
+    );
+    // se encontrou carrega a página
+    if (coordenador.length > 0){
+      res.render('telaCadastroA', { layout: 'layouts/cadastro' });
+    }
+    else{
+      // faz o redirect caso não possa acessar
+      res.redirect("/inicioLogado");
+    }
+  }
+  else{
+    // caso não esteja logado
+    res.redirect("/login");
+  }
+});
 
 // rotas  POST: cria uma rota que recebe dadosdoss formulários  enviados através de POST  ---
 
+//teste cadastro de atividades
+app.post('/cadastroA', async (req, res) => {
+  if(req.session.usuario)
+  {
+
+    res.render('cadastroA', { layout: 'layouts/mainLogado' });
+  }
+  else{
+    res.redirect("/login");
+  }
+
+})
 
 // Login de Usuários
 app.post('/login', async (req, res) => {
@@ -205,7 +237,7 @@ app.post('/cadastro', async (req, res) => {
 
     let sql;
 
-    // MINIRANTE
+    // MINISTRANTE
 
     if(tipo == "ministrante"){
       sql = 'INSERT INTO ministrante (email, nome, telefone) VALUES (?, ?, ?)';

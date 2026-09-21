@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Atividades</title>
+    <link rel="stylesheet" href="/css/styleCadastro.css">
+    <script src="/js/cadastroA.js" defer></script>
+</head>
+<body>
+    
+<div id="back">
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+     <!-- alterar link p pagina talvez -->
+</div>
+
+<main class="center"> <!-- chama o arquivo ! -->
+
+
+     <section>
+          <!--formulário -->
+          <form id="CadastroA" action="/cadastroA" method="post">
+               <!-- titulo, email, descricao, etc -->
+               <div class="formulario">
+
+                    <h1 id="titulo">Cadastro de Atividades</h1>
+
+                    <div class="campo esquerda">
+                         <label for="tituloA">Titulo</label>
+                         <input 
+                         type="text" 
+                         id="tituloA" 
+                         name="tituloA"
+                         placeholder="Titulo da oficina">
+                    </div>
+
+                    <div class="campo esquerda">
+                         <label for="emailM">E-mail do ministrante</label>
+                         <input 
+                         type="malito" 
+                         id="emailM" 
+                         placeholder="E-mail do ministrante"
+                         name="emailM">
+                    </div>
+
+                    <div class="campo direita">
+                         <label for="descricao">Descrição</label>
+                         <input 
+                         type="text" 
+                         id="descricao" 
+                         maxlength="50"
+                         placeholder="Descreva a atividade..." 
+                         name="descricao">
+                    </div>
+
+                    <div class="campo esquerda">
+                         <label for="local">Local</label>
+                         <input 
+                         type="text" 
+                         id="local"
+                         placeholder="Local da atividade" 
+                         name="local" 
+                         maxlength="1200"
+                    ></div>
+ 
+                    <div class="campo direita">
+                        <label for="dataInicio">Data de início</label>
+                        <input 
+                        id="dataInicio" 
+                        type="date" 
+                        placeholder="DD/MM/AAAA" 
+                        name="dataInicio">
+                    </div>
+
+                    <div class="campo direita">
+                        <label for="dataTermino">Data de término</label>
+                        <input 
+                        type="date" 
+                        id="dataTermino" 
+                        name="dataTermino" 
+                        placeholder="DD/MM/AAAA">
+                    </div>
+
+                    <div class="campo esquerda" >
+                         <!-- combobox dos bolsistas LINKAR COM BANCO E DADOS-->
+                         <label for="bolsista1">Selecione o bolsista auxiliar dessa atividade</label>
+                         <select id="bolsista1" class="select" name="bolsista1">
+                              <option value="selecione">Selecione o bolsista</option>
+                              <option value="bolsista1">NomeBolsista</option>
+                              <option value="bolsista2">NomeBolsista</option>
+                              <option value="bolsista3">NomeBolsista</option>
+                              <option value="bolsista4">NomeBolsista</option>
+                         </select>
+                        </div>
+
+                        <div class="campo esquerda" >
+                         <!-- combobox dos bolsistas LINKAR COM BANCO E DADOS-->
+                         <label for="bolsista2">Selecione o bolsista auxiliar dessa atividade</label>
+                         <select id="bolsista2" class="select" name="bolsista2">
+                              <option value="selecione">Selecione o bolsista</option>
+                              <option value="bolsista1">NomeBolsista</option>
+                              <option value="bolsista2">NomeBolsista</option>
+                              <option value="bolsista3">NomeBolsista</option>
+                              <option value="bolsista4">NomeBolsista</option>
+                         </select>
+                        </div>
+
+                        <div class="campo esquerda" >
+                         <!-- combobox dos bolsistas LINKAR COM BANCO E DADOS-->
+                         <label for="bolsista3">Selecione o bolsista auxiliar dessa atividade</label>
+                         <select id="bolsista3" class="select" name="bolsista3">
+                              <option value="selecione">Selecione o bolsista</option>
+                              <option value="bolsista1">NomeBolsista</option>
+                              <option value="bolsista2">NomeBolsista</option>
+                              <option value="bolsista3">NomeBolsista</option>
+                              <option value="bolsista4">NomeBolsista</option>
+                         </select>
+                        </div>
+
+                    <!-- botão de cadastro, tipo submit (form) classe botão, escrita Cadastrar -->
+                    <button type="submit" class="button">
+                         Cadastrar </button>
+               </form>
+
+          </section>
+     </main>
+</body>
+</html>
