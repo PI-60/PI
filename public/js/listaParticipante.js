@@ -1,4 +1,4 @@
-function pesquisarParticipante() {
+ /*function pesquisarParticipante() {
 
     // Pega o que foi digitado
     const pesquisa = document
@@ -29,3 +29,4 @@ function pesquisarParticipante() {
         }
     });
 }
+*/
