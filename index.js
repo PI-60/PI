@@ -123,7 +123,7 @@ app.get('/atividades', async (req, res) => {
 
 
 //teste cadastro de atividades
-app.get('/cadastroA', async (req, res) => {
+/*app.get('/cadastroA', async (req, res) => {
  if(req.session.usuario)
   {
     // Faço a consulta para verificar se é um coordenador (utilizando o email do usuário logado)
@@ -160,6 +160,13 @@ app.post('/cadastroA', async (req, res) => {
   }
 
 })
+*/
+
+//teste
+app.get('/cadastroA', async (req, res) => {
+  res.render('telaCadastroA', { layout: 'layouts/mainLogado' }); 
+}); 
+
 
 // Login de Usuários
 app.post('/login', async (req, res) => {
