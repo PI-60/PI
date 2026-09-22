@@ -133,3 +133,15 @@ section {
 .formulario-frequencia button:hover {
     background-color: hsl(133, 75%, 17%);
 }
+
+.select-frequencia.presenca {
+    background-color: #d4edda;
+    color: #155724;
+    border: 2px solid #28a745;
+}
+
+.select-frequencia.falta {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #dc3545;
+}
