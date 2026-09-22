@@ -7,6 +7,18 @@
 
 <main class="center">
 
+    <script>
+    function mudarCor(select) {
+        select.classList.remove("presenca", "falta");
+
+        if (select.value === "presenca") {
+            select.classList.add("presenca");
+        } else {
+            select.classList.add("falta");
+        }
+    }
+</script>
+
     <section>
 
         <form id="Frequencia">
@@ -53,11 +65,10 @@
             {{nome}}
         </span>
 
-        <select class="select-frequencia">
+       <select class="select-frequencia presenca" onchange="mudarCor(this)">
     <option value="presenca">Presença</option>
     <option value="falta">Falta</option>
 </select>
-
     </div>
 
 {{/each}}
