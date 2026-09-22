@@ -7,6 +7,302 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
      <!-- botão p volta -->
+
+     <!--  <body>
+       <div id="containerFiltros"></div>
+</body>
+
+
+<script>
+// LISTAS
+
+const disciplinas = [
+
+    "Biologia",
+    "Espanhol",
+    "Física",
+    "Filosofia",
+    "Geografia",
+    "História",
+    "Inglês",
+    "Matemática",
+    "Português",
+    "Química",
+    "Redação",
+    "Sociologia"
+
+];
+
+
+const conteudos = [
+
+    "Álgebra",
+    "Geometria",
+    "Trigonometria",
+    "Funções",
+    "Equações",
+    "Probabilidade",
+    "Estatística"
+
+];
+
+
+const bancas = [
+
+    "CEBRASPE",
+    "FCC",
+    "FGV",
+    "VUNESP",
+    "AOCP"
+
+];
+
+
+const anos = [
+
+    "2026",
+    "2025",
+    "2024",
+    "2023",
+    "2022"
+
+];
+
+
+// CONFIGURAÇÃO DOS CAMPOS
+
+const filtros = [
+
+    {
+        nome: "Disciplina",
+        lista: disciplinas,
+        multiplo: true
+    },
+
+    {
+        nome: "Conteúdo",
+        lista: conteudos,
+        multiplo: true
+    },
+
+    {
+        nome: "Banca",
+        lista: bancas,
+        multiplo: true
+    },
+
+    {
+        nome: "Ano",
+        lista: anos,
+        multiplo: true
+    }
+
+];
+
+// CONTAINER
+
+const container =
+    document.getElementById("containerFiltros");
+
+
+// FUNÇÃO GENÉRICA
+
+
+function criarCampoFiltro(config) {
+
+    const campo =
+        document.createElement("div");
+
+    campo.className =
+        "my-3 campo-filtro";
+
+
+    campo.innerHTML = `
+
+        <label class="form-label">
+            ${config.nome}
+        </label>
+
+
+        <div class="dropdown w-100">
+
+
+           BOTÃO 
+
+            <button
+                type="button"
+                class="form-select text-start botao-filtro"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside">
+
+                <span class="texto-selecione">
+                  Selecione ${config.nome.toLowerCase()}
+                </span>
+
+            </button>
+
+
+h MENU 
+
+            <ul class="dropdown-menu w-100 p-2">
+
+
+                 PESQUISA 
+
+                <li class="campo-pesquisa">
+
+                    <input
+                        type="text"
+                        class="form-control pesquisa-filtro"
+                        placeholder="Pesquisar..."
+                        autocomplete="off">
+
+                </li>
+
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+             OPÇÕES 
+
+                <div class="lista-filtro">
+
+                    ${config.lista.map(opcao => `
+
+                        <li class="item-filtro">
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input checkbox-filtro"
+                                    type="checkbox"
+                                    value="${opcao}">
+
+                                <label class="form-check-label">
+                                    ${opcao}
+                                </label>
+
+                            </div>
+
+                        </li>
+
+                    `).join("")}
+
+                </div>
+
+            </ul>
+
+        </div>
+
+    `;
+
+
+    container.appendChild(campo);
+
+    // ELEMENTOS
+
+    const botao =
+        campo.querySelector(".botao-filtro");
+
+    const pesquisa =
+        campo.querySelector(".pesquisa-filtro");
+
+    const itens =
+        campo.querySelectorAll(".item-filtro");
+
+    const checkboxes =
+        campo.querySelectorAll(".checkbox-filtro");
+
+    // PESQUISA
+
+
+    pesquisa.addEventListener("input", function () {
+
+        const texto =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        itens.forEach(function (item) {
+
+            const nome =
+                item
+                    .querySelector(".form-check-label")
+                    .textContent
+                    .toLowerCase();
+
+
+            item.style.display =
+                nome.includes(texto)
+                    ? ""
+                    : "none";
+
+        });
+
+    });
+
+
+    // SELEÇÃO
+
+
+    checkboxes.forEach(function (checkbox) {
+
+        checkbox.addEventListener("change", function () {
+
+            const selecionadas = [];
+
+
+            checkboxes.forEach(function (item) {
+
+                if (item.checked) {
+
+                    selecionadas.push(
+                        item.value
+                    );
+
+                }
+
+            });
+
+
+            // Nenhuma selecionada
+
+            if (selecionadas.length === 0) {
+
+                botao.textContent =
+                    Selecione ${config.nome.toLowerCase()};
+
+            }
+
+
+            // Uma ou várias selecionadas
+
+            else {
+
+                botao.textContent =
+                    selecionadas.join(", ");
+
+            }
+
+        });
+
+    });
+
+}
+
+
+// CRIAR TODOS OS FILTROS
+
+
+filtros.forEach(function (filtro) {
+
+    criarCampoFiltro(filtro);
+
+});
+
+</script>     -->
 </div>
 
 <section class="formulario">
