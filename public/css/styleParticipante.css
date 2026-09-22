@@ -1,0 +1,20 @@
+
+
+ .pesquisa {
+    display: flex;
+    align-items: center; 
+    border: 1px solid background-color black;
+    width: 400px;
+    margin: 20px auto; 
+    border-radius: 20px;
+     padding: 5px 16px;
+      color:  #4b4b4b;
+ }
+
+#pesquisaInput {
+ padding: 8px;
+ border: none;
+background-color: transparent;
+width: 100%;
+outline: none;
+}
