@@ -28,27 +28,26 @@ router.get('/frequencia', async (req, res) => {
 // ROTAS DE PARTICPANTE
 // ============================
 router.get('/participantes', async (req, res) => {
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
 
-  if (req.session.usuario) {
-    res.render('telaParticipante', {
-      layout: 'layouts/mainLogado'
-       
-    });
-  } else {
-    res.redirect('/login');
-  }
-   });
-   
-  router.get('/participantes', async (req, res) => {
-    const termo = req.query.q || '';
-    // comando no msql db.consulta = traz os dados em linhas
-    const [rows] = await db.query(              // so pesquisa pelo nome
-        'SELECT nome, telefone, CPF FROM participante WHERE nome LIKE ?',
-        [`%${termo}%`]  
-        //  e % = tudo que vem deppois
-    );
-    res.json(rows);
+    try {
+        const [participantes] = await db.query(
+            'SELECT nome, telefone, CPF FROM participante WHERE nome ?'
+        );
+
+        res.render('telaParticipante', {
+            layout: 'layouts/mainLogado',
+            participantes
+        });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao buscar participantes');
+    }
 });
+
 
 
 export default router;

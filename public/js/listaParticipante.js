@@ -17,10 +17,8 @@
         //
 
         linhas.forEach((linha) => {
-            // buscar o nome do participante/ telefone/ cpf
+            // buscar o nome do participante
             const nome = normalizar(linha.querySelector('.nome-participante').textContent);
-          /*  const telefone = linha.querySelector('.telefone-participante').textContent;
-            const cpf = linha.querySelector('.cpf-participante').textContent; */
 
             // se o termo pesquisa aparece no nome
             const combina =  nome.includes(termo);
