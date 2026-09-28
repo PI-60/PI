@@ -57,12 +57,13 @@ app.get('/atividades', async (req, res) => {
   })
 })
 
-// Usa os arquivos externos para configurar as rotas
 app.use('/', userRoutes);
 app.use('/', partRoutes);
+
 
 
 // --- SERVIDOR ---
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
 });
+
