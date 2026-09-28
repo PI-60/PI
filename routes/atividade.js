@@ -18,23 +18,25 @@ router.get('/cadastroat', async (req, res) => {
 });
 
 
-// router.post('/cadastroat', async (req, res) => {
+router.post('/cadastroat', async (req, res) => {
 
-//     const { titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 } = req.body;
+   const { titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 } = req.body;
 
+   try {
+        let sql;
+         sql = 'INSERT INTO oficina ( titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 ) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        await db.execute(sql, [titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3]);
+    }
+       catch (error) {
+        console.error(error);
 
-
-//     try {
-//         let sql;
-//         sql = 'INSERT INTO oficina ( titulo, emailM,descricao, local, bolsista1, bolsista2, bolsista3 ) VALUES (?, ?, ?, ?, ?, ?, ?)';
-//         await db.execute(sql, [titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3]);
-//     }
-// });
-
-
-
-
-
+        res.status(500).json({
+            mensagem: 'Erro ao cadastrar oficina',
+            erro: error.message
+        });
+    }
+ 
+});
 
 
 
