@@ -28,10 +28,9 @@ router.get('/frequencia', async (req, res) => {
 // ROTAS DE PARTICPANTE
 // ============================
 router.get('/participantes', async (req, res) => {
- //   if (!req.session.usuario) {
-    //    return res.redirect('/login');
-  //  }
-
+    if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
     try {
        const termo = req.query.termo || '';
 
@@ -40,10 +39,10 @@ router.get('/participantes', async (req, res) => {
                 [`%${termo}%`]
         );
 
-       // res.render('telaParticipante', {
-        //    layout: 'layouts/mainLogado',
-        //    participantes
-      //  });
+          res.render('telaParticipante', {
+           layout: 'layouts/mainLogado',
+          participantes
+      });
 
     } catch (erro) {
         console.error(erro);
