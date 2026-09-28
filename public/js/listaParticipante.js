@@ -21,8 +21,8 @@
             const telefone = linha.querySelector('.telefone-participante').textContent;
             const cpf = linha.querySelector('.cpf-participante').textContent;
 
-            // se o termo pesquisa aparece em algum deles
-            const combina =  nome.includes(termo) ||  telefone.includes(termo) || cpf.includes(termo);
+            // se o termo pesquisa aparece no nome
+            const combina =  nome.includes(termo);
 
             /*if (combina) {
                  linha.style.display = '';
