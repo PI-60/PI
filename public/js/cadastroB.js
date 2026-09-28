@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+
 // partiipante
 document.addEventListener("DOMContentLoaded", function () {
     /*quando clicar nesse botão faça isso.. */
@@ -37,11 +40,17 @@ document.addEventListener("DOMContentLoaded", function () {
             campoEmail.style.display = "block";
            
         }
+        //validação do email
+        if (campoEmail === "" || !campoEmail.includes("@")) {
+             alert("E-mail inválido");//função do JavaScript que mostra uma mensagem em uma janelinha na tela para o usuário.
+}
 
 
     });
 
 });
+
+
 // minirante
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -60,7 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
         else {
             campoCPF.style.display = 'block'
         }
-
+        //validação mi nistrante
+        if (campoCPF === "" || campoCPF < 11) {
+             alert("CPF inválido");
+        
+        }
     });
 
 });
@@ -83,7 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             campoSiape.style.display = "none";
         }
-
+             //validação COODENADOR 
+        if (campoSiape === "" || campoSiape < 7) {
+             alert("Siape inválido");
+        
+        }
     });
     });
 
@@ -105,6 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
             campoSenha.style.display = "none";
         }
 
+         //validação bolsista
+        if (campoSenha === "" || campoSenha < 5) {
+             alert("CPF inválido");
+        
+        }
     });
 
 
