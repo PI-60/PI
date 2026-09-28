@@ -28,19 +28,22 @@ router.get('/frequencia', async (req, res) => {
 // ROTAS DE PARTICPANTE
 // ============================
 router.get('/participantes', async (req, res) => {
-    if (!req.session.usuario) {
-        return res.redirect('/login');
-    }
+ //   if (!req.session.usuario) {
+    //    return res.redirect('/login');
+  //  }
 
     try {
+       const termo = req.query.termo || '';
+
         const [participantes] = await db.query(
-            'SELECT nome, telefone, CPF FROM participante WHERE nome ?'
+            'SELECT nome, telefone, CPF FROM participante WHERE nome LIKE ?',
+                [`%${termo}%`]
         );
 
-        res.render('telaParticipante', {
-            layout: 'layouts/mainLogado',
-            participantes
-        });
+       // res.render('telaParticipante', {
+        //    layout: 'layouts/mainLogado',
+        //    participantes
+      //  });
 
     } catch (erro) {
         console.error(erro);
