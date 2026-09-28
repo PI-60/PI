@@ -1,7 +1,9 @@
 import express from 'express';
-import db from '../database.js'; // ajuste o caminho conforme a localização do seu módulo de conexão com o banco
+import db from '../database.js';
 
 const router = express.Router();
+
+console.log('USUARIO.JS FOI CARREGADO');
 
 // ============================
 // ROTAS DE LOGIN
@@ -150,6 +152,16 @@ router.get('/inicioLogado', (req, res) => {
     } else {
         res.redirect('/login');
     }
+});
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Erro ao deslogar:', err);
+            return res.status(500).send('Erro ao deslogar');
+        }
+
+        res.redirect('/login');
+    });
 });
 
 export default router;
