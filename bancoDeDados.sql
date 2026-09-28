@@ -389,5 +389,3 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficinaDia`) VALUES (2, '2026-09-10');
 
 COMMIT;
-
-

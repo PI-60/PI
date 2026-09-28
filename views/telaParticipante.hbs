@@ -1,0 +1,50 @@
+
+<link rel="stylesheet" href="/css/styleParticipante.css">
+ <script src="/js/listaParticipante.js" defer></script>
+<cadastro>
+<!--  video ref https://www.youtube.com/watch?v=dI8wiEs8cag -->
+<div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+     <!-- botão p volta -->
+
+</div>
+
+<section class="formulario">
+    <H1>Participantes</H1> 
+         <div id="pesquisa">
+            <label for="nome"></label>
+            <input type="text" id="nome" name="nome" placeholder="Pesquisar">
+         </div>
+
+
+                   <!-- mostrar participantes no banco -->
+         <div id="listap">
+        {{#each participantes}}
+
+    <div class="linha-participante">
+
+        <span class="nome-participante">
+            {{nome}}
+        </span>
+
+        <span class="telefone-participante">
+            {{telefone}}
+        </span>
+
+        <span class="cpf-participante">
+            {{cpf}}
+        </span>
+
+    </div>
+
+{{/each}}
+          <p id="semresul" style="display:none;
+          ">Nenhum participante encontrado.</p>
+
+     </div>
+</section>
+
+
+
+</cadastro>
