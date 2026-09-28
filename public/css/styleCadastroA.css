@@ -23,19 +23,20 @@ section {
 }
 
 .formulario {
-     
-    width: 400%;
-    max-width: 1000px;
-    min-width: 1000px;
-    padding: 70px;
+    width: 60%;
+    padding: 40px 120px;
+    margin: 0px 5% 0px 5cap;  
+    
+
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
     display: grid;
-    grid-template-columns: 1fr 1fr; /* divide o formulario em 2 colunas */
-    grid-auto-flow: dense;
-    gap: 20px; /* 20 pixel de distancia entre os elementos do formulario */
+    grid-template-columns: 1fr 1fr;
+    column-gap: 120px;
+    row-gap: 20px;
 }
 
 #hidden{
@@ -52,12 +53,10 @@ section {
 }
 
 #titulo {
+    padding: 10px;
     grid-column: 1 / -1;
     text-align: center;
-    padding: 10px;
-    margin: 0;
 }
-
 
 .campo {
     display: flex;
@@ -66,26 +65,22 @@ section {
 }
 
 .campo label {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #333;
-    
 }
 
 .campo input,
 .campo select {
     width: 100%;
     height: 42px;
-
     padding: 0 12px;
-
     border: 1px solid #d5d5d5;
     border-radius: 6px;
-
-    font-size: 14px;
+    font-size: 16px;
 
     outline: none;
-}
+}   
 
 
 .campo input:focus,
@@ -99,7 +94,7 @@ section {
 .formulario button {
     grid-column: 1 / -1; /* começa na coluna 1 */
 
-    width: 120px;
+    width: 100px;
     height: 42px;
 
     border: none;
@@ -114,9 +109,29 @@ section {
 
     cursor: pointer;
 
-    margin-top: 20xp;
+
 }
 
 .formulario button:hover {
     background-color: hsl(133, 75%, 17%); /* cor dop botao ao ser clicado */
 }
+
+
+
+/*Cadastro Atividades*/
+
+#descricao {
+    width: 100%;
+    height: 140px;
+
+    padding: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: normal;
+
+    text-align: left;
+
+    resize: vertical;
+}
+
