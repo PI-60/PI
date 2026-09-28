@@ -56,6 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Bolsista 3:", bolsista3);
     console.log("Container bolsista:", campoBolsista3);
 
-    // FAZERPARA DATA E CONFEREIR SE NO MYSQL DATAESTA CERTO 
+    console.log("Data inicio:", dataInicio);
+    console.log("Container data inicio:", campodataInicio);
+
+    console.log("Data termino:", dataTermino);
+    console.log("Container data termino:", campodataTermino);
+
 
 });

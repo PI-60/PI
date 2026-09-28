@@ -19,14 +19,86 @@ router.get('/cadastroat', async (req, res) => {
 
 router.post('/cadastroat', async (req, res) => {
 
-   const { titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 } = req.body;
+    const {
+        titulo,
+        emailM,
+        descricao,
+        local,
+        dataInicio,
+        dataTermino,
+        bolsista1,
+        bolsista2,
+        bolsista3
+    } = req.body;
 
-   try {
-        let sql;
-         sql = 'INSERT INTO oficina ( titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 ) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        await db.execute(sql, [titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3]);
-    }
-       catch (error) {
+    try {
+
+        // 1. Cadastra a oficina
+        const sql = `
+            INSERT INTO oficina
+            (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+            console.log("=================================");
+            console.log("ROTA NOVA FOI CARREGADA");
+            console.log(sql);
+            console.log("=================================");
+        const [resultado] = await db.execute(sql, [
+            emailM,
+            titulo,
+            descricao,
+            local,
+            dataInicio,
+            dataTermino
+        ]);
+
+        // Pega o ID da oficina que acabou de ser cadastrada
+        const idOficina = resultado.insertId;
+
+
+        // 2. Cadastra os bolsistas da oficina
+        const sqlBolsista = `
+            INSERT INTO usuario_monitora_oficina
+            (usuario_email, oficina_idOficina)
+            VALUES (?, ?)
+        `;
+
+
+        // Bolsista 1
+        if (bolsista1) {
+            await db.execute(sqlBolsista, [
+                bolsista1,
+                idOficina
+            ]);
+        }
+
+
+        // Bolsista 2
+        if (bolsista2) {
+            await db.execute(sqlBolsista, [
+                bolsista2,
+                idOficina
+            ]);
+        }
+
+
+        // Bolsista 3
+        if (bolsista3) {
+            await db.execute(sqlBolsista, [
+                bolsista3,
+                idOficina
+            ]);
+        }
+
+
+        // 3. Resposta de sucesso
+        res.json({
+            mensagem: 'Oficina cadastrada com sucesso!',
+            idOficina: idOficina
+        });
+
+    } catch (error) {
+
         console.error(error);
 
         res.status(500).json({
@@ -34,8 +106,8 @@ router.post('/cadastroat', async (req, res) => {
             erro: error.message
         });
     }
- 
-});
+
+}); 
 
 
 

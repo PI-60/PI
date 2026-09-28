@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`oficina` (
   `local` VARCHAR(1200) NULL DEFAULT NULL,
   `dt_inicio` DATE NOT NULL,
   `dt_termino` DATE NOT NULL,
-  `duracaoHr` INT NOT NULL,
+
   PRIMARY KEY (`idOficina`),
   INDEX `fk_oficina_ministrante1_idx` (`ministrante_email` ASC) VISIBLE,
   CONSTRAINT `fk_oficina_ministrante1`
