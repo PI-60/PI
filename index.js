@@ -10,6 +10,9 @@ import session from 'express-session';
 
 import partRoutes from './routes/participante.js';
 import userRoutes from './routes/usuario.js';
+import atividadeRoutes from './routes/atividade.js'
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,25 +45,10 @@ app.get('/', async (req, res) => {
 });
 
 
-// Rota de Atividades
-app.get('/atividades', async (req, res) => {
-  res.render("telaAtividades", {
-    layout: false,
-    atividades: [
-      { titulo: 'Festa Junina 60+', tipo: 'Evento', status: 'Em andamento', statusClasse: 'andamento', cor: 'roxo', data: '22/07/2026', duracao: '14h', local: 'IFSC GASPAR' },
-      { titulo: 'Oficina de Informática', tipo: 'Oficina', status: 'Concluído', statusClasse: 'concluido', cor: 'amarelo', data: '22/04/2026', duracao: '14h', local: 'IFSC GASPAR' },
-      { titulo: 'Oficina de fotografia', tipo: 'Oficina', status: 'Em andamento', statusClasse: 'andamento', cor: 'vermelho', data: '02/07/2026', duracao: '14h', local: 'IFSC GASPAR' },
-      { titulo: 'Nome oficina 1', tipo: 'Oficina', status: 'Concluído', statusClasse: 'concluido', cor: 'azul', data: '00/00/0000', duracao: '14h', local: 'IFSC GASPAR' },
-      { titulo: 'Nome oficina 2', tipo: 'Oficina', status: 'Em andamento', statusClasse: 'andamento', cor: 'verde', data: '02/07/2026', duracao: '14h', local: 'IFSC GASPAR' },
-      { titulo: 'Nome oficina 3', tipo: 'Oficina', status: 'Concluído', statusClasse: 'concluido', cor: 'laranja', data: '00/00/0000', duracao: '14h', local: 'IFSC GASPAR' },
-    ]
-  })
-})
-
 // Usa os arquivos externos para configurar as rotas
 app.use('/', userRoutes);
 app.use('/', partRoutes);
-
+app.use('/', atividadeRoutes);
 
 // --- SERVIDOR ---
 app.listen(3000, () => {
