@@ -27,7 +27,8 @@ router.get('/frequencia', async (req, res) => {
 // ============================
 // ROTAS DE PARTICPANTE
 // ============================
-router.get('/participantes', async (req, res) => { 
+router.get('/participantes', async (req, res) => {
+
     if (!req.session.usuario) {
        return res.redirect('/login');
     }

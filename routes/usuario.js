@@ -81,13 +81,13 @@ router.get('/cadastro', async (req, res) => {
     // Verifica se o usuário está logado
     if (req.session.usuario) {
         // Faz a consulta para verificar se é um coordenador (utilizando o email do usuário logado)
-        const [coordenador] = await db.execute(
+        const [usuario] = await db.execute(
             'SELECT * FROM coordenador WHERE email = ?',
             [req.session.usuario.email]
         );
 
         // se encontrou, carrega a página
-        if (coordenador.length > 0) {
+        if (usuario.length > 0) {
             res.render('telaCadastroB', { layout: 'layouts/cadastro' });
         } else {
             // faz o redirect caso não possa acessar
