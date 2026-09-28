@@ -17,7 +17,6 @@ router.get('/cadastroat', async (req, res) => {
     });
 });
 
-
 router.post('/cadastroat', async (req, res) => {
 
    const { titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 } = req.body;
