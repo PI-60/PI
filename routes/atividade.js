@@ -39,10 +39,12 @@ router.post('/cadastroat', async (req, res) => {
             (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
             VALUES (?, ?, ?, ?, ?, ?)
         `;
-            console.log("=================================");
-            console.log("ROTA NOVA FOI CARREGADA");
-            console.log(sql);
-            console.log("=================================");
+                console.log("=================================");
+                console.log("ROTA NOVA FOI CARREGADA");
+                console.log(sql);
+                console.log("=================================");
+
+
         const [resultado] = await db.execute(sql, [
             emailM,
             titulo,
@@ -92,10 +94,7 @@ router.post('/cadastroat', async (req, res) => {
 
 
         // 3. Resposta de sucesso
-        res.json({
-            mensagem: 'Oficina cadastrada com sucesso!',
-            idOficina: idOficina
-        });
+       res.redirect('/mainLogado');
 
     } catch (error) {
 
