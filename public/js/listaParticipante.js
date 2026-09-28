@@ -1,32 +1,37 @@
- /*function pesquisarParticipante() {
 
-    // Pega o que foi digitado
-    const pesquisa = document
-        .getElementById("nome")
-        .value
-        .toLowerCase()
-        .trim();
+    const campoPesquisa = document.getElementById('nome');
+    const linhas = document.querySelectorAll('.linhap');
+    const semResultados = document.getElementById('semresul');
 
-    // Pega todos os participantes
-    const participantes = document.querySelectorAll(
-        ".linha-participante"
-    );
+    // remove acentos e deixa minúsculo (assim "jose" encontra "josé")]
+    //constante normalzar recebe texto
+    const normalizar = (texto) =>
+        texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    // eplace(/[\u0300-\u036f]/g, '') = para retirar os acentos
 
-    // Verifica cada participante
-    participantes.forEach(function(participante) {
+    // quando pesquisar faça tal coisa...
+    campoPesquisa.addEventListener('input', () => {
+        const termo = normalizar(campoPesquisa.value.trim());
+        let encontrados = 0;
+        //
 
-        const nome = participante
-            .querySelector(".nome-participante")
-            .textContent
-            .toLowerCase()
-            .trim();
+        linhas.forEach((linha) => {
+            // buscar o nome do participante/ telefone/ cpf
+            const nome = normalizar(linha.querySelector('.nome-participante').textContent);
+            const telefone = linha.querySelector('.telefone-participante').textContent;
+            const cpf = linha.querySelector('.cpf-participante').textContent;
 
-        // Mostra ou esconde
-        if (nome.includes(pesquisa)) {
-            participante.style.display = "flex";
-        } else {
-            participante.style.display = "none";
-        }
+            // se o termo pesquisa aparece em algum deles
+            const combina =  nome.includes(termo) ||  telefone.includes(termo) || cpf.includes(termo);
+
+            /*if (combina) {
+                 linha.style.display = '';
+             } else {
+                      linha.style.display = 'none';
+                                                } */
+            linha.style.display = combina ? '' : 'none';
+            if (combina) encontrados++;
+        });
+        // se nao tiver resultoados nao aparece ngm
+        semresul.style.display = encontrados === 0 ? 'block' : 'none';
     });
-}
-*/
