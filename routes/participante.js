@@ -42,7 +42,7 @@ router.get('/participantes', async (req, res) => {
  router.post('/participantes', async (req, res) => {
 
     const termo = req.query.q || '';
-    // comando no msql db.requer = traz os dados em linhas
+    // comando no msql db.consulta = traz os dados em linhas
     const [rows] = await db.query(              // so pesquisa pelo nome
         'SELECT nome, telefone, cpf FROM participantes WHERE nome LIKE ?'
         [`${termo}%`]   // começa com o termo digitado ou seja se esrtiver pesquisando ANA MARIA e escrecver MARIA nao vai escontrar
