@@ -5,20 +5,41 @@ const router = express.Router();
 
 
 // ROTA DE CADASTRO ATIVIDADES
-    router.get('/cadastroat', (req, res) => {
-    if (req.session.usuario) {
-        res.render('telaCadastroA', { layout: 'layouts/mainLogado' });
-    } else {
-        res.redirect('/mainLogado');
-    }
+router.get('/cadastroat', async (req, res) => {
+    const [bolsista] = await db.query(
+        //puxa
+        `SELECT bolsista.email, usuario.nome FROM bolsista
+         JOIN usuario WHERE bolsista.email = usuario.email
+        `
+    );
+    res.render('telaCadastroA', {
+        bolsista
+    });
 });
-   
+
+
+// router.post('/cadastroat', async (req, res) => {
+
+//     const { titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3 } = req.body;
+
+
+
+//     try {
+//         let sql;
+//         sql = 'INSERT INTO oficina ( titulo, emailM,descricao, local, bolsista1, bolsista2, bolsista3 ) VALUES (?, ?, ?, ?, ?, ?, ?)';
+//         await db.execute(sql, [titulo, emailM, descricao, local, bolsista1, bolsista2, bolsista3]);
+//     }
+// });
+
+
+
+
 
 
 
 
 // ROTA DE LISTAGEM 
-    router.get('/atividades', (req, res) => {
+router.get('/atividades', (req, res) => {
     if (req.session.usuario) {
         res.render('telaAtividades', { layout: 'layouts/mainLogado' });
     } else {

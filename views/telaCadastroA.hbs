@@ -61,10 +61,12 @@
                             </label>
 
                             <select id="bolsista1" name="bolsista1">
-                                <option value="selecione">Selecione o bolsista</option>
-                                     {{#each bolsista}}
-                                      <option value="{{id}}">  {{nome}} </option>
-                                {{each}}
+                                <option value="selecione">Selecione o
+                                    bolsista</option>
+                                {{#each bolsista}}
+                                <option value="{{this.email}}"> {{this.nome}}
+                                </option>
+                                {{/each}}
                             </select>
                         </div>
                         <br>
@@ -74,10 +76,12 @@
                             </label>
 
                             <select id="bolsista2" name="bolsista2">
-                              <option value="selecione">Selecione o bolsista</option>
-                                     {{#each bolsista}}
-                                      <option value="{{id}}">  {{nome}} </option>
-                                {{each}}
+                                <option value="selecione">Selecione o
+                                    bolsista</option>
+                                {{#each bolsista}}
+                                <option value="{{this.email}}"> {{this.nome}}
+                                </option>
+                                {{/each}}
                             </select>
                         </div>
                         <br>
@@ -87,10 +91,12 @@
                             </label>
 
                             <select id="bolsista3" name="bolsista3">
-                               <option value="selecione">Selecione o bolsista</option>
-                                     {{#each bolsista}}
-                                      <option value="{{id}}">  {{nome}} </option>
-                                {{each}}
+                                <option value="selecione">Selecione o
+                                    bolsista</option>
+                                {{#each bolsista}}
+                                <option value="{{this.email}}"> {{this.nome}}
+                                </option>
+                                {{/each}}
                             </select>
                         </div>
 
