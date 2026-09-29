@@ -39,11 +39,7 @@ router.post('/cadastroat', async (req, res) => {
             (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
             VALUES (?, ?, ?, ?, ?, ?)
         `;
-                console.log("=================================");
-                console.log("ROTA NOVA FOI CARREGADA");
-                console.log(sql);
-                console.log("=================================");
-
+          
 
         const [resultado] = await db.execute(sql, [
             emailM,
@@ -58,7 +54,7 @@ router.post('/cadastroat', async (req, res) => {
         const idOficina = resultado.insertId;
 
 
-        // 2. Cadastra os bolsistas da oficina
+        //  Cadastra os bolsistas da oficina
         const sqlBolsista = `
             INSERT INTO usuario_monitora_oficina
             (usuario_email, oficina_idOficina)
