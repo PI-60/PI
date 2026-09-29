@@ -318,11 +318,18 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`oficina` (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`, `duracaoHr`) VALUES (1, 'graciane@gmail.com', 'Curso MySQL', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-09', 8);
-INSERT INTO `ifsc60`.`oficina` (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`, `duracaoHr`) VALUES (2, 'pedro@gmail.com', 'Curso Javascript', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-10', 8);
+
+INSERT INTO `ifsc60`.`oficina`
+(`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
+VALUES
+(1, 'graciane@gmail.com', 'Curso MySQL', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-09');
+
+INSERT INTO `ifsc60`.`oficina`
+(`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
+VALUES
+(2, 'pedro@gmail.com', 'Curso Javascript', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-10');
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `ifsc60`.`dia`
