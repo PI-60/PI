@@ -1,14 +1,45 @@
 
 <link rel="stylesheet" href="/css/styleParticipante.css">
  <script src="/js/listaParticipante.js" defer></script>
-<cadastro>
-<!--  video ref https://www.youtube.com/watch?v=dI8wiEs8cag -->
-<div>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
-     <!-- botão p volta -->
+<main class="participantes-page">
 
-</div>
+<!--  video ref https://www.youtube.com/watch?v=dI8wiEs8cag -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-top">
+      <span class="sidebar-brand">IFSC60+</span>
+    </div>  
+
+    <nav class="sidebar-nav">
+      <a href="/inicioLogado">
+        Início
+      </a>
+      <a href="/dashboard">
+        Dashboard
+      </a>
+      <a href="/atividades">
+        Atividades
+      </a>
+      <a href="/participantes">
+        Participantes
+      </a>
+      <a href="/calendario">
+        Calendário
+      </a>
+      <a href="/frequencia">
+        Frequência
+      </a>
+      <a href="/galeria">
+        Galeria
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <img src="./assets/60.webp" alt="Logo IFSC 60+">
+    </div>
+
+  </aside>
 
 <section class="formulario">
     <H1>Participantes</H1> 
@@ -33,7 +64,7 @@
         </span>
 
         <span class="cpf-participante">
-            {{cpf}}
+            {{CPF}}
         </span>
 
     </div>
@@ -47,4 +78,4 @@
 
 
 
-</cadastro>
+</main>
