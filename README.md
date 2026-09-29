@@ -1,5 +1,6 @@
 # IFSC 60+ 
 
+> [!NOTE]
 > Sistema WEB para divulgação e gerenciamento do projeto IFSC 60+
 
 ### Ajustes e melhorias
@@ -7,10 +8,10 @@
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
 - [x] Banco de dados funcional
-- [x] Login por sessão
 - [x] Implementação de tela de registro de frequência de participantes
+- [ ] Todos os CRUDs completos e funcionais
 - [ ] Teste com os bolsistas do projeto
-- [ ] Implementação total ao projeto de extensão
+- [ ] Adesão total do projeto de extensão
 
 ## 💻 Pré-requisitos
 
