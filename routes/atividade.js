@@ -33,7 +33,7 @@ router.post('/cadastroat', async (req, res) => {
 
     try {
 
-        // 1. Cadastra a oficina
+        //  Cadastra a oficina
         const sql = `
             INSERT INTO oficina
             (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
