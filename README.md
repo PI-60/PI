@@ -24,8 +24,11 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 Para instalar o projeto, siga estas etapas:
 
-Windows:
-Após clonar o repositório e abrir o arquivo, rode no terminal:
+No terminal do Git Bash rode: 
+```
+git clone https://github.com/PI-60/PI.git
+```
+Abra a pasta no Visual Studio Code e rode no terminal:
 ```
 npm install
 ```
@@ -34,6 +37,8 @@ Em seguida, volte ao terminal e digite:
 ```
 npm run dev
 ```
+No arquivo `index.js` está o link localhost, este deve ser colado no navegador para o sistema ser visualizado.
+
 ## 📫 Contribuindo para IFSC_60+
 
 Para contribuir com o projeto, siga estas etapas:
