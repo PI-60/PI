@@ -135,7 +135,7 @@ router.post('/cadastro', async (req, res) => {
             await db.execute(sql, [email, siape]);
         }
 
-        res.redirect('/login');
+        res.redirect('/inicioLogado');
     } catch (error) {
         console.error('Erro no cadastro:', error);
         res.status(500).send('Erro ao realizar o cadastro.');

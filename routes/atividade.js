@@ -39,7 +39,7 @@ router.post('/cadastroat', async (req, res) => {
             (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
             VALUES (?, ?, ?, ?, ?, ?)
         `;
-          
+
 
         const [resultado] = await db.execute(sql, [
             emailM,
@@ -54,7 +54,7 @@ router.post('/cadastroat', async (req, res) => {
         const idOficina = resultado.insertId;
 
 
-        //  Cadastra os bolsistas da oficina
+        //  cadastra os bolsistas da oficina
         const sqlBolsista = `
             INSERT INTO usuario_monitora_oficina
             (usuario_email, oficina_idOficina)
@@ -88,9 +88,7 @@ router.post('/cadastroat', async (req, res) => {
             ]);
         }
 
-
-        // 3. Resposta de sucesso
-       res.redirect('/mainLogado');
+        res.redirect('/inicioLogado');
 
     } catch (error) {
 
@@ -102,7 +100,7 @@ router.post('/cadastroat', async (req, res) => {
         });
     }
 
-}); 
+});
 
 
 
