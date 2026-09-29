@@ -1,7 +1,5 @@
 # IFSC 60+ 
 
-<img src="public/assets/logo_png.png" alt="Logo 60+">
-
 > Sistema WEB para divulgação e gerenciamento do projeto IFSC 60+
 
 ### Ajustes e melhorias
