@@ -105,12 +105,38 @@ router.post('/cadastroat', async (req, res) => {
 
 
 // ROTA DE LISTAGEM 
-router.get('/atividades', (req, res) => {
-    if (req.session.usuario) {
-        res.render('telaAtividades', { layout: 'layouts/mainLogado' });
-    } else {
-        res.redirect('/mainLogado');
+router.get('/atividades', async (req, res) => {
+  if (!req.session.usuario) {
+       return res.redirect('/login');
     }
+    try {
+       const termo = req.query.termo || '';
+
+        const [participantes] = await db.query(
+            'SELECT ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina WHERE titulo LIKE ?',
+                [`%${termo}%`]
+        );
+
+          res.render('telaAtividades', {
+           layout: 'layouts/mainLogado'
+        
+      });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao buscar atividades');
+    }
+        
 });
 
 export default router;
+/* 
+
+    router.get('/atividades', (req, res) => {
+    if (req.session.usuario) {
+        res.render('telaAtividades', { layout: 'layouts/mainLogado' });
+    } else {
+        res.redirect('/inicioLogado');
+    }*/ 
+
+       
