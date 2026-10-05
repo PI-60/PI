@@ -19,6 +19,7 @@ body.atividades-page{
 .app-shell{
   display:flex;
   min-height:100vh;
+  /**/height: 100vh;
 }
 
 /* ================= SIDEBAR ================= */
@@ -34,24 +35,14 @@ body.atividades-page{
   position:sticky;
   top:0;
   height:100vh;
+  min-height: 100vh;
 }
 
 .sidebar-top{
   display:flex;
   align-items:center;
   gap:12px;
-  margin-bottom:40px;
-}
-
-.sidebar-brand{
-  font-family:var(--font-display);
-  font-weight:800;
-  font-size:19px;
-  letter-spacing:-0.01em;
-  background:linear-gradient(90deg, var(--verde-escuro), var(--verde));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  margin:40px;
 }
 
 .sidebar-nav{
@@ -63,7 +54,7 @@ body.atividades-page{
 .sidebar-nav a{
   text-decoration:none;
   color:var(--ink);
-  font-size:14.5px;
+  font-size:19.5px;
   font-weight:600;
   padding:10px 12px;
   border-radius:10px;
@@ -85,8 +76,9 @@ body.atividades-page{
 }
 
 .sidebar-footer img{
-  width:56px;
-  max-width:56px;
+  width:100px;
+  max-width:100px;
+  height: auto;
 }
 
 /* ================= MAIN ================= */
@@ -343,6 +335,8 @@ body.atividades-page{
 @media (max-width:760px){
   .app-shell{
     flex-direction:column;
+    /**/min-height: 100vh;
+    /**/height: 100vh;
   }
 
   .sidebar{

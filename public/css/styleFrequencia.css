@@ -3,9 +3,12 @@
 }
 
 body {
-    margin: 0;
-    font-family: 'Manrope', sans-serif;
+    margin: 0; 
     background-color: #f5f5f5;
+}
+
+h1{
+  font-family: 'Manrope', 'Segoe UI', Arial, sans-serif;
 }
 
 section {

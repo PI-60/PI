@@ -5,7 +5,6 @@
 body {
     margin: 0;
     font-family: 'Manrope', sans-serif;
-    background-color: #f5f5f5;
 }
 
 section {
@@ -108,7 +107,6 @@ section {
     font-weight: 600;
 
     cursor: pointer;
-
 
 }
 
