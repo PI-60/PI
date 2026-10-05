@@ -36,7 +36,7 @@ router.get('/participantes', async (req, res) => {
        const termo = req.query.termo || '';
 
         const [participantes] = await db.query(
-            'SELECT nome, telefone, CPF FROM participante WHERE nome LIKE ?',
+            'SELECT idParticipante, nome, telefone, CPF FROM participante WHERE nome LIKE ?',
                 [`%${termo}%`]
         );
 
@@ -51,6 +51,30 @@ router.get('/participantes', async (req, res) => {
     }
 });
 
+
+// ============================
+// EXCLUIR PARTICIPANTE
+// ============================
+router.post('/participantes/:id/excluir', async (req, res) => {
+
+    if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
+    try {
+        // apaga primeiro a frequência (tabela participa), por causa da chave estrangeira
+        await db.beginTransaction();
+        await db.query('DELETE FROM participa WHERE idParticipante = ?', [req.params.id]);
+        await db.query('DELETE FROM participante WHERE idParticipante = ?', [req.params.id]);
+        await db.commit();
+
+        res.redirect('/participantes');
+
+    } catch (erro) {
+        await db.rollback();
+        console.error(erro);
+        res.status(500).send('Erro ao excluir participante');
+    }
+});
 
 
 export default router;

@@ -37,3 +37,14 @@
         semresul.style.display = encontrados === 0 ? 'block' : 'none';
          
     });
+
+
+    // confirmação antes de excluir um participante
+    document.querySelectorAll('.form-excluir').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+            const nome = form.dataset.nome.trim();
+            if (!confirm(`Tem certeza que deseja excluir "${nome}"? Essa ação não pode ser desfeita.`)) {
+                e.preventDefault();
+            }
+        });
+    });

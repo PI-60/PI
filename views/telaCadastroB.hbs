@@ -1,11 +1,11 @@
-
+     
 
 <link rel="stylesheet" href="/css/styleCadastro.css">
 <script src="/js/cadastroB.js" defer></script>
 
 <div id="back">
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
+     <a href="{{#if participante}}/participantes{{else}}/inicioLogado{{/if}}" style="text-decoration: none;">&lt;</a>
      <!-- alterar link p pagina talvez -->
 </div>
 
@@ -16,23 +16,25 @@
              
           <!--formulário -->
           <form id="CadastroB" action="/cadastro" method="post">
+               <!-- quando vem da lista de participantes (editar), guarda o id para a rota fazer UPDATE -->
+               {{#if participante}}<input type="hidden" name="idParticipante" value="{{participante.idParticipante}}">{{/if}}
                <!-- username, telefone, cpf.. -->
                <div class="formulario">
 
                     <h1 id="titulo">Cadastro de Usuário</h1>
 
-               <div id="hidden">
+               <div id="hidden" {{#if participante}}style="display:contents"{{/if}}>
                     <!-- div input(tipo texo id dos elementos placeholder = pra ficar dentro do - )-->
                     <div class="campo esquerda">
                          <label for="nameB">Nome
                               Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
                          <input type="text" id="nameB"
-                              placeholder="Nome Completo" name="nome">
+                              placeholder="Nome Completo" name="nome" value="{{participante.nome}}">
                          <!-- = obrigatório-->
                          <!-- mensagem automatica p/ preenche o campo-->
                     </div>
 
-                    <div class="campo esquerda">
+                    <div class="campo esquerda" {{#if participante}}style="display:none"{{/if}}>
                          <label for="emailB">E-mail</label>
                          <input type="email" id="emailB" placeholder="E-mail"
                               name="email">
@@ -41,24 +43,24 @@
                     <div class="campo direita">
                          <label for="cpfB">CPF</label>
                          <input type="text" id="cpfB" maxlength="14"
-                              placeholder="000.000.000-00" name="cpf">
+                              placeholder="000.000.000-00" name="cpf" value="{{participante.CPF}}">
                     </div>
 
                     <div class="campo esquerda">
                          <label for="phoneB">Telefone</label>
                          <input type="tel" id="phoneB"
                               placeholder="(99) 99999-9999" maxlength="15"
-                             name="telefone"></div>
+                             name="telefone" value="{{participante.telefone}}"></div>
 
 
                                 <!-- aparece só quando escolher blsista = js-->
-                         <div class="campo direita">
+                         <div class="campo direita" {{#if participante}}style="display:none"{{/if}}>
                               <label for="passwordB">Senha</label>
                               <input id="passwordB" type="password"
                                    placeholder="Senha" name="senha">
                          </div>
 
-                         <div class="campo direita">
+                         <div class="campo direita" {{#if participante}}style="display:none"{{/if}}>
                               <label for="siape">SIAPE</label>
                               <input type="text" id="siape" name="siape" placeholder="SIAPE"
                               >
@@ -70,10 +72,12 @@
                          <!-- p ter o mesmo estilo dos outros-->
                          <!--  combobox -->
                          <label for="tipoU">Tipo de Usuário</label>
-                         <select id="tipoU" class="select" name="tipo">
+                         <!-- na edição o tipo fica travado em participante (select desabilitado não é enviado, por isso o input escondido) -->
+                         {{#if participante}}<input type="hidden" name="tipo" value="participante">{{/if}}
+                         <select id="tipoU" class="select" name="tipo" {{#if participante}}disabled{{/if}}>
                               <option value="usuario">Selecione o tipo de Usuário</option>
                               <option value="bolsista">Bolsista</option>
-                              <option value="participante">Participante</option>
+                              <option value="participante" {{#if participante}}selected{{/if}}>Participante</option>
                               <option value="ministrante">Ministrante</option>
                               <option value="coordenador">Coordenador</option>
                          </select>
@@ -84,7 +88,7 @@
                     <!-- botão de cadstra, tipo submit (form) classe botão, escrita Cadastrar -->
 
                     <button type="submit" class="button">
-                         Cadastrar </button>
+                         {{#if participante}}Salvar{{else}}Cadastrar{{/if}} </button>
                </form>
 
           </section>

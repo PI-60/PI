@@ -1,32 +1,23 @@
+/* =========================================
+   PÁGINA DE PARTICIPANTES
+========================================= */
+
 .participantes-page {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 40px 16px 60px;
+    /* desconta a largura da sidebar fixa para o conteúdo não ficar por baixo dela */
+    margin-left: 205px;
+    width: calc(100% - 205px);
+    padding: 40px 24px 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
     font-family: 'Manrope', sans-serif;
 }
-
-.participantes-page .voltar {
-    align-self: flex-start;
-}
-
-.participantes-page .voltar a {
-    text-decoration: none;
-    font-weight: 600;
-}
-
 
 .formulario {
     width: 100%;
     max-width: 1000px;
-    min-width: 10px;
-    margin: 0 auto;
     padding: 40px;
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -36,13 +27,18 @@
     gap: 20px;
 }
 
+.formulario h1 {
+    margin: 0;
+}
+
+
+/* =========================================
+   PESQUISA
+========================================= */
 
 #pesquisa {
     width: 100%;
     max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
 }
 
 #pesquisa input {
@@ -52,9 +48,18 @@
     border: 1px solid #d5d5d5;
     border-radius: 6px;
     font-size: 14px;
-  
+    font-family: inherit;
 }
 
+#pesquisa input:focus {
+    outline: none;
+    border-color: #278747;
+}
+
+
+/* =========================================
+   LISTA
+========================================= */
 
 #listap {
     width: 100%;
@@ -64,18 +69,22 @@
     gap: 10px;
 }
 
-
 .linha-participante {
     width: 100%;
-    min-height: 55px;
-    padding: 15px 20px;
+    min-height: 58px;
+    padding: 10px 12px 10px 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 6px;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr auto;
     align-items: center;
     gap: 20px;
+    transition: border-color 0.2s ease;
+}
+
+.linha-participante:hover {
+    border-color: #bbb;
 }
 
 .nome-participante {
@@ -83,15 +92,11 @@
     color: #333;
 }
 
-
-.telefone-participante {
-    color: #555;
-}
-
+.telefone-participante,
 .cpf-participante {
     color: #555;
+    font-size: 14px;
 }
-
 
 #semresul {
     text-align: center;
@@ -101,14 +106,82 @@
 }
 
 
-@media (max-width: 700px) {
+/* =========================================
+   BOTÕES DE EDITAR E EXCLUIR
+========================================= */
+
+.acoes-participante {
+    display: flex;
+    gap: 8px;
+}
+
+.form-excluir {
+    margin: 0;
+}
+
+.btn-acao {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-editar {
+    color: #278747;
+}
+
+.btn-editar:hover {
+    background-color: #e9f5ed;
+    border-color: #278747;
+}
+
+.btn-excluir {
+    color: #c62828;
+}
+
+.btn-excluir:hover {
+    background-color: #fdecea;
+    border-color: #c62828;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE DA LISTA
+========================================= */
+
+@media (max-width: 800px) {
+    .participantes-page {
+        margin-left: 0;
+        width: 100%;
+        padding: 24px 16px 40px;
+    }
+
     .formulario {
         padding: 24px 16px;
     }
 
+    /* nome, telefone e cpf empilhados à esquerda, botões à direita */
     .linha-participante {
-        grid-template-columns: 1fr;
-        gap: 4px;
+        grid-template-columns: 1fr auto;
+        gap: 4px 12px;
+    }
+
+    .nome-participante,
+    .telefone-participante,
+    .cpf-participante {
+        grid-column: 1;
+    }
+
+    .acoes-participante {
+        grid-column: 2;
+        grid-row: 1 / span 3;
     }
 }
 

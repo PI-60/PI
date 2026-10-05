@@ -88,7 +88,18 @@ router.get('/cadastro', async (req, res) => {
 
         // se encontrou, carrega a página
         if (usuario.length > 0) {
-            res.render('telaCadastroB', { layout: 'layouts/cadastro' });
+            let participante = null;
+
+            // se veio um id (botão de editar da lista), busca o participante para preencher o formulário
+            if (req.query.id) {
+                const [resultado] = await db.execute(
+                    'SELECT idParticipante, nome, CPF, telefone FROM participante WHERE idParticipante = ?',
+                    [req.query.id]
+                );
+                participante = resultado[0] || null;
+            }
+
+            res.render('telaCadastroB', { layout: 'layouts/cadastro', participante });
         } else {
             // faz o redirect caso não possa acessar
             res.redirect('/inicioLogado');
@@ -100,7 +111,7 @@ router.get('/cadastro', async (req, res) => {
 });
 
 router.post('/cadastro', async (req, res) => {
-    const { nome, email, cpf, telefone, tipo, senha, siape } = req.body;
+    const { nome, email, cpf, telefone, tipo, senha, siape, idParticipante } = req.body;
 
     console.log(req.body);
 
@@ -119,6 +130,13 @@ router.post('/cadastro', async (req, res) => {
             await db.execute(sql, [email, nome, senha, telefone, cpf]);
             sql = 'INSERT INTO bolsista (email) VALUES (?)';
             await db.execute(sql, [email]);
+        }
+
+        // EDIÇÃO DE PARTICIPANTE (veio com id) - sempre atualiza, o tipo não pode ser trocado
+        if (idParticipante) {
+            sql = 'UPDATE participante SET nome = ?, cpf = ?, telefone = ? WHERE idParticipante = ?';
+            await db.execute(sql, [nome, cpf || null, telefone || null, idParticipante]);
+            return res.redirect('/participantes');
         }
 
         // PARTICIPANTE
