@@ -28,8 +28,8 @@ if (btnNova) {
     });
 }
 
-if(btnDelete){
-       btnNova.addEventListener('click', function () {
+/*if(btnDelete){
+       btnDelete.addEventListener('click', function () {
       // tal coisa seja deletada 
     });
 }

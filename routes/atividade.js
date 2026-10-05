@@ -7,15 +7,26 @@ const router = express.Router();
 // ROTA DE CADASTRO ATIVIDADES
 router.get('/cadastroat', async (req, res) => {
     const [bolsista] = await db.query(
-        //puxa
+        //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
         `SELECT bolsista.email, usuario.nome FROM bolsista
          JOIN usuario WHERE bolsista.email = usuario.email
         `
+          //join tabela usuaeio quando o eail dobolsita for = email do usuariio
+              
+     );
+         const [ministrante] = await db.query(
+        //selecione  emael e  nome da tabela ministrantes
+         'SELECT email, nome FROM ministrante'
+      
     );
     res.render('telaCadastroA', {
-        bolsista
+        bolsista,
+        ministrante
     });
+
 });
+
+
 
 router.post('/cadastroat', async (req, res) => {
 
@@ -36,8 +47,8 @@ router.post('/cadastroat', async (req, res) => {
         //  Cadastra a oficina
         const sql = `
             INSERT INTO oficina
-            (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
-            VALUES (?, ?, ?, ?, ?, ?)
+            ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
+            VALUES ( ?, ?, ?, ?, ?, ?)
         `;
 
 
@@ -48,6 +59,7 @@ router.post('/cadastroat', async (req, res) => {
             local,
             dataInicio,
             dataTermino
+
         ]);
 
         // Pega o ID da oficina que acabou de ser cadastrada
@@ -61,6 +73,7 @@ router.post('/cadastroat', async (req, res) => {
             VALUES (?, ?)
         `;
 
+       
 
         // Bolsista 1
         if (bolsista1) {
@@ -110,16 +123,22 @@ router.get('/atividades', async (req, res) => {
        return res.redirect('/login');
     }
     try {
-       const termo = req.query.termo || '';
 
-        const [participantes] = await db.query(
-            'SELECT ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina WHERE titulo LIKE ?',
+        // pesquisar
+      const termo = req.query.termo || '';
+
+        const [atividades] = await db.query(
+            'SELECT ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina  WHERE titulo LIKE ?',
                 [`%${termo}%`]
         );
 
+
           res.render('telaAtividades', {
-           layout: 'layouts/mainLogado'
-        
+           layout: 'layouts/mainLogado',
+        //   atividades
+    
+
+           
       });
 
     } catch (erro) {
@@ -127,6 +146,10 @@ router.get('/atividades', async (req, res) => {
         res.status(500).send('Erro ao buscar atividades');
     }
         
+});
+
+router.post('/atividades', async (req, res) => {
+
 });
 
 export default router;

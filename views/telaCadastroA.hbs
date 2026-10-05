@@ -37,13 +37,15 @@
                         </div>
                         <br>
                         <div class="campo">
-                            <label for="emailM">E-mail do ministrante</label>
-                            <input
-                                type="email"
-                                id="emailM"
-                                placeholder="E-mail do ministrante"
-                                name="emailM">
-                        </div>
+                        <select  id="emailM"  name="emailM">
+                            <label for="emailM">Selecione o ministrante</label>
+                            <option value="selecione">Seleione o ministrante</option>
+                                {{#each ministrante}}
+                                <option value="{{this.email}}"> {{this.nome}}
+                            </option>
+                             {{/each}}
+                        </select >
+                          </div>
                         <br>
                         <div class="campo">
                             <label for="local">Local</label>
