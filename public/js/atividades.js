@@ -44,10 +44,7 @@ if(btnEdita){
     
 */
 
-
-    
-    // quando pesquisar faça tal coisa...
-  
+           campoPesquisa.addEventListener('input', () => {
         const letra = campoPesquisa.value.trim();
         let encontrados = 0;
         //
@@ -72,6 +69,6 @@ if(btnEdita){
         // se nao tiver resultoados nao aparece ngm
         semresul.style.display = encontrados === 0 ? 'block' : 'none';
          
-    
+    });
 
 
