@@ -22,64 +22,110 @@ body.atividades-page{
   /**/height: 100vh;
 }
 
-/* ================= SIDEBAR ================= */
+/* =========================================
+   SIDEBAR
+========================================= */
 
-.sidebar{
-  width:230px;
-  flex-shrink:0;
-  background:#fff;
-  border-right:3px solid var(--amarelo);
-  padding:28px 22px;
-  display:flex;
-  flex-direction:column;
-  position:sticky;
-  top:0;
-  height:100vh;
-  min-height: 100vh;
+.sidebar {
+  position: fixed;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 205px;
+
+  background: #ffffff;
+
+  border-right: 2px solid #f0bd18;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 1000;
 }
 
-.sidebar-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:40px;
+
+/* Logo */
+
+.sidebar-top {
+  height: 90px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 30px;
 }
 
-.sidebar-nav{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+.sidebar-brand {
+  font-family: "Fraunces", serif;
+
+  font-size: 18px;
+  font-weight: 900;
+
+  color: #278747;
 }
 
-.sidebar-nav a{
-  text-decoration:none;
-  color:var(--ink);
-  font-size:19.5px;
-  font-weight:600;
-  padding:10px 12px;
-  border-radius:10px;
-  transition:background .2s ease, color .2s ease;
+
+/* =========================================
+   MENU
+========================================= */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 19px;
 }
 
-.sidebar-nav a:hover{
-  background:var(--surface-alt);
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+
+  min-height: 40px;
+
+  padding: 0 11px;
+
+  border-radius: 10px;
+
+  color: #172033;
+
+  text-decoration: none;
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
 }
 
-.sidebar-nav a.active{
-  background:var(--surface-tint);
-  color:var(--roxo);
+.sidebar-nav a:hover {
+  background: #f2edf9;
+
+  color: #7d4be8;
 }
 
-.sidebar-footer{
-  margin-top:auto;
-  padding-top:24px;
+
+/* =========================================
+   LOGO INFERIOR
+========================================= */
+
+.sidebar-footer {
+  margin-top: auto;
+
+  padding: 20px;
 }
 
-.sidebar-footer img{
-  width:100px;
-  max-width:100px;
-  height: auto;
+.sidebar-footer img {
+  width: 52px;
+  height: 52px;
+
+  object-fit: contain;
+
+  display: block;
 }
+
 
 /* ================= MAIN ================= */
 

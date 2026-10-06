@@ -191,12 +191,13 @@ section {
   align-items: center;
 
   padding: 0 30px;
+  gap:12;
 }
 
 .sidebar-brand {
   font-family: "Fraunces", serif;
 
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 900;
 
   color: #278747;
@@ -211,7 +212,7 @@ section {
   display: flex;
   flex-direction: column;
 
-  gap: 5px;
+  gap: 20px;
 
   padding: 10px 19px;
 }
@@ -256,8 +257,8 @@ section {
 }
 
 .sidebar-footer img {
-  width: 52px;
-  height: 52px;
+  width: 100px;
+  height: auto;
 
   object-fit: contain;
 
