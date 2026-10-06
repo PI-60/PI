@@ -109,7 +109,7 @@ router.get('/atividades', (req, res) => {
     if (req.session.usuario) {
         res.render('telaAtividades', { layout: 'layouts/telasNavegacao' });
     } else {
-        res.redirect('/telasNavegacao');
+        res.redirect('/inicioLogado');
     }
 });
 
