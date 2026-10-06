@@ -125,17 +125,18 @@ router.get('/atividades', async (req, res) => {
     try {
 
         // pesquisar
-      const termo = req.query.termo || '';
+      const letra = req.query.letra || '';
 
         const [atividades] = await db.query(
-            'SELECT ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina  WHERE titulo LIKE ?',
-                [`%${termo}%`]
+            'SELECT  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
+                [`%${letra}%`]
         );
 
 
           res.render('telaAtividades', {
            layout: 'layouts/mainLogado',
-        //   atividades
+           atividades:atividades
+      
     
 
            
@@ -148,9 +149,7 @@ router.get('/atividades', async (req, res) => {
         
 });
 
-router.post('/atividades', async (req, res) => {
 
-});
 
 export default router;
 /* 

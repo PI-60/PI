@@ -5,9 +5,11 @@ const btnNova = document.querySelector('.btn-nova');
 const btnEdita = document.querySelector('icon-btn edit');
 const btnDelete = document.querySelector('icon-btn delete');
 
+ const campoPesquisa = document.getElementById('titulo');
+const linhas = document.querySelectorAll('.linha-atividade');
 const semResultados = document.getElementById('semresul');
-const pesquisa = document.getElementById('titulo');
-const linhas = document.querySelectorAll('.linhas');
+
+
 
 if (sidebarToggle) {
     sidebarToggle.addEventListener('click', function () {
@@ -37,32 +39,39 @@ if (btnNova) {
 if(btnEdita){
     btnEdita.addEventListener('click', function (){
 // tal coisa seja alterada
+
     });
+    
+*/
 
 
-   
-}
- /* BUSCAR AT */
-            const normalizar = (texto) =>
-                    texto.normalize('NFD').toLowerCase().replace(/[\u0300-\u036f]/g, '');
+    
+    // quando pesquisar faça tal coisa...
+  
+        const letra = campoPesquisa.value.trim();
+        let encontrados = 0;
+        //
 
-            pesquisaesquisa.addEventListener('input', () => {
-                    const termo = normalizar(pesquisa.value.trim());
-                    let encontrados = 0;
-                 linhas.forEach((linha) => {
-            const titulo = normalizar(linha.querySelector('.linhas').textContent);
-            
+        linhas.forEach((linhas) => {
+            // buscar o nome do participante
+            const titulo = linhas.querySelector('.titulo').textContent;
+
             // se o termo pesquisa aparece no nome
-            const combina =  titulo.includes(termo);
+            const combina =  titulo.includes(letra);
 
+            /*if (combina) {
+                 linha.style.display = '';
+             } else {
+                      linha.style.display = 'none';
+                                                } */
             linha.style.display = combina ? '' : 'none';
             if (combina) encontrados++;
       
          
         });
         // se nao tiver resultoados nao aparece ngm
-        semResultados.style.display = encontrados === 0 ? 'block' : 'none';
+        semresul.style.display = encontrados === 0 ? 'block' : 'none';
          
-    });
+    
 
 
