@@ -265,6 +265,25 @@ section {
   display: block;
 }
 
+/* =========================================
+   LOGO INFERIOR
+========================================= */
+
+.sidebar-footer {
+  margin-top: auto;
+
+  padding: 20px;
+}
+
+.sidebar-footer img {
+  width: 100px;
+  height: auto;
+
+  object-fit: contain;
+
+  display: block;
+}
+
 
 /* =========================================
    CONTEÚDO
