@@ -107,9 +107,9 @@ router.post('/cadastroat', async (req, res) => {
 // ROTA DE LISTAGEM 
 router.get('/atividades', (req, res) => {
     if (req.session.usuario) {
-        res.render('telaAtividades', { layout: 'layouts/mainLogado' });
+        res.render('telaAtividades', { layout: 'layouts/telasNavegacao' });
     } else {
-        res.redirect('/mainLogado');
+        res.redirect('/telasNavegacao');
     }
 });
 

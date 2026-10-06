@@ -15,7 +15,7 @@ router.get('/frequencia', async (req, res) => {
     console.log('PARTICIPANTES:', participantes);
 
     res.render('telaFrequencia', {
-      layout: 'layouts/mainLogado',
+      layout: 'layouts/telasNavegacao',
       participantes: participantes
     });
 
@@ -41,7 +41,7 @@ router.get('/participantes', async (req, res) => {
         );
 
           res.render('telaParticipante', {
-           layout: 'layouts/mainLogado',
+           layout: 'layouts/telasNavegacao',
           participantes
       });
 
