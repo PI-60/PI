@@ -172,6 +172,9 @@ router.post('/atividades/:id/excluir', async (req, res) => {
         res.status(500).send('Erro ao excluir atividade');
     }
 });
+
+
+
  
 
 export default router;

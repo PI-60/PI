@@ -167,12 +167,7 @@ body.atividades-page{
 
 /* ================= FILTROS ================= */
 
-.filtros{
-  display:flex;
-  gap:12px;
-  margin-top:26px;
-  margin-bottom:28px;
-}
+
 
 .busca-atividade{
   flex:1;
@@ -204,20 +199,7 @@ body.atividades-page{
   color:#9a9d95;
 }
 
-.filtro-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:11px 18px;
-  font-size:14px;
-  font-weight:600;
-  color:var(--ink);
-  cursor:pointer;
-  white-space:nowrap;
-}
+
 
 /* ================= GRID DE ATIVIDADES ================= */
 
@@ -263,15 +245,16 @@ body.atividades-page{
   color:#b5762b;
 }
 
-.badge-status.concluido{
-  background:#dff3e6;
-  color:var(--verde-escuro);
-}
 
 .card-actions{
   display:flex;
   align-items:center;
   gap:6px;
+}
+
+.card-actions form {
+    display: flex;
+    margin: 0;
 }
 
 .icon-btn{
@@ -289,6 +272,7 @@ body.atividades-page{
 
 .icon-btn:hover{
   background:var(--surface-alt);
+  color: var(--verde)
 }
 
 .icon-btn.delete{
@@ -303,11 +287,7 @@ body.atividades-page{
   margin-top:14px;
 }
 
-.card-atividade .tipo{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:2px;
-}
+
 
 .card-meta{
   display:flex;
