@@ -5,9 +5,7 @@ const btnNova = document.querySelector('.btn-nova');
 const btnEdita = document.querySelector('icon-btn edit');
 const btnDelete = document.querySelector('icon-btn delete');
 
- const campoPesquisa = document.getElementById('titulo');
-const linhas = document.querySelectorAll('.linha-atividade');
-const semResultados = document.getElementById('semresul');
+ 
 
 
 
@@ -44,31 +42,30 @@ if(btnEdita){
     
 */
 
-           campoPesquisa.addEventListener('input', () => {
-        const letra = campoPesquisa.value.trim();
+// PARA PESQUISAR A AT PELO TITULO usei de exemplo a de partiipante
+
+const campoPesquisa = document.getElementById('titulo');
+const cards = document.querySelectorAll('.card-atividade');
+const semResultados = document.getElementById('semresul');
+
+if (campoPesquisa) {
+    campoPesquisa.addEventListener('input', () => {
+        const termo = campoPesquisa.value.trim().toLowerCase();
         let encontrados = 0;
-        //
 
-        linhas.forEach((linhas) => {
-            // buscar o nome do participante
-            const titulo = linhas.querySelector('.titulo').textContent;
+        cards.forEach((card) => {
+            const titulo = card.querySelector('h3').textContent.toLowerCase();
+            const combina = titulo.includes(termo);
+            card.style.display = combina ? '' : 'none';
 
-            // se o termo pesquisa aparece no nome
-            const combina =  titulo.includes(letra);
-
-            /*if (combina) {
-                 linha.style.display = '';
-             } else {
-                      linha.style.display = 'none';
-                                                } */
-            linha.style.display = combina ? '' : 'none';
-            if (combina) encontrados++;
-      
-         
+            if (combina) {
+                encontrados++;
+            }
         });
-        // se nao tiver resultoados nao aparece ngm
-        semresul.style.display = encontrados === 0 ? 'block' : 'none';
-         
+
+        if (semResultados) {
+            semResultados.style.display =
+                encontrados === 0 ? 'block' : 'none';
+        }
     });
-
-
+}
