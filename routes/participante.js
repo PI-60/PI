@@ -7,6 +7,7 @@ const router = express.Router();
 // ROTAS DE FREQUENCIA
 // ============================
 router.get('/frequencia', async (req, res) => {
+  //listar
   try {
     const [participantes] = await db.execute(
       'SELECT idParticipante, nome FROM participante'
@@ -32,6 +33,7 @@ router.get('/participantes', async (req, res) => {
     if (!req.session.usuario) {
        return res.redirect('/login');
     }
+    // pesquisar
     try {
        const termo = req.query.termo || '';
 
