@@ -128,7 +128,7 @@ router.get('/atividades', async (req, res) => {
       const letra = req.query.letra || '';
 
         const [atividades] = await db.query(
-            'SELECT  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
+            'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
                 [`%${letra}%`]
         );
 
@@ -149,16 +149,31 @@ router.get('/atividades', async (req, res) => {
         
 });
 
+router.post('/atividades/:id/excluir', async (req, res) => {
 
+    if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
+    try {
+        await db.beginTransaction();
+        // deleta da tabela usurario monitora onde o id da oficina for tal..
+        await db.query('DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',[req.params.id]);
+        // deleta da tabela ofcina acontece dua onde for a id da ofocina..
+         await db.query('DELETE FROM oficina_acontece_dia WHERE oficina_idOficina = ?',[req.params.id]);
+         // por final aafar a oficina da tabela ofiicna
+        await db.query('DELETE FROM oficina WHERE idOficina = ?', [req.params.id]);
+        await db.commit();
+
+        res.redirect('/atividades');
+
+    } catch (erro) {
+        await db.rollback();
+        console.error(erro);
+        res.status(500).send('Erro ao excluir atividade');
+    }
+});
+ 
 
 export default router;
-/* 
-
-    router.get('/atividades', (req, res) => {
-    if (req.session.usuario) {
-        res.render('telaAtividades', { layout: 'layouts/mainLogado' });
-    } else {
-        res.redirect('/inicioLogado');
-    }*/ 
 
        

@@ -69,3 +69,11 @@ if (campoPesquisa) {
         }
     });
 }
+
+ document.querySelectorAll('.excluir').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+            if (!confirm(`Tem certeza que deseja excluir essa atividade? Essa ação não pode ser desfeita.`)) {
+                e.preventDefault();
+            }
+        });
+    });

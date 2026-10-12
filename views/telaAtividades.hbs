@@ -99,6 +99,11 @@
             <div class="card-actions">
 
               <!-- BOTÃO EDITAR -->
+
+
+              <!--  <div class="acoes-participante">
+          <a href="/cadastro?id={{idParticipante}}" class="btn-acao btn-editar" title="Editar participante"
+            aria-label="Editar {{nome}}"> -->
               <button type="button" class="icon-btn edit" aria-label="Editar atividade">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                   stroke-linecap="round" stroke-linejoin="round">
@@ -108,16 +113,26 @@
               </button>
 
               <!-- BOTÃO EXCLUIR -->
-              <button type="button" class="icon-btn delete" aria-label="Excluir atividade">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 6h18" />
-                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                  <path d="M10 11v6" />
-                  <path d="M14 11v6" />
-                </svg>
-              </button>
+
+              <!-- <form action="/participantes/{{idParticipante}}/excluir" method="post" class="form-excluir"
+            data-nome="{{nome}}">
+            <button type="submit" class="btn-acao btn-excluir" title="Excluir participante"
+              aria-label="Excluir {{nome}}">-->
+              <!-- atividades = nome rota/ excluir pelo id/ puxa o metodo o qual vai exlucir -->
+            
+<form action="/atividades/{{idOficina}}/excluir" method="post" class="excluir">
+    <button type="submit" class="icon-btn delete" aria-label="Excluir atividade">
+        <svg width="15" height="15" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+        </svg>
+    </button>
+</form>
 
             </div>
           </div>
