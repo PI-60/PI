@@ -173,8 +173,49 @@ router.post('/atividades/:id/excluir', async (req, res) => {
     }
 });
 
+// BUSCAR UMA OFICINA PELO ID PARA EXIBIR NO MODAL
+router.get('/atividade/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
 
+        // Busca os dados da oficina
+        const [oficinas] = await db.execute(
+            `SELECT idOficina, ministrante_email, titulo, descricao,
+                    local, dt_inicio, dt_termino
+             FROM oficina
+             WHERE idOficina = ?`,
+            [id]
+        );
 
+        // Verifica se a oficina existe
+        if (oficinas.length === 0) {
+            return res.status(404).json({
+                erro: 'Oficina não encontrada'
+            });
+        }
+
+        // Busca os bolsistas associados à oficina
+        const [bolsistas] = await db.execute(
+            `SELECT usuario_email
+             FROM usuario_monitora_oficina
+             WHERE oficina_idOficina = ?`,
+            [id]
+        );
+
+        // Retorna a oficina e seus bolsistas
+        res.json({
+            ...oficinas[0],
+            bolsistas: bolsistas
+        });
+
+    } catch (erro) {
+        console.error('Erro ao buscar oficina:', erro);
+
+        res.status(500).json({
+            erro: 'Erro ao consultar oficina'
+        });
+    }
+});
  
 
 export default router;

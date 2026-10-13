@@ -16,6 +16,7 @@
 
   <!-- defer foi usado pra adiar o js porque o html nao estava finalizado e o js tentava buscar o campopesquisae o botao -->
   <script src="/js/atividades.js" defer></script>
+  <script src="/js/descricao.js" defer></script>
 
 </head>
 
@@ -94,38 +95,36 @@
       <div class="atividades-grid">
 
         {{#each atividades}}
-        <div class="card-atividade cor-{{this.cor}}">
+        <div class="card-atividade cor-{{this.cor}}" data-id="{{this.idOficina}}">
           <div class="card-top">
             <div class="card-actions">
 
               <!-- BOTÃO EDITAR -->
-                  
-          <form action="/atividades/{{idOficina}}/editar" method="get" class="editar">
-              <button type="submit" class="icon-btn edit" aria-label="Editar atividade">
-                  <svg width="15" height="15" viewBox="0 0 24 24"
-                      fill="none" stroke="currentColor" stroke-width="2.2"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+
+              <form action="/atividades/{{idOficina}}/editar" method="get" class="editar">
+                <button type="submit" class="icon-btn edit" aria-label="Editar atividade">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
                   </svg>
-              </button>
-          </form>
+                </button>
+              </form>
 
 
               <!-- BOTÃO EXCLUIR -->
-        <form action="/atividades/{{idOficina}}/excluir" method="post" class="excluir">
-            <button type="submit" class="icon-btn delete" aria-label="Excluir atividade">
-                <svg width="15" height="15" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2.2"
+              <form action="/atividades/{{idOficina}}/excluir" method="post" class="excluir">
+                <button type="submit" class="icon-btn delete" aria-label="Excluir atividade">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18" />
                     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                     <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                     <path d="M10 11v6" />
                     <path d="M14 11v6" />
-        </svg>
-    </button>
-</form>
+                  </svg>
+                </button>
+              </form>
 
             </div>
           </div>
@@ -160,7 +159,62 @@
         </div>
         {{/each}}
 
+
       </div>
+
+
+
+
+      <!-- MODAL COM OS DETALHES DA OFICINA -->
+      <dialog id="modalOficina" class="modal-oficina">
+
+        <button type="button" id="fecharModal">
+          X
+        </button>
+
+        <h2 id="nomeOficina"></h2>
+
+        <p id="tipoOficina"></p>
+
+        <p>
+          <strong>Descrição:</strong>
+          <span id="descricaoOficina"></span>
+        </p>
+
+        <p>
+          <strong>Data de início:</strong>
+          <span id="dataiOficina"></span>
+        </p>
+        <p>
+          <strong>Data final:</strong>
+          <span id="datafOficina"></span>
+        </p>
+
+
+        <p>
+          <strong>Local:</strong>
+          <span id="localOficina"></span>
+        </p>
+
+        <p>
+          <strong>Horário:</strong>
+          <span id="horarioOficina"></span>
+        </p>
+
+        <p>
+          <strong>Ministrante:</strong>
+          <span id="ministrante"></span>
+        </p>
+
+        <div>
+          <strong>Bolsistas:</strong>
+          <ul id="bolsistas"></ul>
+        </div>
+
+      </dialog>
+
+
+
     </main>
   </div>
 
