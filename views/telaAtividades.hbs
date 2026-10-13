@@ -13,6 +13,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/styleAtividades.css">
+  <link rel="stylesheet" href="/css/styleDescricao.css">
 
   <!-- defer foi usado pra adiar o js porque o html nao estava finalizado e o js tentava buscar o campopesquisae o botao -->
   <script src="/js/atividades.js" defer></script>
@@ -95,7 +96,8 @@
       <div class="atividades-grid">
 
         {{#each atividades}}
-        <div class="card-atividade cor-{{this.cor}}" data-id="{{this.idOficina}}">
+        <div class="card-atividade cor-{{this.cor}}" data-id="{{this.idOficina}}"> 
+          <!--data-id="{{this.idOficina}}"> para que cada card possua o id da ofiicina para ser usado no modal -->
           <div class="card-top">
             <div class="card-actions">
 
@@ -162,10 +164,7 @@
 
       </div>
 
-
-
-
-      <!-- MODAL COM OS DETALHES DA OFICINA -->
+      <!-- modal -->
       <dialog id="modalOficina" class="modal-oficina">
 
         <button type="button" id="fecharModal">
@@ -173,7 +172,6 @@
         </button>
 
         <h2 id="nomeOficina"></h2>
-
         <p id="tipoOficina"></p>
 
         <p>
@@ -196,10 +194,6 @@
           <span id="localOficina"></span>
         </p>
 
-        <p>
-          <strong>Horário:</strong>
-          <span id="horarioOficina"></span>
-        </p>
 
         <p>
           <strong>Ministrante:</strong>
