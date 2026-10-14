@@ -137,9 +137,6 @@ router.get('/atividades', async (req, res) => {
            layout: 'layouts/mainLogado',
            atividades:atividades
       
-    
-
-           
       });
 
     } catch (erro) {
@@ -148,7 +145,7 @@ router.get('/atividades', async (req, res) => {
     }
         
 });
-
+// botao excluir
 router.post('/atividades/:id/excluir', async (req, res) => {
 
     if (!req.session.usuario) {
@@ -173,36 +170,32 @@ router.post('/atividades/:id/excluir', async (req, res) => {
     }
 });
 
-// BUSCAR UMA OFICINA PELO ID PARA EXIBIR NO MODAL
+// modal
 router.get('/atividade/:id', async (req, res) => {
     try {
         const id = req.params.id;
 
-        // Busca os dados da oficina
         const [oficinas] = await db.execute(
-            `SELECT idOficina, ministrante_email, titulo, descricao,
-                    local, dt_inicio, dt_termino
-             FROM oficina
-             WHERE idOficina = ?`,
+            `SELECT idOficina, ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina WHERE idOficina = ?`,
             [id]
         );
 
-        // Verifica se a oficina existe
+        // pra ver se tem oficina se nao vai dar erro 404 = nao encontrado
         if (oficinas.length === 0) {
             return res.status(404).json({
                 erro: 'Oficina não encontrada'
             });
         }
 
-        // Busca os bolsistas associados à oficina
         const [bolsistas] = await db.execute(
-            `SELECT usuario_email
-             FROM usuario_monitora_oficina
-             WHERE oficina_idOficina = ?`,
+            `SELECT usuario_email FROM usuario_monitora_oficina WHERE oficina_idOficina = ?`,
             [id]
         );
 
-        // Retorna a oficina e seus bolsistas
+        /* oficinas = um array que contem as oficinas encontradas
+            o [0] acessa o primeiro elemento
+              (...)  chamados de operador spread eles copiam as propriedades do primeiro objeto de oficinas para o novo objeto
+               as propriedades id, nome etc  que vaoser retornado s*/
         res.json({
             ...oficinas[0],
             bolsistas: bolsistas
