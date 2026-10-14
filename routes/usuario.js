@@ -102,7 +102,7 @@ router.get('/cadastro', async (req, res) => {
             res.render('telaCadastroB', { layout: 'layouts/cadastro', participante });
         } else {
             // faz o redirect caso não possa acessar
-            res.redirect('/inicioLogado');
+            res.redirect('/inicioLogado'); 
         }
     } else {
         // caso não esteja logado

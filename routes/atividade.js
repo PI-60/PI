@@ -101,7 +101,7 @@ router.post('/cadastroat', async (req, res) => {
             ]);
         }
 
-        res.redirect('/inicioLogado');
+        res.redirect('/atividades'); 
 
     } catch (error) {
 
