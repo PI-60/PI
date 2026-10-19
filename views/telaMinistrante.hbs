@@ -1,0 +1,66 @@
+
+<link rel="stylesheet" href="/css/styleMinistrante.css">
+ <script src="/js/listaMinistrante.js" defer></script>
+<main class="ministrante-page">
+
+<!--  video ref https://www.youtube.com/watch?v=dI8wiEs8cag -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-top">
+      <span class="sidebar-brand">IFSC60+</span>
+    </div>
+
+    <nav class="sidebar-nav">
+         <a href="/inicioLogado">Início</a>
+        <a href="/atividades" class="active">Atividades</a>
+        <a href="/participantes">Participantes</a>
+        <a href="/frequencia">Frequência</a>
+        <a href="/ministrantes">Ministrantes</a>
+        <a href="/usuarios">Usuários</a>
+        <a href="/planilha">Planilha</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <img src="./assets/60.webp" alt="Logo IFSC 60+">
+    </div>
+
+  </aside>
+  <!--=================================-->
+
+<section class="formulario">
+    <H1>Ministrantes</H1> 
+         <div id="pesquisa">
+            <label for="nome"></label>
+            <input type="text" id="nome" name="nome" placeholder="Pesquisar">
+         </div>
+
+
+    <!-- mostrar ministrantes no banco -->
+         <div id="listap">
+        {{#each ministrante}} 
+
+    <div class="linha-ministrante">
+
+        <span class="nome-ministrante">
+            {{nome}}
+        </span>
+
+        <span class="telefone-ministrante">
+            {{telefone}}
+        </span>
+
+        <span class="email-ministrante">
+            {{email}}  ///MUDAR PARA TELEFONE
+        </span>
+
+    </div>
+
+{{/each}}
+          <p id="semresul" style="display:none;
+          ">Nenhum ministrante encontrado.</p>
+
+     </div>
+</section>
+
+</main>
