@@ -19,22 +19,15 @@ router.get('/cadastroat', async (req, res) => {
          'SELECT email, nome FROM ministrante'
       
     );
-
-    // se encontrou, carrega a página
-        if (atividade.length > 0) {
-            
+                // para alterar
             // se veio um id (botão de editar da lista), busca o participante para preencher o formulário
             if (req.query.id) {
                 const [resultado] = await db.execute(
                     'SELECT idOficina, ministrante_email , titulo , descricao, local , dt_inicio, dt_termino WHERE idOficina = ?',
                     [req.query.id]
                 );
-
-                atividade = resultado[0] || null;
-            }
         }
             
-
     res.render('telaCadastroA', {
         bolsista,
         ministrante

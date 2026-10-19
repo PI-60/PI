@@ -25,7 +25,6 @@ USE `ifsc60` ;
 -- Table `ifsc60`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ifsc60`.`usuario` (
-  
   `email` VARCHAR(100) NOT NULL,
   `nome` VARCHAR(100) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
