@@ -1,0 +1,261 @@
+.ministrantes-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 16px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.ministrantes-page .voltar {
+    align-self: flex-start;
+}
+
+.ministrantes-page .voltar a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.formulario {
+    width: 100%;
+    max-width: 1000px;
+    min-width: 10px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+
+#pesquisa {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#pesquisa input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    font-size: 14px;
+  
+}
+
+
+#listap {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.linha-ministrante {
+    width: 100%;
+    min-height: 55px;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+.nome-ministrante {
+    font-weight: 600;
+    color: #333;
+}
+
+.telefone-ministrante {
+    color: #555;
+}
+
+.email-ministrante {
+    color: #555;
+}
+
+#semresul {
+    text-align: center;
+    color: #666;
+    font-size: 15px;
+    margin: 20px 0;
+}
+
+@media (max-width: 700px) {
+    .formulario {
+        padding: 24px 16px;
+    }
+
+    .linha-participante {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+
+/*SIDEBAR
+/* =========================================
+   LAYOUT COM SIDEBAR
+========================================= */
+
+.app-shell {
+  min-height: 100vh;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 205px;
+  background: #ffffff;
+  border-right: 2px solid #f0bd18;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.sidebar-top {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 12px;
+}
+
+.sidebar-brand {
+  font-family: "Fraunces", serif;
+
+  font-size: 24px;
+  font-weight: 900;
+
+  color: #278747;
+}
+
+/* =========================================
+   MENU
+========================================= */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 19px;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 11px;
+  border-radius: 10px;
+  color: #172033;
+  text-decoration: none;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+  background: #f2edf9;
+  color: #7d4be8;
+}
+
+
+/* =========================================
+   LOGO INFERIOR
+========================================= */
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  padding: 20px;
+}
+
+.sidebar-footer img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.page-content {
+  margin-left: 205px;
+
+  min-height: 100vh;
+
+  width: calc(100% - 205px);
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 800px) {
+
+  .sidebar {
+    position: relative;
+
+    width: 100%;
+
+    height: auto;
+    min-height: auto;
+
+    border-right: none;
+    border-bottom: 2px solid #f0bd18;
+  }
+
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar-top {
+    height: 70px;
+  }
+
+  .sidebar-nav {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    padding: 10px 20px 20px;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .page-content {
+    margin-left: 0;
+
+    width: 100%;
+  }
+
+}
