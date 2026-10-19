@@ -19,6 +19,22 @@ router.get('/cadastroat', async (req, res) => {
          'SELECT email, nome FROM ministrante'
       
     );
+
+    // se encontrou, carrega a página
+        if (atividade.length > 0) {
+            
+            // se veio um id (botão de editar da lista), busca o participante para preencher o formulário
+            if (req.query.id) {
+                const [resultado] = await db.execute(
+                    'SELECT idOficina, ministrante_email , titulo , descricao, local , dt_inicio, dt_termino WHERE idOficina = ?',
+                    [req.query.id]
+                );
+
+                atividade = resultado[0] || null;
+            }
+        }
+            
+
     res.render('telaCadastroA', {
         bolsista,
         ministrante
@@ -100,6 +116,14 @@ router.post('/cadastroat', async (req, res) => {
                 idOficina
             ]);
         }
+        // para fazer alter
+          if (idOficina) {
+            sql = 'UPDATE oficina SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?, dt_inicio = ?, dt_termino WHERE idOficina = ?';
+            await db.execute(sql, [emailM, titulo, descricao, local, dataInicio, dataTermino, idOficina]);
+            //esse array contém os valores que substituirão os ? do SQL, na mesma ordem em que aparecem.
+            return res.redirect('/atividade');
+        }
+
 
         res.redirect('/atividades'); 
 
@@ -132,7 +156,7 @@ router.get('/atividades', async (req, res) => {
                 [`%${letra}%`]
         );
 
-
+     
           res.render('telaAtividades', {
            layout: 'layouts/mainLogado',
            atividades:atividades

@@ -28,19 +28,6 @@ if (btnNova) {
     });
 }
 
-/*if(btnDelete){
-       btnDelete.addEventListener('click', function () {
-      // tal coisa seja deletada 
-    });
-}
-
-if(btnEdita){
-    btnEdita.addEventListener('click', function (){
-// tal coisa seja alterada
-
-    });
-    
-*/
 
 // PARA PESQUISAR A AT PELO TITULO usei de exemplo a de partiipante
 

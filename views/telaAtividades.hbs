@@ -19,6 +19,7 @@
   <script src="/js/atividades.js" defer></script>
   <script src="/js/descricao.js" defer></script>
 
+
 </head>
 
 <body class="atividades-page">
@@ -96,15 +97,16 @@
       <div class="atividades-grid">
 
         {{#each atividades}}
-        <div class="card-atividade cor-{{this.cor}}" data-id="{{this.idOficina}}"> 
-          <!--data-id="{{this.idOficina}}"> para que cada card possua o id da ofiicina para ser usado no modal -->
+     
+        <div class="card-atividade" cor-{{this.cor}} data-id="{{this.idOficina}}"> 
+        
           <div class="card-top">
             <div class="card-actions">
 
               <!-- BOTÃO EDITAR -->
 
               <form action="/atividades/{{idOficina}}/editar" method="get" class="editar">
-                <button type="submit" class="icon-btn edit" aria-label="Editar atividade">
+                <button type="submit" class="icon-btn edit" aria-label="Editar atividade">  
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 20h9" />
@@ -132,8 +134,9 @@
           </div>
 
           <!-- infos -->
+          
           <h3>{{this.titulo}}</h3>
-          <p class="tipo">{{this.tipo}}</p>
+          <p class="tipo" >{{this.tipo}}</p>
 
           <div class="card-meta">
             <span>

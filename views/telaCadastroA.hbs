@@ -6,6 +6,8 @@
         <title>Cadastro de Atividades</title>
         <link rel="stylesheet" href="/css/styleCadastroA.css">
         <script src="/js/cadastroA.js" defer></script>
+
+          <a href="{{#if atividade}}/atividade{{else}}/inicioLogado{{/if}}" style="text-decoration: none;">&lt;</a>
     </head>
     <body>
 
@@ -19,7 +21,12 @@
             <section>
                 <!--formulário -->
                 <form id="CadastroA" action="/cadastroat" method="post"
-                    class="formulario">
+                    class="formulario" name="idOficina" >  <!-- quando vem da lista de participantes (editar), guarda o id para a rota fazer UPDATE -->
+                         {{#if atividade}}
+                         <input type="hidden"
+                          name="idOficina"
+                          value="{{atividade.idOficina}}">
+                         {{/if}}
 
                     <h1 id="titulo">Cadastro de Atividades</h1>
 
@@ -32,7 +39,8 @@
                                 type="text"
                                 id="titulo"
                                 name="titulo"
-                                placeholder="Título da oficina">
+                                placeholder="Título da oficina" 
+                                {{#if atividade}}style="display:contents"{{/if}}>
                         </div>
                         <br>
 
@@ -40,7 +48,7 @@
                         <!--combox de ministrante-->
                         <div class="campo">
                              <label for="emailM">Selecione o ministrante</label>
-                        <select  id="emailM"  name="emailM">
+                        <select  id="emailM"  name="emailM" {{#if atividade}}style="display:contents"{{/if}}>
                             <option value="selecione">Seleione o ministrante</option>
                                 {{#each ministrante}}
                                 <option value="{{this.email}}"> {{this.nome}}
@@ -57,7 +65,8 @@
                                 id="local"
                                 placeholder="Local da atividade"
                                 name="local"
-                                maxlength="1200">
+                                maxlength="1200"
+                                {{#if atividade}}style="display:contents"{{/if}}>
                         </div>
 
                         
@@ -69,7 +78,7 @@
 
 
                             <!--combox de bolsita-->
-                            <select id="bolsista1" name="bolsista1">
+                            <select id="bolsista1" name="bolsista1" {{#if atividade}}style="display:contents"{{/if}}>
                                 <option value="selecione">Selecione o
                                     bolsista</option>
                                 {{#each bolsista}}
@@ -84,7 +93,7 @@
                                 Selecione o bolsista
                             </label>
 
-                            <select id="bolsista2" name="bolsista2">
+                            <select id="bolsista2" name="bolsista2" {{#if atividade}}style="display:contents"{{/if}}>
                                 <option value="selecione">Selecione o
                                     bolsista</option>
                                 {{#each bolsista}}
@@ -99,7 +108,7 @@
                                 Selecione o bolsista
                             </label>
 
-                            <select id="bolsista3" name="bolsista3">
+                            <select id="bolsista3" name="bolsista3" {{#if atividade}}style="display:contents"{{/if}}>
                                 <option value="selecione">Selecione o
                                     bolsista</option>
                                 {{#each bolsista}}
@@ -121,7 +130,8 @@
                                 id="descricao"
                                 name="descricao"
                                 maxlength="1200"
-                                placeholder="Descreva a atividade..."></textarea>
+                                {{#if atividade}}style="display:contents"{{/if}}
+                                placeholder="Descreva a atividade..." ></textarea>
                         </div>
                         <br>
                         <div class="campo">
@@ -130,7 +140,8 @@
                             <input
                                 id="dataInicio"
                                 type="date"
-                                name="dataInicio">
+                                name="dataInicio"
+                                {{#if atividade}}style="display:contents"{{/if}}>
                         </div>
                         <br>
                         <div class="campo">
@@ -139,14 +150,15 @@
                             <input
                                 type="date"
                                 id="dataTermino"
-                                name="dataTermino">
+                                name="dataTermino"
+                                {{#if atividade}}style="display:contents"{{/if}}>
                         </div>
 
                     </div>
 
                     <!-- BOTÃO -->
                     <button type="submit" class="button">
-                        Cadastrar
+                           {{#if atividade}}Salvar{{else}}Cadastrar{{/if}} </button>
                     </button>
 
                 </form>
