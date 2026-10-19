@@ -40,7 +40,7 @@
                                 id="titulo"
                                 name="titulo"
                                 placeholder="Título da oficina" 
-                                {{#if atividade}}style="display:contents"{{/if}}>
+                               value="{{atividade.titulo}}">
                         </div>
                         <br>
 
@@ -48,13 +48,15 @@
                         <!--combox de ministrante-->
                         <div class="campo">
                              <label for="emailM">Selecione o ministrante</label>
-                        <select  id="emailM"  name="emailM" {{#if atividade}}style="display:contents"{{/if}}>
-                            <option value="selecione">Seleione o ministrante</option>
-                                {{#each ministrante}}
-                                <option value="{{this.email}}"> {{this.nome}}
-                            </option>
-                             {{/each}}
-                        </select >
+                      <select id="emailM" name="emailM" required>
+                            <option value="">Selecione o ministrante</option>
+                            {{#each ministrante}}
+                                <option value="{{this.email}}"
+                                 {{#if (eq this.email ../atividade.ministrante_email)}}selected{{/if}}>
+                                    {{this.nome}}
+                                </option>
+                            {{/each}}
+                        </select>
                           </div>
 
                         <br>
@@ -66,7 +68,7 @@
                                 placeholder="Local da atividade"
                                 name="local"
                                 maxlength="1200"
-                                {{#if atividade}}style="display:contents"{{/if}}>
+                                value="{{atividade.local}}">
                         </div>
 
                         
@@ -76,48 +78,52 @@
                                 Selecione o bolsista
                             </label>
 
-
                             <!--combox de bolsita-->
-                            <select id="bolsista1" name="bolsista1" {{#if atividade}}style="display:contents"{{/if}}>
+                            <select id="bolsista1" name="bolsista1">
                                 <option value="selecione">Selecione o
                                     bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                                 {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista1)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
+                            {{/each}}
+                        </select>
                         </div>
                         <br>
+
+
                         <div class="campo">
                             <label for="bolsista2">
                                 Selecione o bolsista
                             </label>
 
-                            <select id="bolsista2" name="bolsista2" {{#if atividade}}style="display:contents"{{/if}}>
+                            <select id="bolsista2" name="bolsista2" >
                                 <option value="selecione">Selecione o
                                     bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                               {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista2)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
+                            {{/each}}
+                        </select>
                         </div>
                         <br>
-                        <div class="campo">
-                            <label for="bolsista3">
-                                Selecione o bolsista
-                            </label>
 
-                            <select id="bolsista3" name="bolsista3" {{#if atividade}}style="display:contents"{{/if}}>
-                                <option value="selecione">Selecione o
-                                    bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                        
+                      <!-- Bolsista 3 -->
+                    <div class="campo">
+                        <label for="bolsista3">Selecione o bolsista</label>
+                        <select id="bolsista3" name="bolsista3">
+                            <option value="selecione">Selecione o bolsista</option>
+                            {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista3)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
-                        </div>
-
+                            {{/each}}
+                        </select>
                     </div>
 
                     <!-- COLUNA DIREITA -->
@@ -130,8 +136,7 @@
                                 id="descricao"
                                 name="descricao"
                                 maxlength="1200"
-                                {{#if atividade}}style="display:contents"{{/if}}
-                                placeholder="Descreva a atividade..." ></textarea>
+                                placeholder="Descreva a atividade..." > {{atividade.descricao}}</textarea>
                         </div>
                         <br>
                         <div class="campo">
@@ -141,7 +146,7 @@
                                 id="dataInicio"
                                 type="date"
                                 name="dataInicio"
-                                {{#if atividade}}style="display:contents"{{/if}}>
+                                 value="{{atividade.dataInicio}}">
                         </div>
                         <br>
                         <div class="campo">
@@ -151,7 +156,7 @@
                                 type="date"
                                 id="dataTermino"
                                 name="dataTermino"
-                                {{#if atividade}}style="display:contents"{{/if}}>
+                               value="{{ atividade.dataTermino}}">
                         </div>
 
                     </div>
