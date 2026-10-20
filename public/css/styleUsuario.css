@@ -1,0 +1,457 @@
+
+/* ===== TELA DE USUÁRIOS ===== */
+
+.usuarios-page {
+    margin-left: 205px;
+    width: calc(100% - 205px);
+    min-height: 100vh;
+    padding: 22px;
+    box-sizing: border-box;
+    background: #f8fafc;
+    font-family: Arial, sans-serif;
+    color: #243b64;
+}
+
+.usuarios-page .formulario {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 26px 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #e0e7ef;
+    border-radius: 9px;
+    box-shadow: 0 2px 12px rgba(24, 50, 80, 0.06);
+}
+
+.usuarios-page h1 {
+    margin: 0 0 22px;
+    text-align: center;
+    color: #203963;
+    font-family: Georgia, serif;
+    font-size: 34px;
+}
+
+/* ===== MENU LATERAL ===== */
+
+.usuarios-page .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 205px;
+    height: 100vh;
+    box-sizing: border-box;
+    background: #fff;
+    border-right: 2px solid #f28c28;
+}
+
+.usuarios-page .sidebar-top {
+    padding: 22px 20px;
+}
+
+.usuarios-page .sidebar-brand {
+    color: #258b43;
+    font-family: Georgia, serif;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.usuarios-page .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 12px;
+}
+
+.usuarios-page .sidebar-nav a {
+    padding: 11px 12px;
+    border-radius: 6px;
+    color: #263b5e;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.usuarios-page .sidebar-nav a:hover,
+.usuarios-page .sidebar-nav a.ativo {
+    background: #fff0df;
+    color: #d97706;
+}
+
+.usuarios-page .sidebar-nav a.ativo {
+    border-left: 3px solid #f28c28;
+    font-weight: bold;
+}
+
+.usuarios-page .sidebar-footer {
+    margin-top: auto;
+    padding: 18px;
+    text-align: center;
+}
+
+.usuarios-page .sidebar-footer img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== PESQUISA, FILTRO E CADASTRO ===== */
+
+.usuarios-page .controles-usuarios {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(150px, 240px) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.usuarios-page #pesquisa {
+    min-width: 0;
+}
+
+.usuarios-page #pesquisa input,
+.usuarios-page .filtro-tipo select {
+    width: 100%;
+    height: 39px;
+    padding: 0 13px;
+    box-sizing: border-box;
+    border: 1px solid #d9e1ec;
+    border-radius: 7px;
+    background: #fff;
+    color: #243b64;
+    font-size: 13px;
+    outline: none;
+}
+
+.usuarios-page #pesquisa input:focus,
+.usuarios-page .filtro-tipo select:focus {
+    border-color: #4c78bd;
+    box-shadow: 0 0 0 2px rgba(76, 120, 189, 0.12);
+}
+
+.usuarios-page .botao-cadastrar {
+    height: 39px;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 7px;
+    background: #238c45;
+    color: #fff;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.usuarios-page .botao-cadastrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.usuarios-page .botao-cadastrar span {
+    margin-right: 6px;
+    font-size: 19px;
+}
+
+/* Texto acessível para leitores de tela */
+
+.usuarios-page .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ===== LEGENDA DAS FUNÇÕES ===== */
+
+.usuarios-page .legenda-funcoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 22px;
+    margin: 22px 0 25px;
+    font-size: 11px;
+}
+
+.usuarios-page .legenda-funcoes span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.usuarios-page .ponto {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* ===== TABELA ===== */
+
+.usuarios-page .tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e1e8f0;
+    border-radius: 7px;
+}
+
+.usuarios-page .tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 12px;
+}
+
+.usuarios-page .tabela-usuarios thead {
+    background: #f1f4f8;
+}
+
+.usuarios-page .tabela-usuarios th {
+    padding: 13px 15px;
+    color: #23395e;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.usuarios-page .tabela-usuarios td {
+    padding: 11px 15px;
+    border-top: 1px solid #e5ebf2;
+    vertical-align: middle;
+}
+
+.usuarios-page .tabela-usuarios tbody tr:hover {
+    background: #fbfcfe;
+}
+
+.usuarios-page .nome-usuario {
+    min-width: 130px;
+    color: #2d4267;
+    font-weight: 500;
+}
+
+.usuarios-page .email-usuario {
+    min-width: 160px;
+    overflow-wrap: anywhere;
+}
+
+.usuarios-page .funcoes-usuario {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.usuarios-page .tag-funcao {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 18px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* Cores por função */
+
+.usuarios-page .administrador {
+    background: #f0e1ff;
+    color: #8b35d4;
+}
+
+.usuarios-page .ponto.administrador {
+    background: #963be0;
+}
+
+.usuarios-page .coordenador {
+    background: #dceaff;
+    color: #2474df;
+}
+
+.usuarios-page .ponto.coordenador {
+    background: #347ff0;
+}
+
+.usuarios-page .bolsista {
+    background: #dff5e3;
+    color: #23853b;
+}
+
+.usuarios-page .ponto.bolsista {
+    background: #279849;
+}
+
+.usuarios-page .ministrante {
+    background: #fff0df;
+    color: #df7814;
+}
+
+.usuarios-page .ponto.ministrante {
+    background: #ff921e;
+}
+
+
+/* ===== AÇÕES ===== */
+
+.usuarios-page .acoes-usuario {
+    white-space: nowrap;
+}
+
+.usuarios-page .botao-acao {
+    width: 34px;
+    height: 34px;
+    margin-right: 5px;
+    border: 1px solid #dce3ed;
+    border-radius: 6px;
+    background: #fff;
+    color: #29436e;
+    font-size: 17px;
+}
+
+.usuarios-page .botao-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    cursor: not-allowed;
+}
+
+.usuarios-page .botao-acao span {
+    font-family: Arial, sans-serif;
+    line-height: 1;
+}
+
+.usuarios-page .botao-acao:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.usuarios-page .botao-acao.excluir {
+    border-color: #f4d4d8;
+    color: #dc3545;
+}
+
+.usuarios-page .botao-acao:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+/* ===== RESULTADO E PAGINAÇÃO ===== */
+
+.usuarios-page #semresul {
+    padding: 18px;
+    text-align: center;
+    color: #718096;
+    font-size: 13px;
+}
+
+.usuarios-page .paginacao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+    color: #405477;
+    font-size: 11px;
+}
+
+.usuarios-page #botoes-paginacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 900px) {
+    .usuarios-page {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+        padding-top: 85px;
+    }
+
+    .usuarios-page .sidebar {
+        width: 100%;
+        height: auto;
+        min-height: 60px;
+        border-right: 0;
+        border-bottom: 2px solid #f28c28;
+    }
+
+    .usuarios-page .sidebar-top {
+        padding: 10px 15px;
+    }
+
+    .usuarios-page .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 9px;
+    }
+
+    .usuarios-page .sidebar-nav a {
+        flex-shrink: 0;
+    }
+
+    .usuarios-page .sidebar-footer {
+        display: none;
+    }
+
+    .usuarios-page .controles-usuarios {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .usuarios-page .botao-cadastrar {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 520px) {
+    .usuarios-page .formulario {
+        padding: 20px 12px;
+    }
+
+    .usuarios-page h1 {
+        font-size: 28px;
+    }
+
+    .usuarios-page .controles-usuarios {
+        grid-template-columns: 1fr;
+    }
+
+    .usuarios-page .botao-cadastrar {
+        grid-column: auto;
+    }
+
+    .usuarios-page .legenda-funcoes {
+        gap: 10px;
+    }
+    .usuarios-page .botao-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 19px;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.usuarios-page .botao-acao.editar {
+    color: #13a74e;
+}
+
+.usuarios-page .botao-acao.excluir {
+    color: #ff2525;
+    border-color: #dcdcdc;
+}
+
+.usuarios-page .botao-acao svg {
+    display: block;
+    flex-shrink: 0;
+}
