@@ -24,6 +24,7 @@ router.get('/cadastroat', async (req, res) => {
 
 
     res.render('telaCadastroA', {
+        
         bolsista,
         ministrante
     });
@@ -103,6 +104,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
         };
 
         res.render('telaCadastroA', {
+            
             atividade,
             bolsista,
             ministrante

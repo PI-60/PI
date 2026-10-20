@@ -225,11 +225,18 @@ body.atividades-page{
 .card-atividade.cor-verde{ border-color:var(--verde); }
 .card-atividade.cor-laranja{ border-color:var(--laranja); }
 
-.card-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+.card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.card-top h3 {
+    margin: 0;
+    text-align: left;
+    flex: 1;
 }
 
 .badge-status{
@@ -246,10 +253,12 @@ body.atividades-page{
 }
 
 
-.card-actions{
-  display:flex;
-  align-items:center;
-  gap:6px;
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .card-actions form {
@@ -279,12 +288,14 @@ body.atividades-page{
   color:var(--vermelho);
 }
 
-.card-atividade h3{
-  font-family:var(--font-display);
-  font-size:17px;
-  font-weight:700;
-  color:var(--ink);
-  margin-top:14px;
+.card-atividade h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 

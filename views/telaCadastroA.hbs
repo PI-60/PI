@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Cadastro de Atividades</title>
         <link rel="stylesheet" href="/css/styleCadastroA.css">
         <script src="/js/cadastroA.js" defer></script>
 
-          <a href="{{#if atividade}}/atividade{{else}}/inicioLogado{{/if}}" style="text-decoration: none;">&lt;</a>
-    </head>
-    <body>
+          <a href="{{#if atividade}}/atividade{{else}}/inicioLogado{{/if}}"></a> 
 
         <div id="back">
             <a href="/atividades" style="text-decoration: none;">&lt;</a>
-            <!-- alterar link p pagina talvez -->
         </div>
 
         <main class="center"> <!-- chama o arquivo ! -->
@@ -125,6 +118,7 @@
                             {{/each}}
                         </select>
                     </div>
+                </div>
 
                     <!-- COLUNA DIREITA -->
                     <div class="coluna direita">
@@ -169,5 +163,4 @@
                 </form>
             </section>
         </main>
-    </body>
-</html>
+    
