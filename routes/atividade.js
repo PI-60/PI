@@ -24,7 +24,7 @@ router.get('/cadastroat', async (req, res) => {
 
 
     res.render('telaCadastroA', {
-        
+          layout: 'layouts/telasNavegacao',
         bolsista,
         ministrante
     });
@@ -104,7 +104,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
         };
 
         res.render('telaCadastroA', {
-            
+              layout: 'layouts/telasNavegacao',
             atividade,
             bolsista,
             ministrante
@@ -273,13 +273,7 @@ router.post('/atividades/:id/excluir', async (req, res) => {
         res.status(500).send('Erro ao excluir atividade');
     }
 });
-router.get('/atividades', (req, res) => {
-    if (req.session.usuario) {
-        res.render('telaAtividades', { layout: 'layouts/telasNavegacao' });
-    } else {
-        res.redirect('/inicioLogado');
-    }
-});
+
 
 
 // modal
