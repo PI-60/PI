@@ -1,6 +1,3 @@
-const sidebarToggle = document.getElementById('sidebarToggle');
-const sidebarNav = document.querySelector('.sidebar-nav');
-const exitBtn = document.getElementById('exitBtn');
 const btnNova = document.querySelector('.btn-nova');
 const btnEdita = document.querySelector('icon-btn edit');
 const btnDelete = document.querySelector('icon-btn delete');
@@ -8,19 +5,6 @@ const btnDelete = document.querySelector('icon-btn delete');
  
 
 
-
-if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', function () {
-        sidebarNav.classList.toggle('is-open');
-    });
-}
-
-if (exitBtn) {
-    exitBtn.addEventListener('click', function () {
-        localStorage.removeItem('logado');
-        window.location.href = '/login';
-    });
-}
 
 if (btnNova) {
     btnNova.addEventListener('click', function () {

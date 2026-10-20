@@ -118,6 +118,7 @@ router.post('/cadastroat', async (req, res) => {
 
 
 // ROTA DE LISTAGEM 
+<<<<<<< HEAD
 router.get('/atividades', async (req, res) => {
   if (!req.session.usuario) {
        return res.redirect('/login');
@@ -167,6 +168,13 @@ router.post('/atividades/:id/excluir', async (req, res) => {
         await db.rollback();
         console.error(erro);
         res.status(500).send('Erro ao excluir atividade');
+=======
+router.get('/atividades', (req, res) => {
+    if (req.session.usuario) {
+        res.render('telaAtividades', { layout: 'layouts/telasNavegacao' });
+    } else {
+        res.redirect('/inicioLogado');
+>>>>>>> header
     }
 });
 
