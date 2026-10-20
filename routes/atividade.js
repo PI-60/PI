@@ -5,23 +5,24 @@ const router = express.Router();
 
 
 // ROTA DE CADASTRO ATIVIDADES
+
 router.get('/cadastroat', async (req, res) => {
     const [bolsista] = await db.query(
         //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
         `SELECT bolsista.email, usuario.nome FROM bolsista
          JOIN usuario WHERE bolsista.email = usuario.email
         `
-          //join tabela usuaeio quando o eail dobolsita for = email do usuariio
-        
-          
-     );
-         const [ministrante] = await db.query(
-        //selecione  emael e  nome da tabela ministrantes
-         'SELECT email, nome FROM ministrante'
-      
+        //join tabela usuaeio quando o eail dobolsita for = email do usuariio
+
+
     );
-               
-     
+    const [ministrante] = await db.query(
+        //selecione  emael e  nome da tabela ministrantes
+        'SELECT email, nome FROM ministrante'
+
+    );
+
+
     res.render('telaCadastroA', {
         bolsista,
         ministrante
@@ -31,6 +32,7 @@ router.get('/cadastroat', async (req, res) => {
 
 //edita of
 router.get('/atividades/:id/editar', async (req, res) => {
+
     try {
         const id = req.params.id;
         // guarda a id da of
@@ -43,11 +45,11 @@ router.get('/atividades/:id/editar', async (req, res) => {
             [id]
             // busca no banco a of que tem essa id e guarda na variavel resultado
         );
-            // se essa oficina for = 0 ou seja nao existe
+        // se essa oficina for = 0 ou seja nao existe
         if (resultado.length === 0) {
             return res.status(404).send('Oficina não encontrada');
         }
-            // oficina = array de resultado que guarda as linhas encontradas 
+        // oficina = array de resultado que guarda as linhas encontradas 
         const oficina = resultado[0];
 
         // todos os bolsistas
@@ -80,8 +82,9 @@ router.get('/atividades/:id/editar', async (req, res) => {
             return `${ano}-${mes}-${dia}`;
         };
 
+
         // monta o objeto com os nomes que o template espera
-        const atividade = { 
+        const atividade = {
             idOficina: oficina.idOficina,
             titulo: oficina.titulo,
             descricao: oficina.descricao,
@@ -111,10 +114,12 @@ router.get('/atividades/:id/editar', async (req, res) => {
     }
 });
 
+// cadastrar oficina
 router.post('/cadastroat', async (req, res) => {
 
-      const {
-        idOficina,
+    let idOficina = req.body.idOficina;
+
+    const {
         titulo,
         emailM,
         descricao,
@@ -126,11 +131,13 @@ router.post('/cadastroat', async (req, res) => {
         bolsista3
     } = req.body;
 
-    try {
+    console.log(req.body)
 
+    try {
         // ALTERAR oficina existente
-  if (idOficina) {
-           
+        
+        if (idOficina) {
+
             await db.execute(
                 `UPDATE oficina
                  SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?, dt_inicio = ?, dt_termino = ?
@@ -138,45 +145,50 @@ router.post('/cadastroat', async (req, res) => {
                 [emailM, titulo, descricao, local, dataInicio, dataTermino, idOficina]
             );
 
-    // insere os bolsistas selecionados 
-   /* const sqlBolsista = `
-        INSERT INTO usuario_monitora_oficina
-        (usuario_email, oficina_idOficina)
-        VALUES (?, ?)
-    `;
-        const bolsistas = [bolsista1, bolsista2, bolsista3];*/
-
-       // remove os vínculos antigos para regravar os novos
+            // remove os vínculos antigos para cadastra os novos
             await db.execute(
                 'DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',
                 [idOficina]
             );
+
+            // insere os bolsistas selecionados 
+            const sqlBolsista = `
+                INSERT INTO usuario_monitora_oficina
+                (usuario_email, oficina_idOficina)
+                VALUES (?, ?)
+            `;
+            const bolsistas = [bolsista1, bolsista2, bolsista3];
+
         } else {
 
-        //  cadastra a oficina
-          const [resultado] = await db.execute(
+            //  cadastra a oficina
+            const [resultado] = await db.execute(
                 `INSERT INTO oficina
-                 (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
+                 ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
                  VALUES (?, ?, ?, ?, ?, ?)`,
                 [emailM, titulo, descricao, local, dataInicio, dataTermino]
             );
-            id = resultado.insertId;
+
+            idOficina = resultado.insertId;
         }
 
-        // grava os bolsistas (vale para cadastro e edição)
+        // cadasta os bolsistas 
         const sqlBolsista = `
-            INSERT INTO usuario_monitora_oficina (usuario_email, oficina_idOficina)
+            INSERT INTO usuario_monitora_oficina
+            (usuario_email, oficina_idOficina)
             VALUES (?, ?)
-        `
+        `;
 
         /*  for (const email of bolsistas) {
             await db.execute(sqlBolsista, [email, id]);
         } */
         // bolsista 1
-      if (bolsista1) {
-    await db.execute(sqlBolsista, [bolsista1, id]);
-}
-
+        if (bolsista1) {
+            await db.execute(sqlBolsista, [
+                bolsista1,
+                idOficina
+            ]);
+        }
 
         // bolsista 2
         if (bolsista2) {
@@ -194,7 +206,7 @@ router.post('/cadastroat', async (req, res) => {
                 idOficina
             ]);
         }
-    
+
         res.redirect('/atividades');
 
     } catch (error) {
@@ -209,45 +221,45 @@ router.post('/cadastroat', async (req, res) => {
 
 // ROTA DE LISTAGEM 
 router.get('/atividades', async (req, res) => {
-  if (!req.session.usuario) {
-       return res.redirect('/login');
+    if (!req.session.usuario) {
+        return res.redirect('/login');
     }
     try {
 
         // pesquisar
-      const letra = req.query.letra || '';
+        const letra = req.query.letra || '';
 
         const [atividades] = await db.query(
             'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
-                [`%${letra}%`]
+            [`%${letra}%`]
         );
 
-     
-          res.render('telaAtividades', {
-           layout: 'layouts/mainLogado',
-           atividades:atividades
-      
-      });
+
+        res.render('telaAtividades', {
+            layout: 'layouts/mainLogado',
+            atividades: atividades
+
+        });
 
     } catch (erro) {
         console.error(erro);
         res.status(500).send('Erro ao buscar atividades');
     }
-        
+
 });
 // botao excluir
 router.post('/atividades/:id/excluir', async (req, res) => {
 
     if (!req.session.usuario) {
-       return res.redirect('/login');
+        return res.redirect('/login');
     }
     try {
         await db.beginTransaction();
         // deleta da tabela usurario monitora onde o id da oficina for tal..
-        await db.query('DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',[req.params.id]);
+        await db.query('DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?', [req.params.id]);
         // deleta da tabela ofcina acontece dua onde for a id da ofocina..
-         await db.query('DELETE FROM oficina_acontece_dia WHERE oficina_idOficina = ?',[req.params.id]);
-         // por final aafar a oficina da tabela ofiicna
+        await db.query('DELETE FROM oficina_acontece_dia WHERE oficina_idOficina = ?', [req.params.id]);
+        // por final aafar a oficina da tabela ofiicna
         await db.query('DELETE FROM oficina WHERE idOficina = ?', [req.params.id]);
         await db.commit();
 
@@ -299,8 +311,7 @@ router.get('/atividade/:id', async (req, res) => {
         });
     }
 });
- 
+
 
 export default router;
 
-       
