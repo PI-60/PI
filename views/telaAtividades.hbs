@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -20,12 +19,10 @@
   <script src="/js/atividades.js" defer></script>
   <script src="/js/descricao.js" defer></script>
 
+
 </head>
 
 <body class="atividades-page">
-=======
-<link rel="stylesheet" href="/css/styleAtividades.css">
->>>>>>> header
 
   <!-- SIDE BAR -->
   <div class="app-shell">
@@ -51,7 +48,7 @@
     </aside>
 
     <main class="main-content">
-<<<<<<< HEAD
+
       <div class="main-topbar">
         <button type="button" class="btn-exit" id="exitBtn">
           Exit
@@ -64,14 +61,13 @@
         </button>
       </div>
 
-=======
->>>>>>> header
 
       <div class="content-header">
         <div>
           <h1>Atividades</h1>
           <p class="subtitle">Oficinas, Eventos e Saídas Técnicas</p>
         </div>
+
 
         <!-- BOTAO PARA CADASTA UMA NOVA ATIVIDADE -->
         <button type="button" class="btn-nova">
@@ -95,25 +91,29 @@
       </p>
 
       <!-- LISTAGEM DAS ATIVIDADES -->
+      <br>
       <div class="atividades-grid">
 
         {{#each atividades}}
-        <div class="card-atividade cor-{{this.cor}}" data-id="{{this.idOficina}}"> 
-          <!--data-id="{{this.idOficina}}"> para que cada card possua o id da ofiicina para ser usado no modal -->
+        <div class="card-atividade" cor-{{this.cor}} data-id="{{this.idOficina}}"> 
           <div class="card-top">
-            <div class="card-actions">
+
+                <h3>{{this.titulo}}</h3>
+
+                 <div class="card-actions">
 
               <!-- BOTÃO EDITAR -->
-
-              <form action="/atividades/{{idOficina}}/editar" method="get" class="editar">
-                <button type="submit" class="icon-btn edit" aria-label="Editar atividade">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
-                  </svg>
-                </button>
-              </form>
+             <form action="/atividades/{{this.idOficina}}/editar" method="GET" class="editar">
+        <button type="submit" class="icon-btn edit"
+                aria-label="Editar atividade">
+        <svg width="15" height="15" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+        </svg>
+    </button>
+</form>
 
 
               <!-- BOTÃO EXCLUIR -->
@@ -130,13 +130,14 @@
                 </button>
               </form>
 
+
+                
             </div>
           </div>
 
           <!-- infos -->
-          <h3>{{this.titulo}}</h3>
-          <p class="tipo">{{this.tipo}}</p>
 
+      
           <div class="card-meta">
             <span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -216,10 +217,7 @@
     </main>
   </div>
 
-<<<<<<< HEAD
+
 </body>
 
 </html>
-=======
-  <script src="/js/atividades.js"></script>
->>>>>>> header

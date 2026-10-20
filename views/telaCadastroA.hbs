@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Cadastro de Atividades</title>
         <link rel="stylesheet" href="/css/styleCadastroA.css">
         <script src="/js/cadastroA.js" defer></script>
-    </head>
-    <body>
+
+          <a href="{{#if atividade}}/atividade{{else}}/inicioLogado{{/if}}"></a> 
 
         <div id="back">
             <a href="/atividades" style="text-decoration: none;">&lt;</a>
-            <!-- alterar link p pagina talvez -->
         </div>
 
         <main class="center"> <!-- chama o arquivo ! -->
@@ -19,7 +14,12 @@
             <section>
                 <!--formulário -->
                 <form id="CadastroA" action="/cadastroat" method="post"
-                    class="formulario">
+                    class="formulario" name="idOficina" >  
+                        {{#if atividade}}
+                         <input type="hidden"
+                          name="idOficina"
+                          value="{{atividade.idOficina}}">
+                         {{/if}}
 
                     <h1 id="titulo">Cadastro de Atividades</h1>
 
@@ -32,7 +32,8 @@
                                 type="text"
                                 id="titulo"
                                 name="titulo"
-                                placeholder="Título da oficina">
+                                placeholder="Título da oficina" 
+                               value="{{atividade.titulo}}">
                         </div>
                         <br>
 
@@ -40,13 +41,15 @@
                         <!--combox de ministrante-->
                         <div class="campo">
                              <label for="emailM">Selecione o ministrante</label>
-                        <select  id="emailM"  name="emailM">
-                            <option value="selecione">Seleione o ministrante</option>
-                                {{#each ministrante}}
-                                <option value="{{this.email}}"> {{this.nome}}
-                            </option>
-                             {{/each}}
-                        </select >
+                      <select id="emailM" name="emailM" required>
+                            <option value="">Selecione o ministrante</option>
+                            {{#each ministrante}}
+                                <option value="{{this.email}}"
+                                 {{#if (eq this.email ../atividade.ministrante_email)}}selected{{/if}}>
+                                    {{this.nome}}
+                                </option>
+                            {{/each}}
+                        </select>
                           </div>
 
                         <br>
@@ -57,7 +60,8 @@
                                 id="local"
                                 placeholder="Local da atividade"
                                 name="local"
-                                maxlength="1200">
+                                maxlength="1200"
+                                value="{{atividade.local}}">
                         </div>
 
                         
@@ -67,49 +71,54 @@
                                 Selecione o bolsista
                             </label>
 
-
                             <!--combox de bolsita-->
                             <select id="bolsista1" name="bolsista1">
                                 <option value="selecione">Selecione o
                                     bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                                 {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista1)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
+                            {{/each}}
+                        </select>
                         </div>
                         <br>
+
+
                         <div class="campo">
                             <label for="bolsista2">
                                 Selecione o bolsista
                             </label>
 
-                            <select id="bolsista2" name="bolsista2">
+                            <select id="bolsista2" name="bolsista2" >
                                 <option value="selecione">Selecione o
                                     bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                               {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista2)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
+                            {{/each}}
+                        </select>
                         </div>
                         <br>
-                        <div class="campo">
-                            <label for="bolsista3">
-                                Selecione o bolsista
-                            </label>
 
-                            <select id="bolsista3" name="bolsista3">
-                                <option value="selecione">Selecione o
-                                    bolsista</option>
-                                {{#each bolsista}}
-                                <option value="{{this.email}}"> {{this.nome}}
+                        
+                      <!-- Bolsista 3 -->
+                    <div class="campo">
+                        <label for="bolsista3">Selecione o bolsista</label>
+                        <select id="bolsista3" name="bolsista3">
+                            <option value="selecione">Selecione o bolsista</option>
+                            {{#each bolsista}}
+                                <option value="{{this.email}}"
+                                    {{#if (eq this.email ../atividade.bolsista3)}}selected{{/if}}>
+                                    {{this.nome}}
                                 </option>
-                                {{/each}}
-                            </select>
-                        </div>
-
+                            {{/each}}
+                        </select>
                     </div>
+                </div>
 
                     <!-- COLUNA DIREITA -->
                     <div class="coluna direita">
@@ -121,7 +130,7 @@
                                 id="descricao"
                                 name="descricao"
                                 maxlength="1200"
-                                placeholder="Descreva a atividade..."></textarea>
+                                placeholder="Descreva a atividade..." > {{atividade.descricao}}</textarea>
                         </div>
                         <br>
                         <div class="campo">
@@ -130,7 +139,8 @@
                             <input
                                 id="dataInicio"
                                 type="date"
-                                name="dataInicio">
+                                name="dataInicio"
+                                 value="{{atividade.dataInicio}}">
                         </div>
                         <br>
                         <div class="campo">
@@ -139,18 +149,18 @@
                             <input
                                 type="date"
                                 id="dataTermino"
-                                name="dataTermino">
+                                name="dataTermino"
+                               value="{{ atividade.dataTermino}}">
                         </div>
 
                     </div>
 
                     <!-- BOTÃO -->
                     <button type="submit" class="button">
-                        Cadastrar
+                           {{#if atividade}}Salvar{{else}}Cadastrar{{/if}} </button>
                     </button>
 
                 </form>
             </section>
         </main>
-    </body>
-</html>
+    

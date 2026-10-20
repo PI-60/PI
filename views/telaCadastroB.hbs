@@ -6,7 +6,7 @@
 <div id="back">
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      <a href="{{#if participante}}/participantes{{else}}/inicioLogado{{/if}}" style="text-decoration: none;">&lt;</a>
-     <!-- alterar link p pagina talvez -->
+     <!-- se existe participantes ele é red. pra tela partcipantes se nao, pro inicio logado -->
 </div>
 
 <main class="center"> <!-- chama o arquivo ! -->
@@ -18,6 +18,7 @@
           <form id="CadastroB" action="/cadastro" method="post">
                <!-- quando vem da lista de participantes (editar), guarda o id para a rota fazer UPDATE -->
                {{#if participante}}<input type="hidden" name="idParticipante" value="{{participante.idParticipante}}">{{/if}}
+           
                <!-- username, telefone, cpf.. -->
                <div class="formulario">
 
@@ -30,8 +31,7 @@
                               Completo</label><!-- label usado para identificar que nameB é o nome compleot ele associa ao input-->
                          <input type="text" id="nameB"
                               placeholder="Nome Completo" name="nome" value="{{participante.nome}}">
-                         <!-- = obrigatório-->
-                         <!-- mensagem automatica p/ preenche o campo-->
+                   
                     </div>
 
                     <div class="campo esquerda" {{#if participante}}style="display:none"{{/if}}>

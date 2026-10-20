@@ -5,30 +5,121 @@ const router = express.Router();
 
 
 // ROTA DE CADASTRO ATIVIDADES
+
 router.get('/cadastroat', async (req, res) => {
     const [bolsista] = await db.query(
         //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
         `SELECT bolsista.email, usuario.nome FROM bolsista
          JOIN usuario WHERE bolsista.email = usuario.email
         `
-          //join tabela usuaeio quando o eail dobolsita for = email do usuariio
-              
-     );
-         const [ministrante] = await db.query(
-        //selecione  emael e  nome da tabela ministrantes
-         'SELECT email, nome FROM ministrante'
-      
+        //join tabela usuaeio quando o eail dobolsita for = email do usuariio
+
+
     );
+    const [ministrante] = await db.query(
+        //selecione  emael e  nome da tabela ministrantes
+        'SELECT email, nome FROM ministrante'
+
+    );
+
+
     res.render('telaCadastroA', {
+        
         bolsista,
         ministrante
     });
 
 });
 
+//edita of
+router.get('/atividades/:id/editar', async (req, res) => {
+
+    try {
+        const id = req.params.id;
+        // guarda a id da of
+
+        // dados da oficina
+        const [resultado] = await db.execute(
+            `SELECT idOficina, ministrante_email, titulo, descricao, local, dt_inicio, dt_termino
+             FROM oficina
+             WHERE idOficina = ?`,
+            [id]
+            // busca no banco a of que tem essa id e guarda na variavel resultado
+        );
+        // se essa oficina for = 0 ou seja nao existe
+        if (resultado.length === 0) {
+            return res.status(404).send('Oficina não encontrada');
+        }
+        // oficina = array de resultado que guarda as linhas encontradas 
+        const oficina = resultado[0];
+
+        // todos os bolsistas
+        const [bolsista] = await db.query(
+            `SELECT bolsista.email, usuario.nome
+             FROM bolsista
+             JOIN usuario ON bolsista.email = usuario.email`
+        );
+
+        // todos os ministrantes
+        const [ministrante] = await db.query(
+            'SELECT email, nome FROM ministrante'
+        );
+
+        // bolsistas vinculados a oficina
+        const [bolsistasSelecionados] = await db.execute(
+            `SELECT usuario_email
+             FROM usuario_monitora_oficina
+             WHERE oficina_idOficina = ?`,
+            [id]
+        );
+
+        // formata Date -> YYYY-MM-DD para o <input type="date"> chat
+        const formatarData = (d) => {
+            if (!d) return '';
+            const data = new Date(d);
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const dia = String(data.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+        };
 
 
+        // monta o objeto com os nomes que o template espera
+        const atividade = {
+            idOficina: oficina.idOficina,
+            titulo: oficina.titulo,
+            descricao: oficina.descricao,
+            local: oficina.local,
+            ministrante_email: oficina.ministrante_email,
+            dataInicio: formatarData(oficina.dt_inicio),
+            dataTermino: formatarData(oficina.dt_termino),
+            bolsista1: bolsistasSelecionados[0]?.usuario_email || '',
+            bolsista2: bolsistasSelecionados[1]?.usuario_email || '',
+            bolsista3: bolsistasSelecionados[2]?.usuario_email || ''
+            /* bolsista1: bolsistasSelecionados[0] acessa o primeiro bolsista da lista a contagem começa no índice 0
+            ?.usuario_email  acessa o e-mail do bolsista mas somente se ele existir
+             o ? evita q a posição seja undefined.
+            || '' se não houver um e-mail válido  utiliza uma string vazia ('')
+            permite deixar o campo sem valor */
+        };
+
+        res.render('telaCadastroA', {
+            
+            atividade,
+            bolsista,
+            ministrante
+        });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao carregar oficina para edição');
+    }
+});
+
+// cadastrar oficina
 router.post('/cadastroat', async (req, res) => {
+
+    let idOficina = req.body.idOficina;
 
     const {
         titulo,
@@ -42,40 +133,58 @@ router.post('/cadastroat', async (req, res) => {
         bolsista3
     } = req.body;
 
+    console.log(req.body)
+
     try {
+        // ALTERAR oficina existente
+        
+        if (idOficina) {
 
-        //  Cadastra a oficina
-        const sql = `
-            INSERT INTO oficina
-            ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
-            VALUES ( ?, ?, ?, ?, ?, ?)
-        `;
+            await db.execute(
+                `UPDATE oficina
+                 SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?, dt_inicio = ?, dt_termino = ?
+                 WHERE idOficina = ?`,
+                [emailM, titulo, descricao, local, dataInicio, dataTermino, idOficina]
+            );
 
+            // remove os vínculos antigos para cadastra os novos
+            await db.execute(
+                'DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',
+                [idOficina]
+            );
 
-        const [resultado] = await db.execute(sql, [
-            emailM,
-            titulo,
-            descricao,
-            local,
-            dataInicio,
-            dataTermino
+            // insere os bolsistas selecionados 
+            const sqlBolsista = `
+                INSERT INTO usuario_monitora_oficina
+                (usuario_email, oficina_idOficina)
+                VALUES (?, ?)
+            `;
+            const bolsistas = [bolsista1, bolsista2, bolsista3];
 
-        ]);
+        } else {
 
-        // Pega o ID da oficina que acabou de ser cadastrada
-        const idOficina = resultado.insertId;
+            //  cadastra a oficina
+            const [resultado] = await db.execute(
+                `INSERT INTO oficina
+                 ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
+                 VALUES (?, ?, ?, ?, ?, ?)`,
+                [emailM, titulo, descricao, local, dataInicio, dataTermino]
+            );
 
+            idOficina = resultado.insertId;
+        }
 
-        //  cadastra os bolsistas da oficina
+        // cadasta os bolsistas 
         const sqlBolsista = `
             INSERT INTO usuario_monitora_oficina
             (usuario_email, oficina_idOficina)
             VALUES (?, ?)
         `;
 
-       
-
-        // Bolsista 1
+        /*  for (const email of bolsistas) {
+            await db.execute(sqlBolsista, [email, id]);
+        } */
+        // bolsista 1
         if (bolsista1) {
             await db.execute(sqlBolsista, [
                 bolsista1,
@@ -83,8 +192,7 @@ router.post('/cadastroat', async (req, res) => {
             ]);
         }
 
-
-        // Bolsista 2
+        // bolsista 2
         if (bolsista2) {
             await db.execute(sqlBolsista, [
                 bolsista2,
@@ -93,7 +201,7 @@ router.post('/cadastroat', async (req, res) => {
         }
 
 
-        // Bolsista 3
+        // bolsista 3
         if (bolsista3) {
             await db.execute(sqlBolsista, [
                 bolsista3,
@@ -101,10 +209,9 @@ router.post('/cadastroat', async (req, res) => {
             ]);
         }
 
-        res.redirect('/atividades'); 
+        res.redirect('/atividades');
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -112,53 +219,49 @@ router.post('/cadastroat', async (req, res) => {
             erro: error.message
         });
     }
-
 });
 
-
-
 // ROTA DE LISTAGEM 
-<<<<<<< HEAD
 router.get('/atividades', async (req, res) => {
-  if (!req.session.usuario) {
-       return res.redirect('/login');
+    if (!req.session.usuario) {
+        return res.redirect('/login');
     }
     try {
 
         // pesquisar
-      const letra = req.query.letra || '';
+        const letra = req.query.letra || '';
 
         const [atividades] = await db.query(
             'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
-                [`%${letra}%`]
+            [`%${letra}%`]
         );
 
 
-          res.render('telaAtividades', {
-           layout: 'layouts/mainLogado',
-           atividades:atividades
-      
-      });
+        res.render('telaAtividades', {
+            layout: 'layouts/mainLogado',
+            atividades: atividades
+
+        });
 
     } catch (erro) {
         console.error(erro);
         res.status(500).send('Erro ao buscar atividades');
     }
-        
+
 });
 // botao excluir
 router.post('/atividades/:id/excluir', async (req, res) => {
 
     if (!req.session.usuario) {
-       return res.redirect('/login');
+        return res.redirect('/login');
     }
     try {
         await db.beginTransaction();
         // deleta da tabela usurario monitora onde o id da oficina for tal..
-        await db.query('DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',[req.params.id]);
+        await db.query('DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?', [req.params.id]);
         // deleta da tabela ofcina acontece dua onde for a id da ofocina..
-         await db.query('DELETE FROM oficina_acontece_dia WHERE oficina_idOficina = ?',[req.params.id]);
-         // por final aafar a oficina da tabela ofiicna
+        await db.query('DELETE FROM oficina_acontece_dia WHERE oficina_idOficina = ?', [req.params.id]);
+        // por final aafar a oficina da tabela ofiicna
         await db.query('DELETE FROM oficina WHERE idOficina = ?', [req.params.id]);
         await db.commit();
 
@@ -168,15 +271,16 @@ router.post('/atividades/:id/excluir', async (req, res) => {
         await db.rollback();
         console.error(erro);
         res.status(500).send('Erro ao excluir atividade');
-=======
+    }
+});
 router.get('/atividades', (req, res) => {
     if (req.session.usuario) {
         res.render('telaAtividades', { layout: 'layouts/telasNavegacao' });
     } else {
         res.redirect('/inicioLogado');
->>>>>>> header
     }
 });
+
 
 // modal
 router.get('/atividade/:id', async (req, res) => {
@@ -217,8 +321,7 @@ router.get('/atividade/:id', async (req, res) => {
         });
     }
 });
- 
+
 
 export default router;
 
-       
