@@ -104,5 +104,13 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarLista();
     });
 
-    atualizarLista();
+        atualizarLista();
+
+    const botaoCadastrar = document.getElementById('cadastrarUsuario');
+
+    if (botaoCadastrar) {
+        botaoCadastrar.addEventListener('click', function () {
+            window.location.href = '/cadastro';
+        });
+    }
 });

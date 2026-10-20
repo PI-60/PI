@@ -1,143 +1,209 @@
 
-/* ===== TELA DE USUÁRIOS ===== */
+/* =========================================
+   TELA DE USUÁRIOS
+   Padrão visual baseado na tela de Participantes
+========================================= */
 
 .usuarios-page {
     margin-left: 205px;
     width: calc(100% - 205px);
     min-height: 100vh;
-    padding: 22px;
+    padding: 40px 24px 60px;
     box-sizing: border-box;
-    background: #f8fafc;
-    font-family: Arial, sans-serif;
-    color: #243b64;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Manrope', sans-serif;
+    color: #333;
 }
+
+/* =========================================
+   CARTÃO PRINCIPAL
+========================================= */
 
 .usuarios-page .formulario {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 26px 20px;
+    padding: 40px;
     box-sizing: border-box;
-    background: #fff;
-    border: 1px solid #e0e7ef;
-    border-radius: 9px;
-    box-shadow: 0 2px 12px rgba(24, 50, 80, 0.06);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
 }
 
-.usuarios-page h1 {
-    margin: 0 0 22px;
+.usuarios-page .formulario h1 {
+    margin: 0;
     text-align: center;
-    color: #203963;
-    font-family: Georgia, serif;
-    font-size: 34px;
+    font-family: 'Fraunces', serif;
 }
 
-/* ===== MENU LATERAL ===== */
+/* =========================================
+   MENU LATERAL
+========================================= */
 
 .usuarios-page .sidebar {
     position: fixed;
-    top: 0;
     left: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
+    top: 0;
+    bottom: 0;
     width: 205px;
-    height: 100vh;
     box-sizing: border-box;
     background: #fff;
-    border-right: 2px solid #f28c28;
+    border-right: 2px solid #f0bd18;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
 }
 
 .usuarios-page .sidebar-top {
-    padding: 22px 20px;
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
 }
 
 .usuarios-page .sidebar-brand {
-    color: #258b43;
-    font-family: Georgia, serif;
-    font-size: 23px;
-    font-weight: bold;
+    font-family: "Fraunces", serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #278747;
 }
 
 .usuarios-page .sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 0 12px;
+    padding: 10px 19px;
 }
 
 .usuarios-page .sidebar-nav a {
-    padding: 11px 12px;
-    border-radius: 6px;
-    color: #263b5e;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 11px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #172033;
     text-decoration: none;
+    font-family: "Manrope", sans-serif;
     font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-.usuarios-page .sidebar-nav a:hover,
-.usuarios-page .sidebar-nav a.ativo {
-    background: #fff0df;
-    color: #d97706;
+.usuarios-page .sidebar-nav a:hover {
+    background: #f2edf9;
+    color: #7d4be8;
 }
 
 .usuarios-page .sidebar-nav a.ativo {
-    border-left: 3px solid #f28c28;
-    font-weight: bold;
+    background: #f2edf9;
+    color: #7d4be8;
 }
 
 .usuarios-page .sidebar-footer {
     margin-top: auto;
-    padding: 18px;
-    text-align: center;
+    padding: 20px;
 }
 
 .usuarios-page .sidebar-footer img {
-    max-width: 100%;
-    height: auto;
+    display: block;
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
 }
 
-/* ===== PESQUISA, FILTRO E CADASTRO ===== */
+/* =========================================
+   PESQUISA, FILTRO E CADASTRO
+========================================= */
 
 .usuarios-page .controles-usuarios {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) minmax(150px, 240px) auto;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) 240px 150px;
+    align-items: end;
     gap: 12px;
+    width: 100%;
 }
 
 .usuarios-page #pesquisa {
+    width: 100%;
     min-width: 0;
+}
+
+.usuarios-page .filtro-tipo {
+    width: 100%;
+    min-width: 0;
+}
+
+.usuarios-page .filtro-tipo label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
 }
 
 .usuarios-page #pesquisa input,
 .usuarios-page .filtro-tipo select {
     width: 100%;
-    height: 39px;
-    padding: 0 13px;
+    height: 42px;
+    padding: 0 12px;
     box-sizing: border-box;
-    border: 1px solid #d9e1ec;
-    border-radius: 7px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
     background: #fff;
-    color: #243b64;
-    font-size: 13px;
-    outline: none;
+    color: #333;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
 }
 
 .usuarios-page #pesquisa input:focus,
 .usuarios-page .filtro-tipo select:focus {
-    border-color: #4c78bd;
-    box-shadow: 0 0 0 2px rgba(76, 120, 189, 0.12);
+    outline: none;
+    border-color: #542787;
+    box-shadow: none;
 }
 
+.usuarios-page #pesquisa input::placeholder {
+    color: #777;
+}
+
+/* Botão cadastrar */
+
 .usuarios-page .botao-cadastrar {
-    height: 39px;
-    padding: 0 15px;
-    border: 0;
-    border-radius: 7px;
-    background: #238c45;
-    color: #fff;
-    font-weight: bold;
+    width: 170px;
+    min-width: 170px;
+    height: 42px;
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
     white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1;
+
+    border: none;
+    border-radius: 6px;
+    background-color: #0b990b;
+    color: #fff;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+.usuarios-page .botao-cadastrar:hover:not(:disabled) {
+    background-color: hsl(133, 75%, 17%);
 }
 
 .usuarios-page .botao-cadastrar:disabled {
@@ -146,33 +212,22 @@
 }
 
 .usuarios-page .botao-cadastrar span {
-    margin-right: 6px;
     font-size: 19px;
+    line-height: 1;
 }
 
-/* Texto acessível para leitores de tela */
-
-.usuarios-page .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* ===== LEGENDA DAS FUNÇÕES ===== */
+/* =========================================
+   LEGENDA DAS FUNÇÕES
+========================================= */
 
 .usuarios-page .legenda-funcoes {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 12px 22px;
-    margin: 22px 0 25px;
-    font-size: 11px;
+    margin: 0 0 5px;
+    color: #555;
+    font-size: 12px;
 }
 
 .usuarios-page .legenda-funcoes span {
@@ -183,58 +238,68 @@
 
 .usuarios-page .ponto {
     display: inline-block;
+    flex-shrink: 0;
     width: 12px;
     height: 12px;
     border-radius: 50%;
 }
 
-/* ===== TABELA ===== */
+/* =========================================
+   TABELA DE USUÁRIOS
+========================================= */
 
 .usuarios-page .tabela-container {
     width: 100%;
     overflow-x: auto;
-    border: 1px solid #e1e8f0;
-    border-radius: 7px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 
 .usuarios-page .tabela-usuarios {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
 }
 
 .usuarios-page .tabela-usuarios thead {
-    background: #f1f4f8;
+    background: #f7f7f7;
 }
 
 .usuarios-page .tabela-usuarios th {
     padding: 13px 15px;
-    color: #23395e;
-    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-weight: 700;
     white-space: nowrap;
 }
 
 .usuarios-page .tabela-usuarios td {
     padding: 11px 15px;
-    border-top: 1px solid #e5ebf2;
+    border-top: 1px solid #e5e5e5;
+    color: #555;
     vertical-align: middle;
 }
 
 .usuarios-page .tabela-usuarios tbody tr:hover {
-    background: #fbfcfe;
+    background: #fafafa;
 }
 
 .usuarios-page .nome-usuario {
     min-width: 130px;
-    color: #2d4267;
-    font-weight: 500;
+    color: #333;
+    font-weight: 600;
 }
 
 .usuarios-page .email-usuario {
     min-width: 160px;
     overflow-wrap: anywhere;
 }
+
+/* =========================================
+   FUNÇÕES DE CADA USUÁRIO
+========================================= */
 
 .usuarios-page .funcoes-usuario {
     display: flex;
@@ -248,11 +313,12 @@
     align-items: center;
     padding: 6px 10px;
     border-radius: 18px;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 600;
     white-space: nowrap;
 }
 
-/* Cores por função */
+/* Administrador */
 
 .usuarios-page .administrador {
     background: #f0e1ff;
@@ -263,6 +329,8 @@
     background: #963be0;
 }
 
+/* Coordenador */
+
 .usuarios-page .coordenador {
     background: #dceaff;
     color: #2474df;
@@ -271,6 +339,8 @@
 .usuarios-page .ponto.coordenador {
     background: #347ff0;
 }
+
+/* Bolsista */
 
 .usuarios-page .bolsista {
     background: #dff5e3;
@@ -281,6 +351,8 @@
     background: #279849;
 }
 
+/* Ministrante */
+
 .usuarios-page .ministrante {
     background: #fff0df;
     color: #df7814;
@@ -290,22 +362,19 @@
     background: #ff921e;
 }
 
+/* Participante, caso apareça na tabela */
 
-/* ===== AÇÕES ===== */
+.usuarios-page .participante {
+    background: #e8e8e8;
+    color: #555;
+}
+
+/* =========================================
+   BOTÕES DE AÇÕES
+========================================= */
 
 .usuarios-page .acoes-usuario {
     white-space: nowrap;
-}
-
-.usuarios-page .botao-acao {
-    width: 34px;
-    height: 34px;
-    margin-right: 5px;
-    border: 1px solid #dce3ed;
-    border-radius: 6px;
-    background: #fff;
-    color: #29436e;
-    font-size: 17px;
 }
 
 .usuarios-page .botao-acao {
@@ -313,7 +382,16 @@
     align-items: center;
     justify-content: center;
     vertical-align: middle;
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 17px;
     cursor: not-allowed;
+    opacity: 0.75;
 }
 
 .usuarios-page .botao-acao span {
@@ -321,28 +399,35 @@
     line-height: 1;
 }
 
-.usuarios-page .botao-acao:disabled {
-    opacity: 0.75;
-    cursor: not-allowed;
+.usuarios-page .botao-acao svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+.usuarios-page .botao-acao.editar {
+    color: #278747;
 }
 
 .usuarios-page .botao-acao.excluir {
-    border-color: #f4d4d8;
-    color: #dc3545;
+    color: #c62828;
 }
 
 .usuarios-page .botao-acao:disabled {
-    opacity: 0.75;
     cursor: not-allowed;
+    opacity: 0.75;
 }
 
-/* ===== RESULTADO E PAGINAÇÃO ===== */
+/* =========================================
+   RESULTADO E PAGINAÇÃO
+========================================= */
 
 .usuarios-page #semresul {
+    width: 100%;
     padding: 18px;
+    box-sizing: border-box;
     text-align: center;
-    color: #718096;
-    font-size: 13px;
+    color: #666;
+    font-size: 14px;
 }
 
 .usuarios-page .paginacao {
@@ -351,9 +436,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
+    width: 100%;
     margin-top: 16px;
-    color: #405477;
-    font-size: 11px;
+    color: #555;
+    font-size: 12px;
 }
 
 .usuarios-page #botoes-paginacao {
@@ -362,36 +448,77 @@
     gap: 5px;
 }
 
-/* ===== RESPONSIVIDADE ===== */
+.usuarios-page #botoes-paginacao button {
+    min-width: 38px;
+    min-height: 38px;
+    padding: 4px 9px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+}
 
-@media (max-width: 900px) {
+.usuarios-page #botoes-paginacao button:hover {
+    border-color: #278747;
+    color: #278747;
+}
+
+.usuarios-page #botoes-paginacao button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 1000px) {
+    .usuarios-page .controles-usuarios {
+    grid-template-columns: minmax(0, 1fr) 200px 150px;
+}
+
+    .usuarios-page .formulario {
+        padding: 30px 24px;
+    }
+}
+
+@media (max-width: 800px) {
     .usuarios-page {
         margin-left: 0;
         width: 100%;
-        padding: 15px;
-        padding-top: 85px;
+        padding: 24px 16px 40px;
+    }
+
+    .usuarios-page .formulario {
+        padding: 24px 16px;
     }
 
     .usuarios-page .sidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        bottom: auto;
         width: 100%;
         height: auto;
-        min-height: 60px;
-        border-right: 0;
-        border-bottom: 2px solid #f28c28;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 2px solid #f0bd18;
     }
 
     .usuarios-page .sidebar-top {
-        padding: 10px 15px;
+        height: 70px;
     }
 
     .usuarios-page .sidebar-nav {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 9px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 10px 20px 20px;
     }
 
     .usuarios-page .sidebar-nav a {
-        flex-shrink: 0;
+        min-width: 0;
     }
 
     .usuarios-page .sidebar-footer {
@@ -399,21 +526,22 @@
     }
 
     .usuarios-page .controles-usuarios {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 
     .usuarios-page .botao-cadastrar {
         grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .usuarios-page .tabela-container {
+        max-width: 100%;
     }
 }
 
 @media (max-width: 520px) {
     .usuarios-page .formulario {
-        padding: 20px 12px;
-    }
-
-    .usuarios-page h1 {
-        font-size: 28px;
+        padding: 24px 16px;
     }
 
     .usuarios-page .controles-usuarios {
@@ -422,36 +550,20 @@
 
     .usuarios-page .botao-cadastrar {
         grid-column: auto;
+        width: 100%;
     }
 
     .usuarios-page .legenda-funcoes {
-        gap: 10px;
+        gap: 10px 16px;
     }
-    .usuarios-page .botao-acao {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    margin-right: 5px;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    background: #fff;
-    font-size: 19px;
-    cursor: not-allowed;
-    opacity: 1;
-}
 
-.usuarios-page .botao-acao.editar {
-    color: #13a74e;
-}
+    .usuarios-page .tabela-usuarios th,
+    .usuarios-page .tabela-usuarios td {
+        padding: 10px;
+    }
 
-.usuarios-page .botao-acao.excluir {
-    color: #ff2525;
-    border-color: #dcdcdc;
-}
-
-.usuarios-page .botao-acao svg {
-    display: block;
-    flex-shrink: 0;
+    .usuarios-page .paginacao {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
