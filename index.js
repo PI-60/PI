@@ -32,7 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view options', { layout: 'layouts/main' });
 hbs.registerPartials(path.join(__dirname, 'views/partials'));
 hbs.registerHelper('eq', (a, b) => a === b);
-//permite comparar dois valores dentro do seu html
+//permite comparar dois valores dentro do html
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));

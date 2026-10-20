@@ -21,8 +21,8 @@
             <section>
                 <!--formulário -->
                 <form id="CadastroA" action="/cadastroat" method="post"
-                    class="formulario" name="idOficina" >  <!-- quando vem da lista de participantes (editar), guarda o id para a rota fazer UPDATE -->
-                         {{#if atividade}}
+                    class="formulario" name="idOficina" >  
+                        {{#if atividade}}
                          <input type="hidden"
                           name="idOficina"
                           value="{{atividade.idOficina}}">

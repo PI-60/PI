@@ -12,7 +12,8 @@ router.get('/cadastroat', async (req, res) => {
          JOIN usuario WHERE bolsista.email = usuario.email
         `
           //join tabela usuaeio quando o eail dobolsita for = email do usuariio
-              
+        
+          
      );
          const [ministrante] = await db.query(
         //selecione  emael e  nome da tabela ministrantes
@@ -32,36 +33,72 @@ router.get('/cadastroat', async (req, res) => {
 router.get('/atividades/:id/editar', async (req, res) => {
     try {
         const id = req.params.id;
+        // guarda a id da of
 
-        // busca os dados da oficina
+        // dados da oficina
         const [resultado] = await db.execute(
-            `SELECT idOficina, ministrante_email, titulo, descricao,local, dt_inicio, dt_termino FROM oficina WHERE idOficina = ?`,
+            `SELECT idOficina, ministrante_email, titulo, descricao, local, dt_inicio, dt_termino
+             FROM oficina
+             WHERE idOficina = ?`,
             [id]
+            // busca no banco a of que tem essa id e guarda na variavel resultado
         );
-
+            // se essa oficina for = 0 ou seja nao existe
         if (resultado.length === 0) {
             return res.status(404).send('Oficina não encontrada');
         }
+            // oficina = array de resultado que guarda as linhas encontradas 
+        const oficina = resultado[0];
 
-        // buscar os bolsistas 
+        // todos os bolsistas
         const [bolsista] = await db.query(
             `SELECT bolsista.email, usuario.nome
              FROM bolsista
              JOIN usuario ON bolsista.email = usuario.email`
         );
 
-        // buscar os ministrantes
+        // todos os ministrantes
         const [ministrante] = await db.query(
             'SELECT email, nome FROM ministrante'
         );
-            // buscar os bolsistas vinculados a oficina
-            const [bolsistasSelecionados] = await db.execute(
-                `SELECT usuario_emailFROM usuario_monitora_oficina WHERE oficina_idOficina = ?`,
-                [id]
-            );
 
-        
-       
+        // bolsistas vinculados a oficina
+        const [bolsistasSelecionados] = await db.execute(
+            `SELECT usuario_email
+             FROM usuario_monitora_oficina
+             WHERE oficina_idOficina = ?`,
+            [id]
+        );
+
+        // formata Date -> YYYY-MM-DD para o <input type="date"> chat
+        const formatarData = (d) => {
+            if (!d) return '';
+            const data = new Date(d);
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const dia = String(data.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+        };
+
+        // monta o objeto com os nomes que o template espera
+        const atividade = { 
+            idOficina: oficina.idOficina,
+            titulo: oficina.titulo,
+            descricao: oficina.descricao,
+            local: oficina.local,
+            ministrante_email: oficina.ministrante_email,
+            dataInicio: formatarData(oficina.dt_inicio),
+            dataTermino: formatarData(oficina.dt_termino),
+            bolsista1: bolsistasSelecionados[0]?.usuario_email || '',
+            bolsista2: bolsistasSelecionados[1]?.usuario_email || '',
+            bolsista3: bolsistasSelecionados[2]?.usuario_email || ''
+            /* bolsista1: bolsistasSelecionados[0] acessa o primeiro bolsista da lista a contagem começa no índice 0
+            ?.usuario_email  acessa o e-mail do bolsista mas somente se ele existir
+             o ? evita q a posição seja undefined.
+            || '' se não houver um e-mail válido  utiliza uma string vazia ('')
+            permite deixar o campo sem valor */
+        };
+
         res.render('telaCadastroA', {
             atividade,
             bolsista,
@@ -92,74 +129,53 @@ router.post('/cadastroat', async (req, res) => {
     try {
 
         // ALTERAR oficina existente
-       
-if (idOficina) {
-
-    await db.execute(`
-        UPDATE oficina SET ministrante_email = ?, titulo = ?, descricao = ?,  local = ?, dt_inicio = ?,   dt_termino = ? WHERE idOficina = ?
-    `, [
-        emailM,titulo, descricao, local, dataInicio, dataTermino, idOficina
-    ]);
-
-  /*  // Remove os vínculos antigos dos bolsistas desta oficina
-    await db.execute(
-        `DELETE FROM usuario_monitora_oficina
-         WHERE oficina_idOficina = ?`,
-        [idOficina]
-    ); */
+  if (idOficina) {
+           
+            await db.execute(
+                `UPDATE oficina
+                 SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?, dt_inicio = ?, dt_termino = ?
+                 WHERE idOficina = ?`,
+                [emailM, titulo, descricao, local, dataInicio, dataTermino, idOficina]
+            );
 
     // insere os bolsistas selecionados 
-    const sqlBolsista = `
+   /* const sqlBolsista = `
         INSERT INTO usuario_monitora_oficina
         (usuario_email, oficina_idOficina)
         VALUES (?, ?)
     `;
-        const bolsistas = [bolsista1, bolsista2, bolsista3];
+        const bolsistas = [bolsista1, bolsista2, bolsista3];*/
 
-    /*    for (const email of bolsistas) {
-            if (email && email !== 'selecione') {
-                await db.execute(sqlBolsista, [email, idOficina]);
-    } 
-} */
+       // remove os vínculos antigos para regravar os novos
+            await db.execute(
+                'DELETE FROM usuario_monitora_oficina WHERE oficina_idOficina = ?',
+                [idOficina]
+            );
         } else {
 
-        //  Cadastra a oficina
-        const sql = `
-            INSERT INTO oficina
-            ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
-            VALUES ( ?, ?, ?, ?, ?, ?)
-        `;
-
-
-        const [resultado] = await db.execute(sql, [
-            emailM,
-            titulo,
-            descricao,
-            local,
-            dataInicio,
-            dataTermino
-
-        ]);
-
-        // pega o id da oficina que acabou de ser cadastrada
-        const idOficina = resultado.insertId;
-
-        //  cadastra os bolsistas da oficina
-        const sqlBolsista = `
-            INSERT INTO usuario_monitora_oficina
-            (usuario_email, oficina_idOficina)
-            VALUES (?, ?)
-        `;
-
-       
-
-        // bolsista 1
-        if (bolsista1) {
-            await db.execute(sqlBolsista, [
-                bolsista1,
-                idOficina
-            ]);
+        //  cadastra a oficina
+          const [resultado] = await db.execute(
+                `INSERT INTO oficina
+                 (ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
+                 VALUES (?, ?, ?, ?, ?, ?)`,
+                [emailM, titulo, descricao, local, dataInicio, dataTermino]
+            );
+            id = resultado.insertId;
         }
+
+        // grava os bolsistas (vale para cadastro e edição)
+        const sqlBolsista = `
+            INSERT INTO usuario_monitora_oficina (usuario_email, oficina_idOficina)
+            VALUES (?, ?)
+        `
+
+        /*  for (const email of bolsistas) {
+            await db.execute(sqlBolsista, [email, id]);
+        } */
+        // bolsista 1
+      if (bolsista1) {
+    await db.execute(sqlBolsista, [bolsista1, id]);
+}
 
 
         // bolsista 2
@@ -178,24 +194,18 @@ if (idOficina) {
                 idOficina
             ]);
         }
-       }
-        res.redirect('/atividades'); 
+    
+        res.redirect('/atividades');
 
     } catch (error) {
+        console.error(error);
 
-      
-    console.error(error.stack);
-
-    res.status(500).json({
-        mensagem: 'Erro ao cadastrar oficina',
-        erro: error.message
-    });
-
-    } 
-
+        res.status(500).json({
+            mensagem: 'Erro ao cadastrar oficina',
+            erro: error.message
+        });
+    }
 });
-
-
 
 // ROTA DE LISTAGEM 
 router.get('/atividades', async (req, res) => {
