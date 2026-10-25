@@ -63,9 +63,10 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
 });
 
 // ========================================
-// ABRIR TELA DE EDIÇÃO DE USUÁRIO
+// ABRIR FORMULÁRIO DE EDIÇÃO DE USUÁRIO
 // Somente coordenadores
 // ========================================
+
 
 router.get(
     '/usuarios/editar/:email',
@@ -74,32 +75,71 @@ router.get(
         try {
             const emailOriginal = req.params.email;
 
+            // Primeiro, procura na tabela de usuários
             const [usuarios] = await db.execute(
-                `SELECT email, nome, telefone, CPF
-                 FROM usuario
+                `SELECT
+                    u.email,
+                    u.nome,
+                    u.telefone,
+                    u.CPF,
+                    CASE
+                        WHEN a.email IS NOT NULL THEN 'administrador'
+                        WHEN c.email IS NOT NULL THEN 'coordenador'
+                        WHEN b.email IS NOT NULL THEN 'bolsista'
+                        ELSE 'usuario'
+                    END AS tipo
+                 FROM usuario u
+                 LEFT JOIN administrador a ON a.email = u.email
+                 LEFT JOIN coordenador c ON c.email = u.email
+                 LEFT JOIN bolsista b ON b.email = u.email
+                 WHERE u.email = ?`,
+                [emailOriginal]
+            );
+
+            if (usuarios.length > 0) {
+                return res.render('telaCadastroB', {
+                    layout: 'layouts/cadastro',
+                    usuario: usuarios[0],
+                    editandoUsuario: true
+                });
+            }
+
+            // Se não encontrou, procura na tabela de ministrantes
+            const [ministrantes] = await db.execute(
+                `SELECT email, nome, telefone
+                 FROM ministrante
                  WHERE email = ?`,
                 [emailOriginal]
             );
 
-            if (usuarios.length === 0) {
-                return res.status(404).send('Usuário não encontrado.');
+            if (ministrantes.length > 0) {
+                return res.render('telaCadastroB', {
+                    layout: 'layouts/cadastro',
+                    usuario: {
+                        ...ministrantes[0],
+                        tipo: 'ministrante',
+                        CPF: null
+                    },
+                    editandoUsuario: true
+                });
             }
 
-            return res.render('editarUsuario', {
-                layout: 'layouts/mainLogado',
-                usuario: usuarios[0]
-            });
+            return res.status(404).send('Usuário não encontrado.');
         } catch (erro) {
             console.error('Erro ao abrir edição:', erro);
-            return res.status(500).send('Erro ao abrir a edição do usuário.');
+            return res.status(500).send(
+                'Erro ao abrir a edição do usuário.'
+            );
         }
     }
 );
+
 
 // ========================================
 // SALVAR EDIÇÃO DE USUÁRIO
 // Somente coordenadores
 // ========================================
+
 
 
 router.post(
@@ -116,32 +156,52 @@ router.post(
         }
 
         try {
-            const [resultado] = await db.execute(
-                `UPDATE usuario
-                 SET nome = ?, telefone = ?, CPF = ?
-                 WHERE email = ?`,
-                [
-                    nome.trim(),
-                    telefone?.trim() || null,
-                    cpf?.trim() || null,
-                    emailOriginal
-                ]
+            // Verifica se o cadastro existe na tabela usuario
+            const [usuarios] = await db.execute(
+                'SELECT email FROM usuario WHERE email = ?',
+                [emailOriginal]
             );
 
-            if (resultado.affectedRows === 0) {
-                const [verificar] = await db.execute(
-                    'SELECT email FROM usuario WHERE email = ?',
-                    [emailOriginal]
+            if (usuarios.length > 0) {
+                await db.execute(
+                    `UPDATE usuario
+                     SET nome = ?, telefone = ?, CPF = ?
+                     WHERE email = ?`,
+                    [
+                        nome.trim(),
+                        telefone?.trim() || null,
+                        cpf?.trim() || null,
+                        emailOriginal
+                    ]
                 );
 
-                if (verificar.length === 0) {
-                    return res.status(404).send(
-                        'Usuário não encontrado.'
-                    );
-                }
+                return res.redirect('/usuarios');
             }
 
-            return res.redirect('/usuarios');
+            // Se não for usuário, verifica se é ministrante
+            const [ministrantes] = await db.execute(
+                'SELECT email FROM ministrante WHERE email = ?',
+                [emailOriginal]
+            );
+
+            if (ministrantes.length > 0) {
+                await db.execute(
+                    `UPDATE ministrante
+                     SET nome = ?, telefone = ?
+                     WHERE email = ?`,
+                    [
+                        nome.trim(),
+                        telefone?.trim() || null,
+                        emailOriginal
+                    ]
+                );
+
+                return res.redirect('/usuarios');
+            }
+
+            return res.status(404).send(
+                'Usuário não encontrado.'
+            );
         } catch (erro) {
             console.error('Erro ao editar usuário:', erro);
             return res.status(500).send(
