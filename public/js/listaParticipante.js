@@ -57,7 +57,7 @@
     },
 
     erro: {
-        texto: 'Não foi possível realizar a operação.',
+        texto: 'Não foi possível realizar essa operação.',
         tipo: 'erro'
     }
 };
@@ -81,6 +81,50 @@
         // p msg desaparecer dozinha depoois de 4s
         setTimeout(() => {
             elementoMensagem.hidden = true;
+        }, 4000);
+
+        // remove a mensagem da url = volta p /participante
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }
+    // /participantes?mensagem=participanteEditado
+
+
+
+      const mensagensE = {
+    participanteEditado: {
+        texto: 'Participante editado com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    },
+
+    erro: {
+        texto: 'Não foi possível realizar essa operação.',
+        tipo: 'erro'
+    }
+};
+    // http://localhost:3000/participantes?mensagem=erro retorna ?mensagem=erro
+    const parametrosE = new URLSearchParams(window.location.search);
+    // /participantes?mensagem=erro =  tipoMensagem recebe erro
+    const tipoMensagemE = parametrosE.get('mensagem');
+
+    const elementoMensagemE = document.getElementById('mensagem');
+    //  mensagens[tipoMensagem] = verifica se existe uma mensagem cadastrada com o nome recebido 
+    if (elementoMensagemE && mensagensE[tipoMensagemE]) {
+        const mensagem = mensagensE[tipoMensagemE];
+
+        //textContent = define o texto que aparece 
+        elementoMensagemE.textContent = mensagem.texto;
+        // mensagem.tipo for = sucesso a msg fica com a classe sucesso p aplica a cor
+        elementoMensagemE.classList.add(mensagem.tipo);
+        // msg aparece
+        elementoMensagemE.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagemE.hidden = true;
         }, 4000);
 
         // remove a mensagem da url = volta p /participante
