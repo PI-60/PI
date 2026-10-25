@@ -48,3 +48,45 @@
             }
         });
     });
+
+    // msg pra quando for realizado com sucesso ou nao
+   const mensagens = {
+    participanteExcluido: {
+        texto: 'Participante excluído com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    },
+
+    erro: {
+        texto: 'Não foi possível realizar a operação.',
+        tipo: 'erro'
+    }
+};
+    // http://localhost:3000/participantes?mensagem=erro retorna ?mensagem=erro
+    const parametros = new URLSearchParams(window.location.search);
+    // /participantes?mensagem=erro =  tipoMensagem recebe erro
+    const tipoMensagem = parametros.get('mensagem');
+
+    const elementoMensagem = document.getElementById('mensagem');
+    //  mensagens[tipoMensagem] = verifica se existe uma mensagem cadastrada com o nome recebido 
+    if (elementoMensagem && mensagens[tipoMensagem]) {
+        const mensagem = mensagens[tipoMensagem];
+
+        //textContent = define o texto que aparece 
+        elementoMensagem.textContent = mensagem.texto;
+        // mensagem.tipo for = sucesso a msg fica com a classe sucesso p aplica a cor
+        elementoMensagem.classList.add(mensagem.tipo);
+        // msg aparece
+        elementoMensagem.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagem.hidden = true;
+        }, 4000);
+
+        // remove a mensagem da url = volta p /participante
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }

@@ -97,10 +97,5 @@ if (grade && modal && botaoFechar) {
     fecharModal.addEventListener("click", () => {
         modal.close();
     });
-    // esse metodo funciona para que quando clicar fora da tela do modal ele se feche tb
-    modal.addEventListener("click", function (evento) {
-        if (evento.target === modal) {
-            modal.close();
-        }
-    });
+   
 }

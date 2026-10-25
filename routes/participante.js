@@ -69,13 +69,17 @@ router.post('/participantes/:id/excluir', async (req, res) => {
         await db.query('DELETE FROM participante WHERE idParticipante = ?', [req.params.id]);
         await db.commit();
 
-        res.redirect('/participantes');
-
-    } catch (erro) {
-        await db.rollback();
-        console.error(erro);
-        res.status(500).send('Erro ao excluir participante');
-    }
+        // pra redirecionar junto com  a msg
+        return res.redirect(
+          '/participantes?mensagem=participanteExcluido'
+        );
+   } catch (erro) {
+    await db.rollback();
+    console.error(erro);
+     return res.redirect(
+        '/participantes?mensagem=erro'
+    );
+}
 });
 
 
