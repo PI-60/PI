@@ -63,6 +63,95 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
 });
 
 // ========================================
+// ABRIR TELA DE EDIÇÃO DE USUÁRIO
+// Somente coordenadores
+// ========================================
+
+router.get(
+    '/usuarios/editar/:email',
+    exigirCoordenador,
+    async (req, res) => {
+        try {
+            const emailOriginal = req.params.email;
+
+            const [usuarios] = await db.execute(
+                `SELECT email, nome, telefone, CPF
+                 FROM usuario
+                 WHERE email = ?`,
+                [emailOriginal]
+            );
+
+            if (usuarios.length === 0) {
+                return res.status(404).send('Usuário não encontrado.');
+            }
+
+            return res.render('editarUsuario', {
+                layout: 'layouts/mainLogado',
+                usuario: usuarios[0]
+            });
+        } catch (erro) {
+            console.error('Erro ao abrir edição:', erro);
+            return res.status(500).send('Erro ao abrir a edição do usuário.');
+        }
+    }
+);
+
+// ========================================
+// SALVAR EDIÇÃO DE USUÁRIO
+// Somente coordenadores
+// ========================================
+
+
+router.post(
+    '/usuarios/editar/:email',
+    exigirCoordenador,
+    async (req, res) => {
+        const emailOriginal = req.params.email;
+        const { nome, telefone, cpf } = req.body;
+
+        if (!nome?.trim()) {
+            return res.status(400).send(
+                'O nome é obrigatório.'
+            );
+        }
+
+        try {
+            const [resultado] = await db.execute(
+                `UPDATE usuario
+                 SET nome = ?, telefone = ?, CPF = ?
+                 WHERE email = ?`,
+                [
+                    nome.trim(),
+                    telefone?.trim() || null,
+                    cpf?.trim() || null,
+                    emailOriginal
+                ]
+            );
+
+            if (resultado.affectedRows === 0) {
+                const [verificar] = await db.execute(
+                    'SELECT email FROM usuario WHERE email = ?',
+                    [emailOriginal]
+                );
+
+                if (verificar.length === 0) {
+                    return res.status(404).send(
+                        'Usuário não encontrado.'
+                    );
+                }
+            }
+
+            return res.redirect('/usuarios');
+        } catch (erro) {
+            console.error('Erro ao editar usuário:', erro);
+            return res.status(500).send(
+                'Erro ao salvar as alterações.'
+            );
+        }
+    }
+);
+
+// ========================================
 // CADASTRO DE USUÁRIO
 // Somente coordenadores
 // ========================================
@@ -95,13 +184,8 @@ router.post(
             );
         }
 
-        let conexao;
-
         try {
-            conexao = await db.getConnection();
-            await conexao.beginTransaction();
-
-            await conexao.execute(
+            await db.execute(
                 `INSERT INTO usuario
                     (email, nome, senha, telefone, CPF)
                  VALUES (?, ?, ?, ?, ?)`,
@@ -115,7 +199,7 @@ router.post(
             );
 
             if (tipo === 'coordenador') {
-                await conexao.execute(
+                await db.execute(
                     `INSERT INTO coordenador (email, SIAPE)
                      VALUES (?, ?)`,
                     [email.trim(), siape.trim()]
@@ -123,28 +207,21 @@ router.post(
             }
 
             if (tipo === 'bolsista') {
-                await conexao.execute(
+                await db.execute(
                     'INSERT INTO bolsista (email) VALUES (?)',
                     [email.trim()]
                 );
             }
 
             if (tipo === 'administrador') {
-                await conexao.execute(
+                await db.execute(
                     'INSERT INTO administrador (email) VALUES (?)',
                     [email.trim()]
                 );
             }
 
-            await conexao.commit();
-
             return res.redirect('/usuarios');
-
         } catch (erro) {
-            if (conexao) {
-                await conexao.rollback();
-            }
-
             console.error('Erro ao cadastrar usuário:', erro);
 
             if (erro.code === 'ER_DUP_ENTRY') {
@@ -153,13 +230,7 @@ router.post(
                 );
             }
 
-            return res.status(500).send(
-                'Erro ao cadastrar usuário.'
-            );
-        } finally {
-            if (conexao) {
-                conexao.release();
-            }
+            return res.status(500).send('Erro ao cadastrar usuário.');
         }
     }
 );
@@ -193,21 +264,115 @@ router.post(
             );
 
             return res.redirect('/usuarios');
-
         } catch (erro) {
             console.error('Erro ao cadastrar ministrante:', erro);
 
             if (erro.code === 'ER_DUP_ENTRY') {
                 return res.status(409).send(
                     'Já existe um ministrante com esse e-mail.'
-                );
+               );
             }
 
-            return res.status(500).send(
-                'Erro ao cadastrar ministrante.'
-            );
+            return res.status(500).send('Erro ao cadastrar ministrante.');
         }
     }
 );
+
+
+
+ 
+ // ========================================
+// EXCLUIR USUÁRIO
+// Somente coordenadores
+// ========================================
+
+router.post(
+    '/usuarios/excluir/:email',
+    exigirCoordenador,
+    async (req, res) => {
+        const email = req.params.email;
+
+        if (req.session.usuario.email === email) {
+            return res.status(400).send(
+                'Você não pode excluir sua própria conta.'
+            );
+        }
+
+        try {
+            const [encontrados] = await db.execute(
+                'SELECT email FROM usuario WHERE email = ?',
+                [email]
+            );
+
+            if (encontrados.length === 0) {
+                return res.status(404).send('Usuário não encontrado.');
+            }
+
+            await db.beginTransaction();
+
+            try {
+                await db.execute(
+                    'DELETE FROM administrador WHERE email = ?', [email]
+                );
+                await db.execute(
+                    'DELETE FROM coordenador WHERE email = ?', [email]
+                );
+                await db.execute(
+                    'DELETE FROM bolsista WHERE email = ?', [email]
+                );
+                await db.execute(
+                    'DELETE FROM usuario WHERE email = ?', [email]
+                );
+
+                await db.commit();
+                return res.redirect('/usuarios');
+            } catch (erro) {
+                await db.rollback();
+                throw erro;
+            }
+        } catch (erro) {
+            console.error('Erro ao excluir usuário:', erro);
+
+            if (!res.headersSent) {
+                return res.status(500).send(
+                    'Erro ao excluir usuário. Verifique se existem registros vinculados.'
+                );
+            }
+        }
+    }
+);
+
+// ========================================
+// EXCLUIR MINISTRANTE
+// Somente administradores
+// ========================================
+
+router.post(
+    '/usuarios/ministrantes/excluir/:email',
+    exigirAdministrador,
+    async (req, res) => {
+        const email = req.params.email;
+
+        try {
+            const [resultado] = await db.execute(
+                'DELETE FROM ministrante WHERE email = ?',
+                [email]
+            );
+
+            if (resultado.affectedRows === 0) {
+                return res.status(404).send(
+                    'Ministrante não encontrado.'
+                );
+            }
+
+            return res.redirect('/usuarios');
+        } catch (erro) {
+            console.error('Erro ao excluir ministrante:', erro);
+            return res.status(500).send('Erro ao excluir ministrante.');
+        }
+    }
+);
+
+
 
 export default router;

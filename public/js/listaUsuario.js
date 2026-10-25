@@ -113,4 +113,76 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = '/cadastro';
         });
     }
+    
+    
+    lista.addEventListener('click', async function (evento) {
+        // EDITAR USUÁRIO
+        const botaoEditar = evento.target.closest('.botao-acao.editar');
+
+        if (botaoEditar) {
+            const email = botaoEditar.dataset.email;
+
+            if (email) {
+                window.location.href =
+                    '/usuarios/editar/' + encodeURIComponent(email);
+            }
+
+            return;
+        }
+
+        // EXCLUIR USUÁRIO OU MINISTRANTE
+        const botaoExcluir = evento.target.closest('.botao-acao.excluir');
+
+        if (!botaoExcluir) return;
+
+        const email = botaoExcluir.dataset.email;
+        const ministrante = botaoExcluir.dataset.ministrante === '1';
+
+        if (!email) {
+            alert('Não foi possível identificar o cadastro.');
+            return;
+        }
+
+        const confirmado = confirm(
+            'Tem certeza de que deseja excluir este cadastro? Essa ação não pode ser desfeita.'
+        );
+
+        if (!confirmado) return;
+
+        const rota = ministrante
+            ? '/usuarios/ministrantes/excluir/'
+            : '/usuarios/excluir/';
+
+        try {
+            const resposta = await fetch(
+                rota + encodeURIComponent(email),
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        tipo: ministrante ? 'ministrante' : 'usuario'
+                    })
+                }
+            );
+
+            if (resposta.redirected) {
+                window.location.href = resposta.url;
+                return;
+            }
+
+            if (!resposta.ok) {
+                const mensagemErro = await resposta.text();
+                alert(mensagemErro || 'Não foi possível excluir o cadastro.');
+                return;
+            }
+
+            window.location.reload();
+        } catch (erro) {
+            console.error('Erro ao excluir cadastro:', erro);
+            alert('Não foi possível conectar ao servidor.');
+        }
+    });
+
 });
