@@ -11,6 +11,8 @@ import session from 'express-session';
 import partRoutes from './routes/participante.js';
 import userRoutes from './routes/usuario.js';
 import atividadeRoutes from './routes/atividade.js'
+import listaUsuariosRoutes from './routes/listaUsuarios.js';
+
 
 
 
@@ -59,6 +61,7 @@ app.get('/', async (req, res) => {
 app.use('/', userRoutes);
 app.use('/', partRoutes);
 app.use('/', atividadeRoutes);
+app.use('/', listaUsuariosRoutes);
 
 // --- SERVIDOR ---
 app.listen(3000, () => {

@@ -1,0 +1,62 @@
+
+<link rel="stylesheet" href="/css/styleUsuario.css">
+
+<main class="usuarios-page">
+    <section class="formulario">
+        <h1>Editar usuário</h1>
+
+        <form action="/usuarios/editar/{{usuario.email}}" method="POST">
+            <div class="campo-formulario">
+                <label for="nome">Nome completo</label>
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    value="{{usuario.nome}}"
+                    required
+                >
+            </div>
+
+            <div class="campo-formulario">
+                <label for="email">E-mail</label>
+<input
+    type="email"
+    id="email"
+    value="{{usuario.email}}"
+    readonly
+>
+                
+            </div>
+
+            <div class="campo-formulario">
+                <label for="telefone">Telefone</label>
+                <input
+                    type="text"
+                    id="telefone"
+                    name="telefone"
+                    value="{{usuario.telefone}}"
+                >
+            </div>
+
+            <div class="campo-formulario">
+                <label for="cpf">CPF</label>
+                <input
+                    type="text"
+                    id="cpf"
+                    name="cpf"
+                    value="{{usuario.CPF}}"
+                >
+            </div>
+
+            <div class="acoes-formulario">
+                <button type="submit" class="botao-cadastrar">
+                    Salvar alterações
+                </button>
+
+                <a href="/usuarios" class="botao-cancelar">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+</main>

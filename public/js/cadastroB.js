@@ -1,135 +1,74 @@
 
 
-// para todos ficarem escondidos ate mudar o tpo de ususrio 
+// para todos ficarem escondidos ate mudar o tipo de usuario
 document.addEventListener("DOMContentLoaded", function () {
     const tipoU = document.getElementById("tipoU");
     const escondido = document.getElementById("hidden");
 
-    tipoU.addEventListener("change", function () {
-        // se o valor for diferente de "usuario" ele mostra as outras op 
-        if (tipoU.value !== "usuario") {
-            escondido.style.display = "contents"; 
-        } else {
-         //   se ele voltar para a op uusrio esconde tudo de novo
-            escondido.style.display = "none";  
-        }
-    });
-});
+    // Na tela de edição de usuário, o seletor não existe.
+    // Por isso, só executamos as regras quando ele estiver presente.
+    if (!tipoU) {
+        return;
+    }
 
+    // participante
+    const emailB = document.getElementById("emailB");
+    const campoEmail = emailB ? emailB.closest(".campo") : null;
 
+    // ministrante
+    const cpfB = document.getElementById("cpfB");
+    const campoCPF = cpfB ? cpfB.closest(".campo") : null;
 
-// partiipante
-document.addEventListener("DOMContentLoaded", function () {
-    /*quando clicar nesse botão faça isso.. */
+    // coordenador
+    const siape = document.getElementById("siape");
+    const campoSiape = siape ? siape.closest(".campo") : null;
 
-    const tipoU = document.getElementById("tipoU");
-    const campoEmail = emailB.closest(".campo");
-    // cchama o campo + proximo que tenha emailB ja que todas as cedulas sao .campo)
-
+    // bolsista
+    const passwordB = document.getElementById("passwordB");
+    const campoSenha = passwordB ? passwordB.closest(".campo") : null;
 
     console.log("Select:", tipoU);
     console.log("Email:", emailB);
-
-    tipoU.addEventListener("change", function () {
-        // quando escolher particiante ele some = none 
-        if (tipoU.value == "participante") {
-            campoEmail.style.display = "none";
-        }
-        // se nao le continua
-        else {
-            campoEmail.style.display = "block";
-           
-        }
-        //validação do email
-        if (campoEmail === "" || !campoEmail.includes("@")) {
-             alert("E-mail inválido");//função do JavaScript que mostra uma mensagem em uma janelinha na tela para o usuário.
-}
-
-
-    });
-
-});
-
-
-// minirante
-document.addEventListener("DOMContentLoaded", function () {
-
-    const tipoU = document.getElementById("tipoU");
-    const campoCPF = cpfB.closest(".campo");
-
-    console.log("Select:", tipoU);
     console.log("CPF:", cpfB);
-
-    tipoU.addEventListener("change", function () {
-  // quando escolher particiante ele some = none 
-        if (tipoU.value == "ministrante") {
-            campoCPF.style.display = 'none'
-        } 
-       // se nao ele cntinua
-        else {
-            campoCPF.style.display = 'block'
-        }
-        //validação mi nistrante
-        if (campoCPF === "" || campoCPF < 11) {
-             alert("CPF inválido");
-        
-        }
-    });
-
-});
-
-
-// coordenaor;
-document.addEventListener("DOMContentLoaded", function () {
-    /*quando clicar nesse botão faça isso.. */
-
-    const tipoU = document.getElementById("tipoU");
-    const campoSiape = siape.closest(".campo");
-
-    console.log("Select:", tipoU);
     console.log("Siape:", siape);
-
-    tipoU.addEventListener("change", function () {
-        // quando for coordendr ele aparece 
-        if (tipoU.value == "coordenador") {
-            campoSiape.style.display = "block";
-        } else {
-            campoSiape.style.display = "none";
-        }
-             //validação COODENADOR 
-        if (campoSiape === "" || campoSiape < 7) {
-             alert("Siape inválido");
-        
-        }
-    });
-    });
-
-    //bolsista
-    document.addEventListener("DOMContentLoaded", function () {
-    /*quando clicar nesse botão faça isso.. */
-
-    const tipoU = document.getElementById("tipoU");
-    const campoSenha= passwordB.closest(".campo")
-
-    console.log("Select:", tipoU);
     console.log("Senha:", passwordB);
 
-    tipoU.addEventListener("change", function () {
-
-        if (tipoU.value == "bolsista") {
-           campoSenha.style.display = "block";
-        } else {
-            campoSenha.style.display = "none";
+    function atualizarCampos() {
+        // se o valor for diferente de "usuario" mostra as outras opções
+        if (escondido) {
+            escondido.style.display =
+                tipoU.value !== "usuario" ? "contents" : "none";
         }
 
-         //validação bolsista
-        if (campoSenha === "" || campoSenha < 5) {
-             alert("CPF inválido");
-        
+        // participante: esconde o e-mail
+        if (campoEmail) {
+            campoEmail.style.display =
+                tipoU.value === "participante" ? "none" : "";
         }
-    });
 
+        // ministrante: esconde o CPF
+        if (campoCPF) {
+            campoCPF.style.display =
+                tipoU.value === "ministrante" ? "none" : "";
+        }
 
+        // coordenador: mostra o SIAPE
+        if (campoSiape) {
+            campoSiape.style.display =
+                tipoU.value === "coordenador" ? "" : "none";
+        }
+
+        // bolsista: mostra a senha
+        if (campoSenha) {
+            campoSenha.style.display =
+                tipoU.value === "bolsista" ? "" : "none";
+        }
+    }
+
+    tipoU.addEventListener("change", atualizarCampos);
+
+    // Atualiza os campos quando a página abre
+    atualizarCampos();
 });
 
 
