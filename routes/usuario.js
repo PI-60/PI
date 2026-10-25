@@ -133,34 +133,33 @@ router.post('/cadastro', async (req, res) => {
         }
 
         // EDIÇÃO DE PARTICIPANTE (veio com id) - sempre atualiza, o tipo não pode ser trocado
-        if (idParticipante) {
-            sql = 'UPDATE participante SET nome = ?, cpf = ?, telefone = ? WHERE idParticipante = ?';
-            await db.execute(sql, [nome, cpf || null, telefone || null, idParticipante]);
-            return res.redirect('/participantes?mensagem=participanteEditado');
-        }
+            if (idParticipante) {
+                try {
+                    const [resultado] = await db.execute(
+                        `UPDATE participante
+                        SET nome = ?, cpf = ?, telefone = ?
+                        WHERE idParticipante = ?`,
+                        [nome, cpf || null, telefone || null, idParticipante]
+                    );
+
+                    // verifica se algum participante foi atualizado
+                    if (resultado.affectedRows > 0) {
+                        return res.redirect('/participantes?mensagem=participanteEditado');
+                        
+                    } else {
+                        return res.redirect('/participantes?mensagem=erro');
+                    }
+
+                } catch (error) {
+                    console.error('Erro ao editar participante:', error);
+                    return res.redirect('/participantes?mensagem=erro');
+                }
+            }
 
         // PARTICIPANTE
-       // EDIÇÃO DE PARTICIPANTE
-if (idParticipante) {
-    try {
-        const [resultado] = await db.execute(
-            `UPDATE participante
-             SET nome = ?, cpf = ?, telefone = ?
-             WHERE idParticipante = ?`,
-            [nome, cpf || null, telefone || null, idParticipante]
-        );
-        // Verifica se algum participante foi atualizado
-        if (resultado.affectedRows > 0) {
-            return res.redirect('/participantes?mensagem=participanteEditado');
-
-        } else {
-            return res.redirect('/participantes?mensagem=erro');
-        }
-
-            } catch (error) {
-                console.error('Erro ao editar participante:', error);
-                return res.redirect('/participantes?mensagem=erro');
-            }
+        if (tipo == 'participante') {
+            sql = 'INSERT INTO participante (nome, cpf, telefone) VALUES (?, ?, ?)';
+            await db.execute(sql, [nome, cpf, telefone]);
         }
 
         // COORDENADOR
