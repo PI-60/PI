@@ -25,13 +25,56 @@
         <a href="#contato">Contato</a>
       </nav>
 
-      <div class="usuario-logado">
-        <div class="bolinha" title="{{usuario.nome}}">{{inicialUsuario}}</div>
-        <a href="/logout" class="btn btn-outline">Sair</a>
-      </div>
+<div class="usuario-logado">
+     
+<div class="usuario-container">
 
+    
+    <button
+        class="bolinha"
+        id="botaoUsuario"
+        type="button"
+        aria-label="Informações da conta">
+
+        {{inicialUsuario}}
+    </button>
+
+    <div class="menu-usuario" id="menuUsuario">
+
+        <strong>
+            {{#if usuario}}
+                {{usuario.nome}}
+            {{else}}
+                Usuário
+            {{/if}}
+        </strong>
+
+        <span>
+            {{#if usuario}}
+                {{usuario.email}}
+            {{else}}
+                usuario@email.com
+            {{/if}}
+        </span>
+
+        <div class="separador"></div>
+
+        <button
+            class="opcao-menu"
+            id="trocarConta"
+            type="button">
+
+            <i class="bi bi-arrow-left-right"></i>
+            <span>Trocar de conta</span>
+        </button>
+
+      </div>
     </div>
-  </div>
+       <div class="botaosair">
+           <a href="/logout" class="btn btn-outline">Sair</a>
+           </div>
+           </div>
+</div>
 </header>
 
 <script src="/js/headerLogado.js"></script>

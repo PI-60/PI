@@ -7,3 +7,10 @@ if (navToggle && mainNav) {
         navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 }
+        const trocarConta = document.getElementById('trocarConta');
+
+            if (trocarConta) {
+                trocarConta.addEventListener('click', function () {
+                    window.location.href = '/logout';
+                });
+            }
