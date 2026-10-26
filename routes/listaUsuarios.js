@@ -488,15 +488,15 @@ router.post(
     }
 );
 
-// ========================================
-// EXCLUIR MINISTRANTE
-// Coordenadores e administradores
-// ========================================
 
+ // ========================================
+ // EXCLUIR MINISTRANTE
+ // Somente administradores
+ // ========================================
 
 router.post(
     '/usuarios/ministrantes/excluir/:email',
-    exigirCoordenadorOuAdministrador,
+    exigirAdministrador,
     async (req, res) => {
         const email = req.params.email;
 
@@ -513,28 +513,27 @@ router.post(
                 );
             }
 
-            // Verifica se existem oficinas vinculadas
-            const [oficinas] = await db.execute(
-                'SELECT 1 FROM oficina WHERE ministrante_email = ? LIMIT 1',
+            // Desvincula o ministrante das oficinas
+            await db.execute(
+                'UPDATE oficina SET ministrante_email = NULL WHERE ministrante_email = ?',
                 [email]
             );
 
-            if (oficinas.length > 0) {
-                return res.status(409).send(
-                    'Não é possível excluir este ministrante porque ele está vinculado a uma ou mais oficinas. Remova ou altere o vínculo com as oficinas antes de excluir o cadastro.'
-                );
-            }
-
-            // Exclui somente se não houver oficinas vinculadas
+            // Exclui o cadastro do ministrante
             await db.execute(
                 'DELETE FROM ministrante WHERE email = ?',
                 [email]
             );
 
-            return res.redirect('/usuarios?mensagem=usuarioExcluido');
+            return res.redirect(
+                '/usuarios?mensagem=usuarioExcluido'
+            );
 
         } catch (erro) {
-            console.error('Erro ao excluir ministrante:', erro);
+            console.error(
+                'Erro ao excluir ministrante:',
+                erro
+            );
 
             return res.status(500).send(
                 'Erro ao excluir ministrante.'
@@ -542,5 +541,7 @@ router.post(
         }
     }
 );
+
+
 
 export default router;
