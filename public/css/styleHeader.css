@@ -45,12 +45,18 @@ a{
   color:inherit;
 } 
 
-.container{ 
-  width:100%; 
-  max-width:var(--container); 
-  margin-inline:auto; 
-  padding-inline:clamp(20px, 5vw, 56px); 
-} 
+.main-content {
+    margin-left: 190px;
+    width: calc(100% - 190px);
+}
+
+.container {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+}
+
 
 h1,h2,h3{ 
   font-family:var(--font-display); 
@@ -94,11 +100,15 @@ div.site-header{
 } 
 
 .nav-inner {
-     display: flex;
+
+    display: flex;
     align-items: center;
     gap: 34px;
     padding-block: 18px;
 }
+
+
+
 
 /* header ocupa a largura toda: logo mais à esquerda e "Sair" mais à direita */
 .site-header .nav-inner {
@@ -109,8 +119,10 @@ div.site-header{
 .usuario-logado {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 12px;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 .bolinha {
@@ -129,9 +141,10 @@ div.site-header{
     user-select: none;
 }
 .usuario-container {
-    position: relative;
-  
- 
+     position: relative;
+    display: flex;
+    align-items: center;
+
 }
 
 .menu-usuario {
@@ -214,21 +227,24 @@ div.site-header{
 
 /* ================= NAV ================= */ 
 
-nav.main-nav{ 
-   display: flex;
+.nav-inner {
+    position: relative;
+    display: flex;
     align-items: center;
-    gap: 34px;
-    flex-shrink: 0;
-} 
+    justify-content: space-between;
+    padding-block: 18px;
+}
 
-nav.main-nav a{ 
-  position:relative; 
-  text-decoration:none; 
-  font-size:14.5px; 
-  font-weight:600; 
-  color:var(--ink); 
-  padding-block:4px; 
-} 
+nav.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-shrink: 0;
+}
 
 nav.main-nav a::after{ 
   content:""; 
