@@ -94,8 +94,9 @@ div.site-header{
 } 
 
 .nav-inner {
-    display: flex;
+     display: flex;
     align-items: center;
+    gap: 34px;
     padding-block: 18px;
 }
 
@@ -127,6 +128,70 @@ div.site-header{
     flex-shrink: 0;
     user-select: none;
 }
+.usuario-container {
+    position: relative;
+  
+ 
+}
+
+.menu-usuario {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 230px;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+}
+
+.menu-usuario strong,
+.menu-usuario > span {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.menu-usuario strong {
+    margin-bottom: 6px;
+    color: #222222;
+}
+
+.menu-usuario > span {
+    font-size: 13px;
+    color: #666666;
+}
+
+
+.usuario-container:hover .menu-usuario,
+.usuario-container:focus-within .menu-usuario {
+    display: block;
+}
+
+.separador {
+    height: 1px;
+    background-color: #eeeeee;
+    margin: 14px 0;
+}
+
+.opcao-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    color:var(--roxo);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.opcao-menu:hover {
+    color: #4c1074;
+}
 
 .brand-group{
   display:flex;
@@ -135,7 +200,8 @@ div.site-header{
 }
 
 .brand {
-    margin-right: auto;
+    margin-right: 0;
+    flex-shrink: 0;
 }
 
 .brand .a{
@@ -149,8 +215,10 @@ div.site-header{
 /* ================= NAV ================= */ 
 
 nav.main-nav{ 
-  display:flex; 
-  gap:34px; 
+   display: flex;
+    align-items: center;
+    gap: 34px;
+    flex-shrink: 0;
 } 
 
 nav.main-nav a{ 
@@ -758,3 +826,4 @@ footer .contato-item{
     text-align:center; 
   } 
 }
+
