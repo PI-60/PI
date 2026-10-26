@@ -88,7 +88,7 @@ if (campoPesquisa) {
     // EDITA MSG
     const mensagensE = {
     atividadeEditada: {
-        texto: 'Atividade editada com sucesso!', // texto = msg que aparecerá
+        texto: 'Atividade salva com sucesso!', // texto = msg que aparecerá
         tipo: 'sucesso' // o tipo para puxar no css 
     }
 };

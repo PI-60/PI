@@ -96,7 +96,7 @@
 
       const mensagensE = {
     participanteEditado: {
-        texto: 'Participante editado com sucesso!', // texto = msg que aparecerá
+        texto: 'Participante salvo com sucesso!', // texto = msg que aparecerá
         tipo: 'sucesso' // o tipo para puxar no css 
     },
 

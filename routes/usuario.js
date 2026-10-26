@@ -170,10 +170,9 @@ router.post('/cadastro', async (req, res) => {
             await db.execute(sql, [email, siape]);
         }
 
-        res.redirect('/inicioLogado');
+       return res.redirect('/usuarios?mensagem=usuarioCadastrado');
     } catch (error) {
-        console.error('Erro no cadastro:', error);
-        res.status(500).send('Erro ao realizar o cadastro.');
+         return res.redirect('/usuarios?mensagem=erro');
     }
 });
 

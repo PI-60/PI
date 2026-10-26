@@ -186,3 +186,102 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+
+
+// excluir
+ const mensagens = {
+    usuarioExcluido: {
+        texto: 'Usuário excluído com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    },
+
+    erro: {
+        texto: 'Não foi possível realizar essa operação.',
+        tipo: 'erro'
+    }
+};
+ 
+    const parametros = new URLSearchParams(window.location.search);
+    const tipoMensagem = parametros.get('mensagem');
+    const elementoMensagem = document.getElementById('mensagem');
+  
+    if (elementoMensagem && mensagens[tipoMensagem]) {
+        const mensagem = mensagens[tipoMensagem];
+
+        elementoMensagem.textContent = mensagem.texto;
+        elementoMensagem.classList.add(mensagem.tipo);
+        elementoMensagem.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagem.hidden = true;
+        }, 4000);
+
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }
+
+    // editar
+ const mensagensE = {
+    usuarioEditado: {
+        texto: 'Usuário salvo com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    }
+};
+ 
+    const parametrosE = new URLSearchParams(window.location.search);
+    const tipoMensagemE = parametros.get('mensagem');
+    const elementoMensagemE = document.getElementById('mensagem');
+  
+    if (elementoMensagemE && mensagensE[tipoMensagemE]) {
+        const mensagemE = mensagensE[tipoMensagemE];
+
+        elementoMensagemE.textContent = mensagemE.texto;
+        elementoMensagemE.classList.add(mensagemE.tipo);
+        elementoMensagemE.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagemE.hidden = true;
+        }, 4000);
+
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }
+
+// cadastra
+ const mensagensC = {
+    usuarioCadastrado: {
+        texto: 'Usuário cadastrado com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    }
+};
+ 
+    const parametrosC = new URLSearchParams(window.location.search);
+    const tipoMensagemC = parametros.get('mensagem');
+    const elementoMensagemC = document.getElementById('mensagem');
+  
+    if (elementoMensagemC && mensagensC[tipoMensagemC]) {
+        const mensagemC = mensagensC[tipoMensagemC];
+
+        elementoMensagemC.textContent = mensagemC.texto;
+        elementoMensagemC.classList.add(mensagemC.tipo);
+        elementoMensagemC.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagemC.hidden = true;
+        }, 4000);
+
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }

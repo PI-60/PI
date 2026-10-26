@@ -97,7 +97,7 @@ router.get(
             );
 
             if (usuarios.length > 0) {
-                return res.render('telaCadastroB', {
+                  return res.render('telaCadastroB', {
                     layout: 'layouts/cadastro',
                     usuario: usuarios[0],
                     editandoUsuario: true
@@ -121,15 +121,13 @@ router.get(
                         CPF: null
                     },
                     editandoUsuario: true
+                    
                 });
             }
-
             return res.status(404).send('Usuário não encontrado.');
+            
         } catch (erro) {
-            console.error('Erro ao abrir edição:', erro);
-            return res.status(500).send(
-                'Erro ao abrir a edição do usuário.'
-            );
+            return res.redirect('/usuarios?mensagem=erro');
         }
     }
 );
@@ -175,7 +173,7 @@ router.post(
                     ]
                 );
 
-                return res.redirect('/usuarios');
+               return res.redirect('/usuarios?mensagem=usuarioEditado');
             }
 
             // Se não for usuário, verifica se é ministrante
@@ -196,17 +194,14 @@ router.post(
                     ]
                 );
 
-                return res.redirect('/usuarios');
+              return res.redirect('/usuarios?mensagem=usuarioEditado');
             }
 
             return res.status(404).send(
                 'Usuário não encontrado.'
             );
         } catch (erro) {
-            console.error('Erro ao editar usuário:', erro);
-            return res.status(500).send(
-                'Erro ao salvar as alterações.'
-            );
+              return res.redirect('/usuarios?mensagem=erro');
         }
     }
 );
@@ -279,8 +274,8 @@ router.post(
                     [email.trim()]
                 );
             }
+                return res.redirect('/usuarios?mensagem=usuarioCadastrado');
 
-            return res.redirect('/usuarios');
         } catch (erro) {
             console.error('Erro ao cadastrar usuário:', erro);
 
@@ -290,7 +285,7 @@ router.post(
                 );
             }
 
-            return res.status(500).send('Erro ao cadastrar usuário.');
+             return res.redirect('/usuarios?mensagem=erro');
         }
     }
 );
@@ -323,7 +318,7 @@ router.post(
                 ]
             );
 
-            return res.redirect('/usuarios');
+            return res.redirect('/usuarios?mensagem=usuarioCadastrado');
         } catch (erro) {
             console.error('Erro ao cadastrar ministrante:', erro);
 
@@ -333,7 +328,7 @@ router.post(
                );
             }
 
-            return res.status(500).send('Erro ao cadastrar ministrante.');
+              return res.redirect('/usuarios?mensagem=erro');
         }
     }
 );
@@ -385,21 +380,15 @@ router.post(
                 );
 
                 await db.commit();
-                return res.redirect('/usuarios');
+                return res.redirect('/usuarios?mensagem=usuarioExcluido');
             } catch (erro) {
                 await db.rollback();
                 throw erro;
             }
         } catch (erro) {
-            console.error('Erro ao excluir usuário:', erro);
-
-            if (!res.headersSent) {
-                return res.status(500).send(
-                    'Erro ao excluir usuário. Verifique se existem registros vinculados.'
-                );
+              return res.redirect('/usuarios?mensagem=erro');
             }
         }
-    }
 );
 
 // ========================================
@@ -425,10 +414,9 @@ router.post(
                 );
             }
 
-            return res.redirect('/usuarios');
+            return res.redirect('/usuarios?mensagem=usuarioExcluido');
         } catch (erro) {
-            console.error('Erro ao excluir ministrante:', erro);
-            return res.status(500).send('Erro ao excluir ministrante.');
+           return res.redirect('/usuarios?mensagem=erro');
         }
     }
 );
