@@ -116,6 +116,21 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     lista.addEventListener('click', async function (evento) {
+        
+        // VISUALIZAR USUÁRIO OU MINISTRANTE
+        const botaoVisualizar = evento.target.closest('.botao-acao.visualizar');
+
+        if (botaoVisualizar) {
+            const email = botaoVisualizar.dataset.email;
+
+            if (email) {
+                window.location.href =
+                    '/usuarios/visualizar/' + encodeURIComponent(email);
+            }
+
+            return;
+        }
+
         // EDITAR USUÁRIO
         const botaoEditar = evento.target.closest('.botao-acao.editar');
 

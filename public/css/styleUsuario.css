@@ -248,12 +248,14 @@
    TABELA DE USUÁRIOS
 ========================================= */
 
+
 .usuarios-page .tabela-container {
     width: 100%;
-    overflow-x: auto;
+    overflow: visible;
     border: 1px solid #ddd;
     border-radius: 6px;
 }
+
 
 .usuarios-page .tabela-usuarios {
     width: 100%;
@@ -605,5 +607,78 @@ opacity: 1;
 .mensagem[hidden] {
     display: none;
 }
+
+
+/* =========================================
+   POP-UP DE VISUALIZAÇÃO DO USUÁRIO
+========================================= */
+
+.usuarios-page .visualizar-container {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.usuarios-page .botao-acao.visualizar {
+    color: #542787;
+}
+
+.usuarios-page .popup-usuario {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 2000;
+
+    width: 280px;
+    max-width: 75vw;
+    padding: 16px;
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+    color: #333;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.usuarios-page .popup-usuario strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #278747;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+}
+
+.usuarios-page .popup-usuario > span {
+    display: block;
+    margin-top: 5px;
+}
+
+.usuarios-page .popup-funcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.usuarios-page .popup-funcoes .tag-funcao {
+    padding: 4px 8px;
+    font-size: 10px;
+}
+
+/* Mostra o pop-up ao passar o cursor ou navegar pelo teclado */
+.usuarios-page .visualizar-container:hover .popup-usuario,
+.usuarios-page .visualizar-container:focus-within .popup-usuario {
+    display: block;
+}
+
 
 

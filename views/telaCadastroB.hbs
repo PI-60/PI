@@ -19,10 +19,10 @@
     <section>
         <!-- formulário -->
         <form
-            id="CadastroB"
-            action="{{#if editandoUsuario}}/usuarios/editar/{{usuario.email}}{{else}}/cadastro{{/if}}"
-            method="post"
-        >
+    id="CadastroB"
+    action="{{#if editandoMinistrante}}/usuarios/ministrantes/editar/{{usuario.email}}{{else}}{{#if editandoUsuario}}/usuarios/editar/{{usuario.email}}{{else}}/cadastro{{/if}}{{/if}}"
+    method="post"
+>
             <!-- quando vem da lista de participantes (editar), guarda o id para a rota fazer UPDATE -->
             {{#if participante}}
                 <input
@@ -36,16 +36,20 @@
             <div class="formulario">
 
                 <h1 id="titulo">
-                    {{#if editandoUsuario}}
-                        Editar usuário
-                    {{else}}
-                        {{#if participante}}
-                            Editar participante
-                        {{else}}
-                            Cadastro de Usuário
-                        {{/if}}
-                    {{/if}}
-                </h1>
+    {{#if editandoMinistrante}}
+        Editar ministrante
+    {{else}}
+        {{#if editandoUsuario}}
+            Editar usuário
+        {{else}}
+            {{#if participante}}
+                Editar participante
+            {{else}}
+                Cadastro de Usuário
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</h1>
 
                 <!-- Campos principais ficam visíveis durante a edição -->
                 <div

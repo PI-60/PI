@@ -1,0 +1,30 @@
+
+<link rel="stylesheet" href="/css/styleUsuario.css">
+
+<main class="usuarios-page">
+    <section class="formulario">
+        <h1>Visualizar cadastro</h1>
+
+        <p><strong>Nome:</strong> {{usuario.nome}}</p>
+        <p><strong>E-mail:</strong> {{usuario.email}}</p>
+        <p><strong>Telefone:</strong> {{#if usuario.telefone}}{{usuario.telefone}}{{else}}Não informado{{/if}}</p>
+
+        {{#unless usuario.ministrante}}
+            <p><strong>CPF:</strong> {{#if usuario.CPF}}{{usuario.CPF}}{{else}}Não informado{{/if}}</p>
+        {{/unless}}
+
+        <p><strong>Tipo de usuário:</strong>
+            {{#if usuario.administrador}}Administrador {{/if}}
+            {{#if usuario.coordenador}}Coordenador {{/if}}
+            {{#if usuario.bolsista}}Bolsista {{/if}}
+            {{#if usuario.ministrante}}Ministrante{{/if}}
+        </p>
+
+        <button
+            type="button"
+            class="botao-cadastrar"
+            onclick="window.location.href='/usuarios'">
+            Voltar para usuários
+        </button>
+    </section>
+</main>
