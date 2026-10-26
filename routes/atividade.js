@@ -161,6 +161,8 @@ router.post('/cadastroat', async (req, res) => {
             `;
             const bolsistas = [bolsista1, bolsista2, bolsista3];
 
+            res.redirect('/atividades?mensagem=atividadeEditada');
+
         } else {
 
             //  cadastra a oficina
@@ -209,7 +211,7 @@ router.post('/cadastroat', async (req, res) => {
             ]);
         }
 
-        res.redirect('/atividades');
+        res.redirect('/atividades?mensagem=atividadeCadastrada');
 
     } catch (error) {
         console.error(error);
@@ -245,7 +247,7 @@ router.get('/atividades', async (req, res) => {
 
     } catch (erro) {
         console.error(erro);
-        res.status(500).send('Erro ao buscar atividades');
+        return res.redirect('/atividades?mensagem=erro');
     }
 
 });
