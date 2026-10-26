@@ -265,12 +265,12 @@ router.post('/atividades/:id/excluir', async (req, res) => {
         await db.query('DELETE FROM oficina WHERE idOficina = ?', [req.params.id]);
         await db.commit();
 
-        res.redirect('/atividades');
+        res.redirect('/atividades?mensagem=atividadeExcluida');
 
     } catch (erro) {
         await db.rollback();
         console.error(erro);
-        res.status(500).send('Erro ao excluir atividade');
+         return res.redirect('/atividades?mensagem=erro');
     }
 });
 
