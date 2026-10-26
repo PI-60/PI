@@ -92,12 +92,13 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
+
 -- -----------------------------------------------------
 -- Table `ifsc60`.`oficina`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ifsc60`.`oficina` (
   `idOficina` INT NOT NULL AUTO_INCREMENT,
-  `ministrante_email` VARCHAR(100) NOT NULL,
+  `ministrante_email` VARCHAR(100) NULL DEFAULT NULL,
   `titulo` VARCHAR(50) NOT NULL,
   `descricao` VARCHAR(1200) NULL DEFAULT NULL,
   `local` VARCHAR(1200) NULL DEFAULT NULL,
@@ -109,11 +110,13 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`oficina` (
   CONSTRAINT `fk_oficina_ministrante1`
     FOREIGN KEY (`ministrante_email`)
     REFERENCES `ifsc60`.`ministrante` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+  
 
 
 -- -----------------------------------------------------

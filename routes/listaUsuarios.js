@@ -402,10 +402,11 @@ router.post(
     }
 );
 
-// ========================================
-// EXCLUIR MINISTRANTE
-// Somente administradores
-// ========================================
+
+ // ========================================
+ // EXCLUIR MINISTRANTE
+ // Somente administradores
+ // ========================================
 
 router.post(
     '/usuarios/ministrantes/excluir/:email',
@@ -414,24 +415,47 @@ router.post(
         const email = req.params.email;
 
         try {
-            const [resultado] = await db.execute(
-                'DELETE FROM ministrante WHERE email = ?',
+            // Verifica se o ministrante existe
+            const [ministrantes] = await db.execute(
+                'SELECT email FROM ministrante WHERE email = ?',
                 [email]
             );
 
-            if (resultado.affectedRows === 0) {
+            if (ministrantes.length === 0) {
                 return res.status(404).send(
                     'Ministrante não encontrado.'
                 );
             }
 
-            return res.redirect('/usuarios');
+            // Desvincula o ministrante das oficinas
+            await db.execute(
+                'UPDATE oficina SET ministrante_email = NULL WHERE ministrante_email = ?',
+                [email]
+            );
+
+            // Exclui o cadastro do ministrante
+            await db.execute(
+                'DELETE FROM ministrante WHERE email = ?',
+                [email]
+            );
+
+            return res.redirect(
+                '/usuarios?mensagem=usuarioExcluido'
+            );
+
         } catch (erro) {
-            console.error('Erro ao excluir ministrante:', erro);
-            return res.status(500).send('Erro ao excluir ministrante.');
+            console.error(
+                'Erro ao excluir ministrante:',
+                erro
+            );
+
+            return res.status(500).send(
+                'Erro ao excluir ministrante.'
+            );
         }
     }
 );
+
 
 
 
