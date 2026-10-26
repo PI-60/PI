@@ -496,7 +496,7 @@ router.post(
 
 router.post(
     '/usuarios/ministrantes/excluir/:email',
-    exigirAdministrador,
+    exigirCoordenadorOuAdministrador,
     async (req, res) => {
         const email = req.params.email;
 
