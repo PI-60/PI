@@ -211,7 +211,7 @@ router.get('/atividades', async (req, res) => {
 
 
         res.render('telaAtividades', {
-            layout: 'layouts/mainLogado',
+            layout: 'layouts/telasNavegacao',
             atividades: atividades
 
         });

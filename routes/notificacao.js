@@ -18,22 +18,30 @@ export async function notificarBolsistaAdicionado(oficinaId, bolsistaEmail, titu
     );
 }
 
+// restringe as notificações às que foram geradas para o próprio usuário logado
+const filtroCadastrado = 'bolsista_email = ?';
+
 // lista as notificações mais recentes
 router.get('/notificacoes', async (req, res) => {
     if (!req.session.usuario) {
         return res.status(401).json({ erro: 'Não autenticado' });
     }
 
+    const email = req.session.usuario.email;
+
     try {
         const [notificacoes] = await db.query(
             `SELECT idNotificacao, mensagem, criado_em, lida, oficina_idOficina
              FROM notificacao
+             WHERE ${filtroCadastrado}
              ORDER BY criado_em DESC
-             LIMIT 20`
+             LIMIT 20`,
+            [email]
         );
 
         const [[{ naoLidas }]] = await db.query(
-            'SELECT COUNT(*) AS naoLidas FROM notificacao WHERE lida = 0'
+            `SELECT COUNT(*) AS naoLidas FROM notificacao WHERE lida = 0 AND ${filtroCadastrado}`,
+            [email]
         );
 
         res.json({ notificacoes, naoLidas });
@@ -51,7 +59,10 @@ router.post('/notificacoes/marcar-lidas', async (req, res) => {
     }
 
     try {
-        await db.query('UPDATE notificacao SET lida = 1 WHERE lida = 0');
+        await db.query(
+            `UPDATE notificacao SET lida = 1 WHERE lida = 0 AND ${filtroCadastrado}`,
+            [req.session.usuario.email]
+        );
         res.json({ sucesso: true });
 
     } catch (erro) {
