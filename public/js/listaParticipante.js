@@ -2,6 +2,15 @@
     const campoPesquisa = document.getElementById('nome');
     const linhas = document.querySelectorAll('.linha-participante');
     const semResultados = document.getElementById('semresul');
+    const botao = document.querySelector('.botao-freq');
+
+
+    if (botao) {
+        botao.addEventListener('click', function () {
+            window.location.href = '/frequencia';
+        });
+    }
+
 
     // remove acentos e deixa minúsculo (assim "jose" encontra "josé")]
     //constante normalzar recebe texto
@@ -134,3 +143,98 @@
             window.location.pathname
         );
     }
+
+
+    
+        // =========================================
+        // PAGINAÇÃO
+        // =========================================
+
+        const participantes = Array.from(
+            document.querySelectorAll('.linha-participante')
+        );
+
+        const contador = document.getElementById('contador-participantes');
+        const botoes = document.getElementById('botoes-paginacao');
+
+        const porPagina = 5;
+        let paginaAtual = 1;
+
+        // MOSTRAR PARTICIPANTES DA PÁGINA
+        function mostrarPagina() {
+
+            // Aproveita sua pesquisa original
+            const termo = normalizar(campoPesquisa.value.trim());
+
+            const filtrados = Array.from(linhas).filter((linha) => {
+
+                const nome = normalizar(
+                    linha.querySelector('.nome-participante').textContent
+                );
+
+                return nome.includes(termo);
+            });
+
+            const total = filtrados.length;
+            const totalPaginas = Math.ceil(total / porPagina);
+
+            // Garantir que a página seja válida
+            paginaAtual = Math.max(
+                1,
+                Math.min(paginaAtual, Math.max(1, totalPaginas))
+            );
+
+            // Esconder todos os participantes
+            participantes.forEach((participante) => {
+                participante.style.display = 'none';
+            });
+
+            // Calcular início e fim
+            const inicio = (paginaAtual - 1) * porPagina;
+            const fim = Math.min(inicio + porPagina, total);
+
+            // Mostrar participantes da página atual
+            filtrados.slice(inicio, fim).forEach((participante) => {
+                participante.style.display = '';
+            });
+
+            // CONTADOR
+            contador.textContent = total > 0
+                ? `Mostrando ${inicio + 1}–${fim} de ${total} participantes`
+                : 'Mostrando 0 participantes';
+
+            // MENSAGEM DE RESULTADOS
+            semResultados.style.display = total === 0 ? 'block' : 'none';
+
+            // CRIAR BOTÕES
+            botoes.innerHTML = '';
+
+            for (let i = 1; i <= totalPaginas; i++) {
+
+                const botao = document.createElement('button');
+
+                botao.type = 'button';
+                botao.textContent = i;
+                botao.classList.add('pagina');
+
+                if (i === paginaAtual) {
+                    botao.classList.add('ativa');
+                }
+
+                botao.addEventListener('click', () => {
+                    paginaAtual = i;
+                    mostrarPagina();
+                });
+
+                botoes.appendChild(botao);
+            }
+        }
+
+        // PESQUISA
+        campoPesquisa.addEventListener('input', () => {
+            paginaAtual = 1;
+            mostrarPagina();
+        });
+
+        // INICIAR PAGINAÇÃO
+        mostrarPagina();

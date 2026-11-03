@@ -127,7 +127,7 @@
   letter-spacing:0.02em;
   cursor:pointer;
   white-space:nowrap;
-  transition:background .2s ease, transform .2s ease;
+  transition: background.2s ease, transform .2s ease;
 }
 
 .btn-nova:hover{
@@ -167,6 +167,14 @@
 
 .busca-atividade input::placeholder{
   color:#9a9d95;
+}
+
+#semresul{
+   text-align: center;
+    color: #666;
+    font-size: 15px;
+    margin: 20px 0;
+
 }
 
 

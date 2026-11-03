@@ -234,9 +234,25 @@ router.get('/atividades', async (req, res) => {
         const letra = req.query.letra || '';
 
         const [atividades] = await db.query(
-            'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?',
+            'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?  ORDER BY idOficina DESC',
             [`%${letra}%`]
         );
+
+        // Formatar as datas
+    atividades.forEach(atividade => {
+
+        if (atividade.dt_inicio) {
+
+            const data = new Date(atividade.dt_inicio);
+
+            atividade.dt_inicio =
+                String(data.getDate()).padStart(2, '0') + '/' +
+                String(data.getMonth() + 1).padStart(2, '0') + '/' +
+                data.getFullYear();
+
+        }
+
+    });
 
 
         res.render('telaAtividades', {
@@ -288,6 +304,17 @@ router.get('/atividade/:id', async (req, res) => {
             [id]
         );
 
+        function formatarData(data) {
+            if (!data) return '';
+
+            const dataFormatada = new Date(data);
+
+            return String(dataFormatada.getDate()).padStart(2, '0') + '/' +
+                String(dataFormatada.getMonth() + 1).padStart(2, '0') + '/' +
+                dataFormatada.getFullYear();
+}
+        
+
         // pra ver se tem oficina se nao vai dar erro 404 = nao encontrado
         if (oficinas.length === 0) {
             return res.status(404).json({
@@ -304,8 +331,12 @@ router.get('/atividade/:id', async (req, res) => {
             o [0] acessa o primeiro elemento
               (...)  chamados de operador spread eles copiam as propriedades do primeiro objeto de oficinas para o novo objeto
                as propriedades id, nome etc  que vaoser retornado s*/
-        res.json({
+            res.json({
             ...oficinas[0],
+
+            dt_inicio: formatarData(oficinas[0].dt_inicio),
+            dt_termino: formatarData(oficinas[0].dt_termino),
+
             bolsistas: bolsistas
         });
 

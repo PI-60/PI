@@ -14,24 +14,16 @@
       <a href="/inicioLogado">
         Início
       </a>
-      <a href="/dashboard">
-        Dashboard
-      </a>
       <a href="/atividades">
         Atividades
       </a>
       <a href="/participantes">
         Participantes
       </a>
-      <a href="/calendario">
-        Calendário
-      </a>
       <a href="/frequencia">
         Frequência
       </a>
-      <a href="/galeria">
-        Galeria
-      </a>
+      
       <a href="/usuarios" class="ativo">Usuários</a>
     </nav>
 
@@ -45,10 +37,18 @@
 
   <section class="formulario">
     <H1>Participantes</H1>
+    <div class="linha-pesquisa">
     <div id="pesquisa">
-      <label for="nome"></label>
-      <input type="text" id="nome" name="nome" placeholder="Pesquisar">
+        <input type="text" id="nome" name="nome" placeholder="Pesquisar">
     </div>
+
+    <button type="button" class="botao-freq" id="bntfrequencia">
+        FREQUÊNCIA
+    </button>
+</div>
+
+
+    
 
 
     <!-- mostrar participantes no banco -->
@@ -102,6 +102,14 @@
           ">Nenhum participante encontrado.</p>
 
     </div>
+        <div class="paginacao">
+    <span id="contador-participantes">
+        Carregando participantes...
+    </span>
+
+    <div id="botoes-paginacao"></div>
+</div>
+
   </section>
 
 
