@@ -1,5 +1,6 @@
 import express from 'express';
 import db from '../database.js'; // ajuste o caminho conforme a localização do seu módulo de conexão com o banco
+import { notificarBolsistaAdicionado } from './notificacao.js';
 
 const router = express.Router();
 
@@ -120,6 +121,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
 router.post('/cadastroat', async (req, res) => {
 
     let idOficina = req.body.idOficina;
+    const isEdicao = Boolean(idOficina);
 
     const {
         titulo,
@@ -137,8 +139,8 @@ router.post('/cadastroat', async (req, res) => {
 
     try {
         // ALTERAR oficina existente
-        
-        if (idOficina) {
+
+        if (isEdicao) {
 
             await db.execute(
                 `UPDATE oficina
@@ -153,16 +155,6 @@ router.post('/cadastroat', async (req, res) => {
                 [idOficina]
             );
 
-            // insere os bolsistas selecionados 
-            const sqlBolsista = `
-                INSERT INTO usuario_monitora_oficina
-                (usuario_email, oficina_idOficina)
-                VALUES (?, ?)
-            `;
-            const bolsistas = [bolsista1, bolsista2, bolsista3];
-
-            res.redirect('/atividades?mensagem=atividadeEditada');
-
         } else {
 
             //  cadastra a oficina
@@ -176,42 +168,21 @@ router.post('/cadastroat', async (req, res) => {
             idOficina = resultado.insertId;
         }
 
-        // cadasta os bolsistas 
+        // cadasta os bolsistas
         const sqlBolsista = `
             INSERT INTO usuario_monitora_oficina
             (usuario_email, oficina_idOficina)
             VALUES (?, ?)
         `;
 
-        /*  for (const email of bolsistas) {
-            await db.execute(sqlBolsista, [email, id]);
-        } */
-        // bolsista 1
-        if (bolsista1) {
-            await db.execute(sqlBolsista, [
-                bolsista1,
-                idOficina
-            ]);
+        for (const bolsistaEmail of [bolsista1, bolsista2, bolsista3]) {
+            if (bolsistaEmail) {
+                await db.execute(sqlBolsista, [bolsistaEmail, idOficina]);
+                await notificarBolsistaAdicionado(idOficina, bolsistaEmail, titulo);
+            }
         }
 
-        // bolsista 2
-        if (bolsista2) {
-            await db.execute(sqlBolsista, [
-                bolsista2,
-                idOficina
-            ]);
-        }
-
-
-        // bolsista 3
-        if (bolsista3) {
-            await db.execute(sqlBolsista, [
-                bolsista3,
-                idOficina
-            ]);
-        }
-
-        res.redirect('/atividades?mensagem=atividadeCadastrada');
+        res.redirect(`/atividades?mensagem=${isEdicao ? 'atividadeEditada' : 'atividadeCadastrada'}`);
 
     } catch (error) {
         console.error(error);
