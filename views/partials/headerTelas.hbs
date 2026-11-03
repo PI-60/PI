@@ -5,7 +5,7 @@
   href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap"
   rel="stylesheet">
 
-<link rel="stylesheet" href="/css/styleHeader.css">
+<link rel="stylesheet" href="./css/styleHeader.css">
 
 <div class="topbar"></div>
 
@@ -60,6 +60,31 @@
         </button>
       </div>
     </div>
+
+    <div class="notificacoes-container" id="notificacoesContainer">
+        <button
+            class="btn-sino"
+            id="botaoNotificacoes"
+            type="button"
+            aria-label="Notificações">
+
+            <i class="bi bi-bell"></i>
+            <span class="badge-notificacao" id="badgeNotificacao" hidden>0</span>
+        </button>
+
+        <div class="menu-notificacoes" id="menuNotificacoes">
+            <div class="notificacoes-cabecalho">
+                <strong>Notificações</strong>
+                <button type="button" id="marcarTodasLidas" title="Marcar todas como lidas" aria-label="Marcar todas como lidas">
+                    <i class="bi bi-check2-all"></i>
+                </button>
+            </div>
+            <div class="notificacoes-lista" id="listaNotificacoes">
+                <p class="notificacoes-vazio">Nenhuma notificação por enquanto.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="botaosair">
            <a href="/logout" class="btn btn-outline">Sair</a>
            </div>

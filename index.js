@@ -12,6 +12,7 @@ import partRoutes from './routes/participante.js';
 import userRoutes from './routes/usuario.js';
 import atividadeRoutes from './routes/atividade.js'
 import listaUsuariosRoutes from './routes/listaUsuarios.js';
+import notificacaoRoutes from './routes/notificacao.js';
 
 
 
@@ -62,6 +63,7 @@ app.use('/', userRoutes);
 app.use('/', partRoutes);
 app.use('/', atividadeRoutes);
 app.use('/', listaUsuariosRoutes);
+app.use('/', notificacaoRoutes);
 
 // --- SERVIDOR ---
 app.listen(3000, () => {
