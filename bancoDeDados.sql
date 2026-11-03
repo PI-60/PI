@@ -325,12 +325,12 @@ USE `ifsc60`;
 INSERT INTO `ifsc60`.`oficina`
 (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
 VALUES
-(1, 'graciane@gmail.com', 'Curso MySQL', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-09');
+(1, 'graciane@gmail.com', 'Oficina de Pintura', 'A oficina de pintura proporciona um espaço para explorar a criatividade por meio das cores e dos desenhos. Durante a atividade, os participantes podem experimentar diferentes técnicas e materiais. A proposta estimula a expressão artística, a imaginação e a concentração. Além disso, promove momentos de interação e troca de experiências entre os participantes.', 'IFSC Gaspar', '2026-09-08', '2026-09-09');
 
 INSERT INTO `ifsc60`.`oficina`
 (`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
 VALUES
-(2, 'pedro@gmail.com', 'Curso Javascript', 'Curso...', 'IFSC Gaspar', '2026-09-08', '2026-09-10');
+(2, 'pedro@gmail.com', 'Oficina de tecnologia', 'A oficina de tecnologia apresenta ferramentas e recursos digitais, incentivando o aprendizado e a familiarização com a tecnologia. A atividade promove a autonomia, a inclusão digital e a troca de conhecimentos entre os participantes', 'IFSC Gaspar', '2026-09-08', '2026-09-10');
 
 COMMIT;
 
@@ -351,14 +351,14 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ifsc60`;
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (1, 'Ana G. Gaulke ', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (2, 'Beatriz ', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (3, 'Elizangela Schmidt ', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (4, 'Elza Guimarães Rickman', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (5, 'Elza Satoko Kamigashima', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (6, 'Luiza Schmidt ', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (7, 'Magali Siqueira Correa ', NULL, NULL);
-INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (8, 'Maria Martha Losada  ', NULL, NULL);
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (1, 'Ana G. Gaulke ', '151.111.111-11','(47) 99192-8447');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (2, 'Beatriz ','111.111.115-11','(47) 99192-8487');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (3, 'Elizangela Schmidt ', '111.112.111-11','(47) 99092-8447');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (4, 'Elza Guimarães Rickman', '111.111.611-11','(47) 99172-8447');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (5, 'Elza Satoko Kamigashima', '110.111.111-11','(47) 59192-8447');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (6, 'Luiza Schmidt ','111.111.111-11','(47) 99192-8447');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (7, 'Magali Siqueira Correa ','111.171.111-11','(47) 99192-8487');
+INSERT INTO `ifsc60`.`participante` (`idParticipante`, `nome`, `CPF`, `telefone`) VALUES (8, 'Maria Martha Losada  ','111.911.111-11','(47) 99192-4447');
 COMMIT;
 
 
