@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/styleFrequencia.css">
 <script src="/js/frequencia.js" defer></script>
-<script src="/js/listaParticipante.js" defer></script>
+
 
 
 
@@ -42,33 +42,28 @@
                             <select id="oficina" name="oficina" required>
                             <option value="">Selecione a oficina</option>
                             {{#each oficinas}}
-                            <option value="{{idOficina}}">{{titulo}} — {{data}} </option>
+                            <option value="{{idOficina}}|{{dataValor}}">{{titulo}} — {{dt_inicio}} </option>
                             {{/each}}
                             </select>
                         </div>
 
+                        <!-- pesquisa os participantes -->
+                <input type="text" id="pesquisa" placeholder="Pesquisar participante...">
+
                 <!-- Cabeçalho da lista -->
                 <div id="listaf">
                 <div class="cabecalho-frequencia">
-                    <span>Nome do Participante</span>
+                    <span>Participante</span>
                     <span>Frequência</span>
                 </div>
 
                <!-- Participantes vindos do banco -->
-                    {{#each participantes}}
-                        <div class="linha-participante">
-                            <span class="nome-participante">
-                                {{nome}}
-                            </span>
-
+                        <div class="linha-participante">  
                     <select class="select-frequencia presenca" onchange="mudarCor(this)"  name="frequencia[{{idParticipante}}]">
                     <option value="presenca">Presente</option>
                     <option value="falta">Faltou</option>
                 </select>
                     </div>
-
-                {{/each}}
-
             </div>
 
              <div id="linhas-frequencia"></div>
@@ -76,9 +71,13 @@
             <p id="semresul">Selecione a oficina e a data.</p>
             </div>
 
+            <div id="contador-participantes"></div>
+            <div id="botoes-paginacao"></div>
+
                 <button type="submit" class="botaofreq">
                     SALVAR
                 </button>
+
 
         </form>
        

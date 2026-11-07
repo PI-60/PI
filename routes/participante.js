@@ -8,24 +8,49 @@ const router = express.Router();
 // ============================
  //Página: carrega só as oficinas; o resto vem via fetch
 router.get('/frequencia', async (req, res) => {
-  if (!req.session.usuario) {
-    return res.redirect('/login');
-  }
 
-  try {
-    const [oficinas] = await db.query(
-      'SELECT idOficina, titulo FROM oficina ORDER BY titulo'
-    );
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
 
-    res.render('telaFrequencia', {
-      layout: 'layouts/telasNavegacao',
-      oficinas
-    });
-  } catch (error) {
-    console.error('ERRO:', error);
-    res.status(500).send('Erro ao carregar a página de frequência.');
-  }
+    try {
+
+        const [oficinas] = await db.query(
+            `SELECT
+                o.idOficina,
+                o.titulo,
+                DATE_FORMAT(
+                    oad.dia_dtOficinaDia,
+                    '%Y-%m-%d'
+                ) AS dataValor,
+
+                DATE_FORMAT(
+                    oad.dia_dtOficinaDia,
+                    '%d/%m/%Y'
+                ) AS dataTexto
+
+            FROM oficina o
+
+            INNER JOIN oficina_acontece_dia oad
+                ON o.idOficina = oad.oficina_idOficina
+
+            ORDER BY o.titulo, oad.dia_dtOficinaDia`
+        );
+
+        res.render('telaFrequencia', {
+            layout: 'layouts/telasNavegacao',
+            oficinas
+        });
+
+    } catch (error) {
+
+        console.error('ERRO:', error);
+        res.status(500).send('Erro ao carregar a página de frequência.');
+
+    }
+
 });
+
 
 // Dias em que a oficina acontece
 router.get('/frequencia/dias', async (req, res) => {
