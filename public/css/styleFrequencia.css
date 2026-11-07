@@ -8,35 +8,30 @@ body {
     background:var(--surface-alt);
 }
 
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #back {
     font-size: 50px;
     border-bottom: none;
 }
 
-.formulario-frequencia {
+.formulario {
     width: 100%;
     max-width: 1000px;
-    min-width: 1000px;
-
-    margin-left: 229px;
-
-    padding: 70px;
-
-    background-color: white;
+    padding: 40px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
-
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
+}
+
+.formulario h1 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 700;
+    font-family: 'Fraunces', serif;
 }
 
 #titulo {
@@ -45,10 +40,30 @@ section {
     text-align: center;
 }
 
+.filtrofreq {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .campo-frequencia {
     display: flex;
     flex-direction: column;
     gap: 7px;
+    width: 100%;
+}
+
+.campo-frequencia select,
+.campo-frequencia input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: #fff;
 }
 
 .campo-frequencia label {
@@ -60,79 +75,118 @@ section {
 .campo-frequencia select {
     width: 100%;
     height: 42px;
-
+    color: #333;
+    background-color: #fff;
     padding: 0 12px;
-
     border: 1px solid #d5d5d5;
     border-radius: 6px;
-
+    font-family: inherit;
     font-size: 14px;
     outline: none;
 }
 
+
 .campo-frequencia select:focus,
 .select-frequencia:focus {
-    border-color: #129745;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+    border-color: #278747;
+    outline: none;   
+}
+
+#listaf {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    overflow: hidden;
+
 }
 
 .cabecalho-frequencia {
-    display: grid;
-    grid-template-columns: 1fr 250px;
-    gap: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e1e1e1;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+}
 
-    margin-top: 20px;
+.linha-frequencia:last-child {
+  border-bottom: none;
+}
 
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
+.cabecalho-frequencia,
+.linha-participante {
+    grid-template-columns: 1fr 180px;
+    
 }
 
 .linha-participante {
+    width: 100%;
+    min-height: 62px;
+
+    padding: 10px 15px;
+
+    background-color: #fff;
+
+    border-bottom: 1px solid #e1e1e1;
+
     display: grid;
-    grid-template-columns: 1fr 250px;
-    gap: 20px;
+    grid-template-columns: 1fr 180px;
 
     align-items: center;
+    gap: 15px;
+
+    transition: background 0.2s ease;
+}
+.linha-participante:last-child {
+    border-bottom: none;
 }
 
+.linha-participante:hover {
+    background: #fafafa;
+}
 .nome-participante {
+  font-weight: 600;
     font-size: 14px;
-    color: #333;
+    color: #555;
 }
 
 .select-frequencia {
     width: 100%;
-    height: 42px;
-
+    height: 38px;
     padding: 0 12px;
-
     border: 1px solid #d5d5d5;
     border-radius: 6px;
-
     font-size: 14px;
-    outline: none;
+    font-family: inherit;
+   
 }
 
-.formulario-frequencia button {
-    width: 120px;
-    height: 42px;
 
-    border: none;
-    border-radius: 6px;
-
-    background-color: #0b990b;
-    color: rgb(255, 253, 253);
-
-    font-size: 15px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    margin-top: 20px;
+ .botaofreq {
+ display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--verde);
+  color:#fff;
+  border:none;
+   border-radius: 6px;
+  padding:12px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  white-space:nowrap;
+  transition: background .2s ease, transform .2s ease;
 }
 
-.formulario-frequencia button:hover {
+ .botaofreq:hover {
     background-color: hsl(133, 75%, 17%);
 }
 
@@ -269,11 +323,15 @@ section {
 ========================================= */
 
 .page-content {
-  margin-left: 205px;
+    margin-left: 205px;
+    width: calc(100% - 205px);
+    min-height: 100vh;
 
-  min-height: 100vh;
+    padding: 30px 24px 40px;
 
-  width: calc(100% - 205px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
