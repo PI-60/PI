@@ -39,13 +39,12 @@
                     <div class="filtrofreq">
                              <div class="campo-frequencia">
                             <label for="oficina">Oficina</label>
-                            <select id="oficina" name="oficina" required>
-                            <option value="">Selecione a oficina</option>
-                            {{#each oficinas}}
-                            <option value="{{idOficina}}|{{dataValor}}">{{titulo}} — {{dt_inicio}} </option>
+                           <select id="selectDia" name="dia">
+                            <option value="">Selecione a atividade e o dia</option>
+                            {{#each opcoes}}
+                                <option value="{{this.valor}}">{{this.rotulo}}</option>
                             {{/each}}
                             </select>
-                        </div>
 
                         <!-- pesquisa os participantes -->
                 <input type="text" id="pesquisa" placeholder="Pesquisar participante...">

@@ -8,47 +8,21 @@ const router = express.Router();
 // ============================
  //Página: carrega só as oficinas; o resto vem via fetch
 router.get('/frequencia', async (req, res) => {
+  const [rows] = await db.query(
+    `SELECT o.idOficina, o.titulo,
+            DATE_FORMAT(d.dia_dtOficinaDia, '%Y-%m-%d') AS data,
+            DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m')    AS dataBR
+     FROM oficina_acontece_dia d
+     JOIN oficina o ON o.idOficina = d.oficina_idOficina
+     ORDER BY o.titulo, d.dia_dtOficinaDia`
+  );
 
-    if (!req.session.usuario) {
-        return res.redirect('/login');
-    }
+  const opcoes = rows.map(r => ({
+    valor:  `${r.idOficina}|${r.data}`,   // oficina e dia juntos
+    rotulo: `${r.titulo} - ${r.dataBR}`
+  }));
 
-    try {
-
-        const [oficinas] = await db.query(
-            `SELECT
-                o.idOficina,
-                o.titulo,
-                DATE_FORMAT(
-                    oad.dia_dtOficinaDia,
-                    '%Y-%m-%d'
-                ) AS dataValor,
-
-                DATE_FORMAT(
-                    oad.dia_dtOficinaDia,
-                    '%d/%m/%Y'
-                ) AS dataTexto
-
-            FROM oficina o
-
-            INNER JOIN oficina_acontece_dia oad
-                ON o.idOficina = oad.oficina_idOficina
-
-            ORDER BY o.titulo, oad.dia_dtOficinaDia`
-        );
-
-        res.render('telaFrequencia', {
-            layout: 'layouts/telasNavegacao',
-            oficinas
-        });
-
-    } catch (error) {
-
-        console.error('ERRO:', error);
-        res.status(500).send('Erro ao carregar a página de frequência.');
-
-    }
-
+  res.render('telaFrequencia', { layout: 'layouts/mainLogado', opcoes });
 });
 
 
@@ -112,47 +86,27 @@ router.get('/frequencia/lista', async (req, res) => {
 });
 
 // Salvar (insere ou atualiza)
-router.post('/frequencia', async (req, res) => {
-  if (!req.session.usuario) {
-    return res.status(401).json({ erro: 'Sessão expirada. Faça login novamente.' });
-  }
-
-  const { idOficina, data, registros } = req.body;
-
-  if (!idOficina || !data || !Array.isArray(registros) || registros.length === 0) {
-    return res.status(400).json({ erro: 'Dados inválidos.' });
-  }
+  router.post('/frequencia', async (req, res) => {
+  const [idOficina, data] = (req.body.dia || '').split('|');
+  const presencas = req.body.presenca || {};   // presenca[idParticipante] = 1 ou 0
 
   try {
-    // confirma que a oficina realmente acontece nesse dia
-    const [dia] = await db.query(
-      `SELECT 1 FROM oficina_acontece_dia
-        WHERE oficina_idOficina = ? AND dia_dtOficinaDia = ?`,
-      [idOficina, data]
-    );
-    if (dia.length === 0) {
-      return res.status(400).json({ erro: 'Esta oficina não acontece na data escolhida.' });
-    }
-
-    const valores = registros.map(r => [
-      r.idParticipante,
-      data,
-      idOficina,
-      r.presente ? 1 : 0
-    ]);
-
-    await db.query(
-      `INSERT INTO participa
+    await db.beginTransaction();
+    for (const [idParticipante, valor] of Object.entries(presencas)) {
+      await db.execute(
+        `INSERT INTO participa
          (idParticipante, dia_dtOficinaDia, oficina_idOficina, frequencia)
-       VALUES ?
-       ON DUPLICATE KEY UPDATE frequencia = VALUES(frequencia)`,
-      [valores]
-    );
-
-    res.json({ ok: true, mensagem: 'Frequência salva com sucesso!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao salvar a frequência.' });
+         VALUES (?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE frequencia = VALUES(frequencia)`,
+        [idParticipante, data, idOficina, Number(valor)]
+      );
+    }
+    await db.commit();
+    res.redirect('/frequencia?mensagem=frequenciaSalva');
+  } catch (erro) {
+    await db.rollback();
+    console.error(erro);
+    res.redirect('/frequencia?mensagem=erro');
   }
 });
 // ============================
