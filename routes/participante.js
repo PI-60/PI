@@ -6,8 +6,109 @@ const router = express.Router();
 // ============================
 // ROTAS DE FREQUENCIA
 // ============================
- //Página: carrega só as oficinas; o resto vem via fetch
+
+// mostrar e salvar o participantes
 router.get('/frequencia', async (req, res) => {
+         if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
+    // pesquisar
+    try {
+       const termo = req.query.termo || '';
+
+        const [participantes] = await db.query(
+            'SELECT idParticipante, nome, telefone, CPF FROM participante WHERE nome LIKE ?',
+                [`%${termo}%`]
+        );
+
+          res.render('telaParticipante', {
+           layout: 'layouts/telasNavegacao',
+          participantes
+      });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao buscar participantes');
+    }
+
+
+});
+
+  router.post('/frequencia', async (req, res) => {
+      const [frequencia] = await db.query(
+        //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
+        `SELECT oficina.idOficina FROM oficina
+         JOIN data WHERE data.dtOficinaDia = data
+        `  //join tabela usuaeio quando o eail dobolsita for = email do usuariio
+    );
+
+ 
+  
+});
+// ============================
+// ROTAS DE PARTICPANTE
+// ============================
+router.get('/participantes', async (req, res) => {
+
+    if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
+    // pesquisar
+    try {
+       const termo = req.query.termo || '';
+
+        const [participantes] = await db.query(
+            'SELECT idParticipante, nome, telefone, CPF FROM participante WHERE nome LIKE ?',
+                [`%${termo}%`]
+        );
+
+          res.render('telaParticipante', {
+           layout: 'layouts/telasNavegacao',
+          participantes
+      });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao buscar participantes');
+    }
+});
+
+
+// ============================
+// EXCLUIR PARTICIPANTE
+// ============================
+router.post('/participantes/:id/excluir', async (req, res) => {
+
+    if (!req.session.usuario) {
+       return res.redirect('/login');
+    }
+    try {
+        // apaga primeiro a frequência (tabela participa), por causa da chave estrangeira
+        await db.beginTransaction();
+        await db.query('DELETE FROM participa WHERE idParticipante = ?', [req.params.id]);
+        await db.query('DELETE FROM participante WHERE idParticipante = ?', [req.params.id]);
+        await db.commit();
+
+        // pra redirecionar junto com  a msg
+        return res.redirect(
+          '/participantes?mensagem=participanteExcluido'
+        );
+   } catch (erro) {
+    await db.rollback();
+    console.error(erro);
+     return res.redirect(
+        '/participantes?mensagem=erro'
+    );
+}
+});
+
+
+export default router;
+
+
+
+
+/* router.get('/frequencia', async (req, res) => {
   const [rows] = await db.query(
     `SELECT o.idOficina, o.titulo,
             DATE_FORMAT(d.dia_dtOficinaDia, '%Y-%m-%d') AS data,
@@ -108,63 +209,4 @@ router.get('/frequencia/lista', async (req, res) => {
     console.error(erro);
     res.redirect('/frequencia?mensagem=erro');
   }
-});
-// ============================
-// ROTAS DE PARTICPANTE
-// ============================
-router.get('/participantes', async (req, res) => {
-
-    if (!req.session.usuario) {
-       return res.redirect('/login');
-    }
-    // pesquisar
-    try {
-       const termo = req.query.termo || '';
-
-        const [participantes] = await db.query(
-            'SELECT idParticipante, nome, telefone, CPF FROM participante WHERE nome LIKE ?',
-                [`%${termo}%`]
-        );
-
-          res.render('telaParticipante', {
-           layout: 'layouts/telasNavegacao',
-          participantes
-      });
-
-    } catch (erro) {
-        console.error(erro);
-        res.status(500).send('Erro ao buscar participantes');
-    }
-});
-
-
-// ============================
-// EXCLUIR PARTICIPANTE
-// ============================
-router.post('/participantes/:id/excluir', async (req, res) => {
-
-    if (!req.session.usuario) {
-       return res.redirect('/login');
-    }
-    try {
-        // apaga primeiro a frequência (tabela participa), por causa da chave estrangeira
-        await db.beginTransaction();
-        await db.query('DELETE FROM participa WHERE idParticipante = ?', [req.params.id]);
-        await db.query('DELETE FROM participante WHERE idParticipante = ?', [req.params.id]);
-        await db.commit();
-
-        // pra redirecionar junto com  a msg
-        return res.redirect(
-          '/participantes?mensagem=participanteExcluido'
-        );
-   } catch (erro) {
-    await db.rollback();
-    console.error(erro);
-     return res.redirect(
-        '/participantes?mensagem=erro'
-    );
-}
-});
-
-
-export default router;
+}); */ 

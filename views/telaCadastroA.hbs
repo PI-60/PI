@@ -133,6 +133,7 @@
                                 placeholder="Descreva a atividade..." > {{atividade.descricao}}</textarea>
                         </div>
                         <br>
+                        <!-- datas para excluir -->
                         <div class="campo">
                             <label for="dataInicio">Data de início</label>
 
@@ -140,7 +141,7 @@
                                 id="dataInicio"
                                 type="date"
                                 name="dataInicio"
-                                 value="{{atividade.dataInicio}}">
+                                value="{{atividade.dataInicio}}">
                         </div>
                         <br>
                         <div class="campo">
@@ -153,11 +154,18 @@
                                value="{{ atividade.dataTermino}}">
                         </div>
 
+                        <div class="campo"> 
+                            {{#each data}}
+                            <label for="datas">Adicionar datas</label>
+                            <input type="date" id="datas" name="Datas" value="{{dia.datas}}"> // modificar quando fazer rota 
+                                {{/each}}
+                        </div>
+
                     </div>
 
                     <!-- BOTÃO -->
                     <button type="submit" class="button">
-                           {{#if atividade}}Salvar{{else}}CADASTRAR{{/if}} </button>
+                           {{#if atividade}}SALVAR{{else}}CADASTRAR{{/if}} </button>
                     </button>
 
                 </form>
