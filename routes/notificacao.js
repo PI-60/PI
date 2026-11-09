@@ -71,4 +71,23 @@ router.post('/notificacoes/marcar-lidas', async (req, res) => {
     }
 });
 
+// marca uma notificação específica como lida
+router.post('/notificacoes/:id/marcar-lida', async (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ erro: 'Não autenticado' });
+    }
+
+    try {
+        await db.query(
+            `UPDATE notificacao SET lida = 1 WHERE idNotificacao = ? AND ${filtroCadastrado}`,
+            [req.params.id, req.session.usuario.email]
+        );
+        res.json({ sucesso: true });
+
+    } catch (erro) {
+        console.error('Erro ao marcar notificação como lida:', erro);
+        res.status(500).json({ erro: 'Erro ao marcar notificação como lida' });
+    }
+});
+
 export default router;

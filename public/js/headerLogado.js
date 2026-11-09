@@ -65,6 +65,8 @@ function renderizarNotificacoes(notificacoes) {
     listaNotificacoes.innerHTML = notificacoes.map((notificacao) => `
         <a
             class="notificacao-item ${notificacao.lida ? '' : 'nao-lida'}"
+            data-id="${notificacao.idNotificacao}"
+            data-lida="${notificacao.lida ? 1 : 0}"
             href="/atividades">
             <span class="notificacao-texto">
                 <i class="bi bi-person-plus"></i>
@@ -110,6 +112,22 @@ if (botaoNotificacoes && menuNotificacoes) {
         if (!menuNotificacoes.contains(evento.target) && evento.target !== botaoNotificacoes) {
             menuNotificacoes.classList.remove('aberto');
         }
+    });
+}
+
+// ao clicar numa notificação, marca como lida antes de navegar
+if (listaNotificacoes) {
+    listaNotificacoes.addEventListener('click', async function (evento) {
+        const item = evento.target.closest('.notificacao-item');
+        if (!item || item.dataset.lida === '1') return;
+
+        evento.preventDefault();
+        try {
+            await fetch(`/notificacoes/${item.dataset.id}/marcar-lida`, { method: 'POST' });
+        } catch (erro) {
+            console.error('Erro ao marcar notificação como lida:', erro);
+        }
+        window.location.href = item.href;
     });
 }
 
