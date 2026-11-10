@@ -14,6 +14,47 @@ if (navToggle && mainNav) {
                     window.location.href = '/logout';
                 });
             }
+// ================= DESISTÊNCIA =================
+const botaoDesistencia = document.getElementById("desistencia");
+
+if (botaoDesistencia) {
+
+    botaoDesistencia.addEventListener("click", async function () {
+        //confirmação
+        const confirmar = confirm(
+            "Tem certeza de que deseja desistir do cargo de Coordenador?\n\n" +
+            "Seu cargo será alterado para Administrador."
+        );
+
+        if (!confirmar) {
+            return;
+        }
+
+        try {
+            const resposta = await fetch("/desistir-cargo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "same-origin"
+            });
+
+            const resultado = await resposta.json();
+
+            alert(resultado.mensagem);
+
+            if (resposta.ok) {
+                window.location.reload();
+            }
+
+        } catch (erro) {
+
+            console.error("Erro ao desistir do cargo:", erro);
+
+            alert("Não foi possível realizar a desistência. Tente novamente.");
+        }
+    });
+}
 
 // ================= NOTIFICAÇÕES =================
 
