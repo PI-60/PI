@@ -21,7 +21,7 @@ router.get('/frequencia', async (req, res) => {
                 [`%${termo}%`]
         );
 
-          res.render('telaParticipante', {
+          res.render('telaFrequencia', {
            layout: 'layouts/telasNavegacao',
           participantes
       });
@@ -35,12 +35,37 @@ router.get('/frequencia', async (req, res) => {
 });
 
   router.post('/frequencia', async (req, res) => {
-      const [frequencia] = await db.query(
+
+      const [data] = await db.query(
         //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
         `SELECT oficina.idOficina FROM oficina
-         JOIN data WHERE data.dtOficinaDia = data
+         JOIN dia WHERE dia.dtOficinaDia = dia.idOficina
         `  //join tabela usuaeio quando o eail dobolsita for = email do usuariio
     );
+
+    try{
+      // {{dia.datas}}
+         const [data] = await db.execute(
+                `INSERT INTO  dia
+                 (dtOficinaDia)
+                 VALUES (?)`,
+                [data]
+            );
+
+             const [frequencia] = await db.execute(
+                `INSERT INTO  participa
+                 (idParticipante, dia_dtOficinaDia, oficina_idOficina,frequencia)
+                 VALUES (?, ?, ?, ?)`,
+                []/// colocar como eu vou azer 
+            );
+    }
+
+    catch (erro){
+
+    }
+
+
+
 
  
   
