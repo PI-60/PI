@@ -54,7 +54,7 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
         `);
 
         return res.render('telaUsuario', {
-            layout: 'layouts/mainLogado',
+            layout: 'layouts/telasNavegacao',
             usuarios
         });
     } catch (erro) {
@@ -112,7 +112,7 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
         }
 
         return res.render('telaVisualizarUsuario', {
-            layout: 'layouts/mainLogado',
+            layout: 'layouts/telasNavegacao',
             usuario: usuarios[0]
         });
     } catch (erro) {

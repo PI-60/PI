@@ -25,7 +25,7 @@ router.get('/cadastroat', async (req, res) => {
 
 
     res.render('telaCadastroA', {
-          layout: 'layouts/telasNavegacao',
+          layout: 'layouts/cadastroAtividade',
         bolsista,
         ministrante
     });
@@ -105,7 +105,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
         };
 
         res.render('telaCadastroA', {
-              layout: 'layouts/telasNavegacao',
+              layout: 'layouts/cadastroAtividade',
             atividade,
             bolsista,
             ministrante
