@@ -9,13 +9,16 @@
 
         
 
-        <form id="RecuperacaoSenha">
+        <form id="RecuperacaoSenha" method="post" action="/recuperacao-senha">
 
                  <!-- formulário não está explicitamente configurado para enviar um POST para /recuperacao-senha -->
 
             <div class="formulario-recuperacao">
 
                <h1  >Recuperação de Senha</h1>
+
+                {{#if mensagem}}<p class="aviso sucesso">{{mensagem}}</p>{{/if}}
+                {{#if erro}}<p class="aviso erro">{{erro}}</p>{{/if}}
 
                 <div class="campo">
                     <label for="email">E-mail</label>

@@ -11,6 +11,8 @@
     "dev": "nodemon --watch index.js --watch views --watch public --ext js,json,hbs,css index.js"
   },
   "dependencies": {
+    "argon2": "^0.45.2",
+    "dotenv": "^18.0.10",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "hbs": "^4.3.0",

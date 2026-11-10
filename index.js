@@ -1,6 +1,7 @@
 
 // criar o servidor e trabalhar com rotas.  
 
+import 'dotenv/config'; // carrega as variáveis do arquivo .env
 import express from 'express';
 import hbs from 'hbs';
 import path from 'node:path';

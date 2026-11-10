@@ -44,3 +44,10 @@ gti checkout -b NomeDaSuaBranche
 muda p ela 
 git checkout NomeDaSuaBranche
 
+
+
+
+
+#env
+
+copy .env.example .env

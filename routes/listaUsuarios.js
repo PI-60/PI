@@ -1,5 +1,6 @@
 
 import express from 'express';
+import { gerarHash } from '../utils/senha.js';
 import db from '../database.js';
 
 import {
@@ -340,7 +341,7 @@ router.post(
                 [
                     email.trim(),
                     nome.trim(),
-                    senha,
+                    await gerarHash(senha),
                     telefone?.trim() || null,
                     cpf?.trim() || null
                 ]
