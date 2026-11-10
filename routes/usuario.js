@@ -198,4 +198,99 @@ router.get('/logout', (req, res) => {
     });
 });
 
+// ========================================
+// DESISTÊNCIA DE COORDENADOR
+// ========================================
+
+router.post('/desistir-cargo', async (req, res) => {
+
+    /* olha o login
+    if (!req.session.usuario || !req.session.usuario.email) {
+        return res.status(401).json({
+            mensagem: 'Você precisa estar logado para realizar essa ação.'
+        });
+    }*/
+
+    const email = req.session.usuario.email;
+    let transacaoIniciada = false;
+
+    try {
+
+        // banco de dados
+        await db.beginTransaction();
+        transacaoIniciada = true;
+
+        //busca os coordenadores
+        const [coordenadores] = await db.execute(
+            'SELECT email FROM coordenador FOR UPDATE'
+        );
+
+        // ve se é um coordenador
+        const Coordenador = coordenadores.some(
+            coordenador => coordenador.email === email
+        );
+
+        if (!Coordenador) {
+            await db.rollback();
+            transacaoIniciada = false;
+
+            return res.status(403).json({
+                mensagem: 'Só coorenadoes poem ealizar essa ação.'
+            });
+        }
+
+        // ve quaniade e coordenadores
+        if (coordenadores.length <= 1) {
+            await db.rollback();
+            transacaoIniciada = false;
+
+            return res.status(400).json({
+                mensagem: 'Não é possível desistir. O sistema precisa ter pelo menos um Coordenador.'
+            });
+        }
+
+        // muda o user pra tabela e adimin
+        await db.execute(
+            'INSERT IGNORE INTO administrador (email) VALUES (?)',
+            [email]
+        );
+
+        // tira o usuário da tabela de coordenadores
+        const [resultado] = await db.execute(
+            'DELETE FROM coordenador WHERE email = ?',
+            [email]
+        );
+
+        if (resultado.affectedRows !== 1) {
+            throw new Error('Não foi possível remover o coordenador.');
+        }
+
+        // confirma 
+        await db.commit();
+        transacaoIniciada = false;
+
+        return res.status(200).json({
+            mensagem: 'Desistência realizada com sucesso! Seu cargo agora é Administrador.'
+        });
+
+    } catch (error) {
+
+        //desfaz se der errado
+        if (transacaoIniciada) {
+            try {
+                await db.rollback();
+            } catch (erroRollback) {
+                console.error('Erro ao desfazer transação:', erroRollback);
+            }
+        }
+
+        console.error('Erro na desistência:', error);
+
+        return res.status(500).json({
+            mensagem: 'Erro interno ao tentar desistir do cargo.'
+        });
+    }
+});
+
+
 export default router;
