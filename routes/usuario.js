@@ -24,10 +24,20 @@ router.post('/login', async (req, res) => {
         );
 
         if (usuarios.length > 0) {
-            // Salva o usuário na sessão
+
+            const emailUsuario = usuarios[0].email;
+
+            // ve se o usuário é coordenador
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailUsuario]
+            );
+
+            // salva os dados na sessão
             req.session.usuario = {
                 nome: usuarios[0].nome,
-                email: usuarios[0].email
+                email: usuarios[0].email,
+                tipo: coordenadores.length > 0 ? 'coordenador' : 'usuario'
             };
 
             res.redirect('/inicioLogado');
@@ -187,6 +197,90 @@ router.get('/inicioLogado', (req, res) => {
         res.redirect('/login');
     }
 });
+
+    // ==========================================
+    // DESISTÊNCIA DA COORDENAÇÃO
+    // ==========================================
+
+    router.post('/coordenador/desistir', async (req, res) => {
+
+        // ve se existe alguém logado
+        if (!req.session.usuario) {
+            return res.redirect('/login');
+        }
+
+        const email = req.session.usuario.email;
+
+        let transacaoIniciada = false;
+
+        try {
+
+            // comeca transação no banco
+            await db.beginTransaction();
+            transacaoIniciada = true;
+
+            // ve se o usuário é coordenador
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [email]
+            );
+
+            if (coordenadores.length === 0) {
+                await db.rollback();
+                transacaoIniciada = false;
+
+                return res.redirect('/inicioLogado');
+            }
+
+            // busca os coordenadores cadastrados
+            const [todosCoordenadores] = await db.execute(
+                'SELECT email FROM coordenador FOR UPDATE'
+            );
+
+            // impede que o coordenador desista quando só tem um
+            if (todosCoordenadores.length <= 1) {
+
+                await db.rollback();
+                transacaoIniciada = false;
+
+                return res.redirect('/inicioLogado?desistencia=ultimo');
+            }
+
+            // tira o usuário da tabela coordenador
+            await db.execute(
+                'DELETE FROM coordenador WHERE email = ?',
+                [email]
+            );
+
+            // add o usuário na tabela administrador
+            await db.execute(
+                'INSERT INTO administrador (email) VALUES (?)',
+                [email]
+            );
+
+            // Confirma as alterações no banco
+            await db.commit();
+            transacaoIniciada = false;
+
+            // atualiza o tipo de usuário na sessão
+            req.session.usuario.tipo = 'administrador';
+
+            console.log('Coordenador desistiu da função:', email);
+
+            return res.redirect('/inicioLogado?desistencia=sucesso');
+
+        } catch (error) {
+
+            if (transacaoIniciada) {
+                await db.rollback();
+            }
+
+            console.error('Erro ao desistir da coordenação:', error);
+
+            return res.redirect('/inicioLogado?desistencia=erro');
+        }
+
+    });
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -197,100 +291,5 @@ router.get('/logout', (req, res) => {
         res.redirect('/login');
     });
 });
-
-// ========================================
-// DESISTÊNCIA DE COORDENADOR
-// ========================================
-
-router.post('/desistir-cargo', async (req, res) => {
-
-    /* olha o login
-    if (!req.session.usuario || !req.session.usuario.email) {
-        return res.status(401).json({
-            mensagem: 'Você precisa estar logado para realizar essa ação.'
-        });
-    }*/
-
-    const email = req.session.usuario.email;
-    let transacaoIniciada = false;
-
-    try {
-
-        // banco de dados
-        await db.beginTransaction();
-        transacaoIniciada = true;
-
-        //busca os coordenadores
-        const [coordenadores] = await db.execute(
-            'SELECT email FROM coordenador FOR UPDATE'
-        );
-
-        // ve se é um coordenador
-        const Coordenador = coordenadores.some(
-            coordenador => coordenador.email === email
-        );
-
-        if (!Coordenador) {
-            await db.rollback();
-            transacaoIniciada = false;
-
-            return res.status(403).json({
-                mensagem: 'Só coorenadoes poem ealizar essa ação.'
-            });
-        }
-
-        // ve quaniade e coordenadores
-        if (coordenadores.length <= 1) {
-            await db.rollback();
-            transacaoIniciada = false;
-
-            return res.status(400).json({
-                mensagem: 'Não é possível desistir. O sistema precisa ter pelo menos um Coordenador.'
-            });
-        }
-
-        // muda o user pra tabela e adimin
-        await db.execute(
-            'INSERT IGNORE INTO administrador (email) VALUES (?)',
-            [email]
-        );
-
-        // tira o usuário da tabela de coordenadores
-        const [resultado] = await db.execute(
-            'DELETE FROM coordenador WHERE email = ?',
-            [email]
-        );
-
-        if (resultado.affectedRows !== 1) {
-            throw new Error('Não foi possível remover o coordenador.');
-        }
-
-        // confirma 
-        await db.commit();
-        transacaoIniciada = false;
-
-        return res.status(200).json({
-            mensagem: 'Desistência realizada com sucesso! Seu cargo agora é Administrador.'
-        });
-
-    } catch (error) {
-
-        //desfaz se der errado
-        if (transacaoIniciada) {
-            try {
-                await db.rollback();
-            } catch (erroRollback) {
-                console.error('Erro ao desfazer transação:', erroRollback);
-            }
-        }
-
-        console.error('Erro na desistência:', error);
-
-        return res.status(500).json({
-            mensagem: 'Erro interno ao tentar desistir do cargo.'
-        });
-    }
-});
-
 
 export default router;
