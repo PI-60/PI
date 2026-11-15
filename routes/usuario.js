@@ -39,7 +39,7 @@ router.post('/login', async (req, res) => {
                 email: usuarios[0].email,
                 tipo: coordenadores.length > 0 ? 'coordenador' : 'usuario'
             };
-
+            
             res.redirect('/inicioLogado');
         } else {
             res.render('telaLogin', {
@@ -191,11 +191,18 @@ router.post('/cadastro', async (req, res) => {
 // ============================
 
 router.get('/inicioLogado', (req, res) => {
+
     if (req.session.usuario) {
-        res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });
+
+        res.render('pagInicialLogado', {
+            layout: 'layouts/mainLogado',
+            mensagem: req.query.desistencia
+        });
+
     } else {
         res.redirect('/login');
     }
+
 });
 
     // ==========================================

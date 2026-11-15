@@ -995,4 +995,69 @@ footer .contato-item{
     text-align:center; 
   } 
 }
+/* botao desistencia */
 
+.opcao-desistir {
+    color: #d64545;
+}
+
+.opcao-desistir:hover {
+    color: #a82020;
+}
+
+/* msg desistencia */
+
+.mensagem-desistencia {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.mensagem-desistencia.sucesso {
+    background-color: #e5f5e9;
+    color: #246b38;
+    border: 1px solid #a8d8b5;
+}
+
+.mensagem-desistencia.erro {
+    background-color: #fdeaea;
+    color: #a82020;
+    border: 1px solid #efb4b4;
+}
+
+.usuario-container {
+    position: relative;
+}
+
+.menu-usuario {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 250px;
+    padding: 16px;
+    background: #ffffff;
+    color: #20242b;
+    border: 1px solid #e6e7e2;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.usuario-container:hover .menu-usuario,
+.usuario-container:focus-within .menu-usuario {
+    display: block;
+}
+
+.menu-usuario strong,
+.menu-usuario span {
+    color: #20242b;
+}
+
+.menu-usuario form {
+    display: block;
+}
