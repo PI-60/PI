@@ -58,7 +58,27 @@
             {{/if}}
         </span>
 
-        <div class="separador"></div>
+        {{#if ehCoordenador}}
+
+    <div class="separador"></div>
+    
+    <form action="/coordenador/desistir" method="POST"
+          onsubmit="return confirm('Tem certeza de que deseja desistir da coordenação? Você passará a ser administrador.');">
+
+        <button
+            class="opcao-menu opcao-desistir"
+            type="submit">
+
+            <i class="bi bi-person-dash"></i>
+            <span>Desistir da coordenação</span>
+
+        </button>
+
+    </form>
+
+    <div class="separador"></div>
+
+        {{/if}}
 
         <button
             class="opcao-menu"
