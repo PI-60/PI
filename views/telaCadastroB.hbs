@@ -158,20 +158,32 @@
                             >
                         {{/if}}
 
-                        <select
-                            id="tipoU"
-                            class="select"
-                            name="tipo"
-                            {{#if participante}}disabled{{/if}}
-                        >
-                            <option value="usuario">Selecione o tipo de Usuário</option>
-                            <option value="bolsista">Bolsista</option>
-                            <option value="participante" {{#if participante}}selected{{/if}}>
-                                Participante
-                            </option>
-                            <option value="ministrante">Ministrante</option>
-                            <option value="coordenador">Coordenador</option>
-                        </select>
+                        
+<select
+    id="tipoU"
+    class="select"
+    name="tipo"
+    {{#if participante}}disabled{{/if}}
+    required
+>
+    <option value="usuario" selected disabled>
+        Selecione o tipo de Usuário
+    </option>
+
+    
+    {{#if ehCoordenador}}
+        <option value="bolsista">Bolsista</option>
+        <option value="participante">Participante</option>
+        <option value="ministrante">Ministrante</option>
+        <option value="coordenador">Coordenador</option>
+    {{else}}
+        {{#if ehAdministrador}}
+            <option value="participante">Participante</option>
+            <option value="ministrante">Ministrante</option>
+        {{/if}}
+    {{/if}}
+</select>
+
                     </div>
                 {{else}}
                     <!-- Na edição de usuário, o tipo atual é exibido sem permitir alteração -->

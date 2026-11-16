@@ -1,234 +1,324 @@
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    // ELEMENTOS DA TELA
     const pesquisa = document.getElementById('nome');
     const filtroTipo = document.getElementById('filtroTipo');
     const lista = document.getElementById('lista-usuarios');
-    const mensagem = document.getElementById('semresul');
+    const mensagemSemResultado = document.getElementById('semresul');
     const contador = document.getElementById('contador-usuarios');
     const botoesPaginacao = document.getElementById('botoes-paginacao');
-
-    if (!pesquisa || !filtroTipo || !lista || !mensagem) {
-        return;
-    }
-
-    const linhas = Array.from(lista.querySelectorAll('.linha-usuario'));
-    const porPagina = 5;
-    let paginaAtual = 1;
-
-    function atualizarLista() {
-        const termo = pesquisa.value.trim().toLowerCase();
-        const tipoSelecionado = filtroTipo.value;
-
-        const filtrados = linhas.filter(function (linha) {
-            const nome = (linha.dataset.nome || '').toLowerCase();
-            const email = (linha.dataset.email || '').toLowerCase();
-            const funcoes = (linha.dataset.funcoes || '').toLowerCase();
-
-            const correspondeTexto =
-                nome.includes(termo) || email.includes(termo);
-
-            const correspondeTipo =
-                tipoSelecionado === 'todos' ||
-                funcoes.split(/\s+/).includes(tipoSelecionado);
-
-            return correspondeTexto && correspondeTipo;
-        });
-
-        const totalPaginas = Math.ceil(filtrados.length / porPagina);
-        if (totalPaginas > 0 && paginaAtual > totalPaginas) {
-            paginaAtual = totalPaginas;
-        }
-        if (totalPaginas === 0) {
-            paginaAtual = 1;
-        }
-
-        const inicio = (paginaAtual - 1) * porPagina;
-        const paginaVisivel = filtrados.slice(inicio, inicio + porPagina);
-
-        linhas.forEach(function (linha) {
-            linha.style.display = 'none';
-        });
-
-        paginaVisivel.forEach(function (linha) {
-            linha.style.display = 'table-row';
-        });
-
-        mensagem.style.display = filtrados.length === 0 ? 'block' : 'none';
-
-        if (contador) {
-            if (filtrados.length === 0) {
-                contador.textContent = 'Nenhum usuário para mostrar';
-            } else {
-                contador.textContent =
-                    `Mostrando ${inicio + 1}–${inicio + paginaVisivel.length} de ${filtrados.length} usuários`;
-            }
-        }
-
-        desenharPaginacao(totalPaginas);
-    }
-
-    function desenharPaginacao(totalPaginas) {
-        if (!botoesPaginacao) return;
-
-        botoesPaginacao.replaceChildren();
-
-        if (totalPaginas <= 1) return;
-
-        for (let numero = 1; numero <= totalPaginas; numero++) {
-            const botao = document.createElement('button');
-            botao.type = 'button';
-            botao.textContent = numero;
-            botao.className = 'botao-acao';
-
-            if (numero === paginaAtual) {
-                botao.style.borderColor = '#f28c28';
-                botao.style.backgroundColor = '#fff0df';
-            }
-
-            botao.addEventListener('click', function () {
-                paginaAtual = numero;
-                atualizarLista();
-            });
-
-            botoesPaginacao.appendChild(botao);
-        }
-    }
-
-    pesquisa.addEventListener('input', function () {
-        paginaAtual = 1;
-        atualizarLista();
-    });
-
-    filtroTipo.addEventListener('change', function () {
-        paginaAtual = 1;
-        atualizarLista();
-    });
-
-        atualizarLista();
-
     const botaoCadastrar = document.getElementById('cadastrarUsuario');
 
+
+    // =====================================
+    // PESQUISA, FILTROS E PAGINAÇÃO
+    // =====================================
+
+    if (pesquisa && filtroTipo && lista && mensagemSemResultado) {
+
+        const linhas = Array.from(
+            lista.querySelectorAll('.linha-usuario')
+        );
+
+        const porPagina = 5;
+        let paginaAtual = 1;
+
+        function atualizarLista() {
+
+            const termo = pesquisa.value.trim().toLowerCase();
+            const tipoSelecionado = filtroTipo.value;
+
+            const filtrados = linhas.filter(function (linha) {
+
+                const nome = (linha.dataset.nome || '').toLowerCase();
+                const email = (linha.dataset.email || '').toLowerCase();
+                const funcoes = (linha.dataset.funcoes || '').toLowerCase();
+
+                const correspondeTexto =
+                    nome.includes(termo) || email.includes(termo);
+
+                const correspondeTipo =
+                    tipoSelecionado === 'todos' ||
+                    funcoes.split(/\s+/).includes(tipoSelecionado);
+
+                return correspondeTexto && correspondeTipo;
+            });
+
+            const totalPaginas = Math.ceil(
+                filtrados.length / porPagina
+            );
+
+            if (totalPaginas > 0 && paginaAtual > totalPaginas) {
+                paginaAtual = totalPaginas;
+            }
+
+            if (totalPaginas === 0) {
+                paginaAtual = 1;
+            }
+
+            const inicio = (paginaAtual - 1) * porPagina;
+
+            const paginaVisivel = filtrados.slice(
+                inicio,
+                inicio + porPagina
+            );
+
+            linhas.forEach(function (linha) {
+                linha.style.display = 'none';
+            });
+
+            paginaVisivel.forEach(function (linha) {
+                linha.style.display = 'table-row';
+            });
+
+            mensagemSemResultado.style.display =
+                filtrados.length === 0 ? 'block' : 'none';
+
+            if (contador) {
+
+                if (filtrados.length === 0) {
+                    contador.textContent = 'Nenhum usuário para mostrar';
+                } else {
+                    contador.textContent =
+                        `Mostrando ${inicio + 1}–${inicio + paginaVisivel.length} de ${filtrados.length} usuários`;
+                }
+            }
+
+            desenharPaginacao(totalPaginas);
+        }
+
+
+        function desenharPaginacao(totalPaginas) {
+
+            if (!botoesPaginacao) return;
+
+            botoesPaginacao.replaceChildren();
+
+            if (totalPaginas <= 1) return;
+
+            for (let numero = 1; numero <= totalPaginas; numero++) {
+
+                const botao = document.createElement('button');
+
+                botao.type = 'button';
+                botao.textContent = numero;
+                botao.className = 'botao-acao';
+
+                if (numero === paginaAtual) {
+                    botao.style.borderColor = '#f28c28';
+                    botao.style.backgroundColor = '#fff0df';
+                }
+
+                botao.addEventListener('click', function () {
+                    paginaAtual = numero;
+                    atualizarLista();
+                });
+
+                botoesPaginacao.appendChild(botao);
+            }
+        }
+
+
+        pesquisa.addEventListener('input', function () {
+            paginaAtual = 1;
+            atualizarLista();
+        });
+
+        filtroTipo.addEventListener('change', function () {
+            paginaAtual = 1;
+            atualizarLista();
+        });
+
+        atualizarLista();
+    }
+
+
+    // =====================================
+    // CADASTRAR USUÁRIO
+    // =====================================
+
     if (botaoCadastrar) {
+
         botaoCadastrar.addEventListener('click', function () {
             window.location.href = '/cadastro';
         });
     }
-    
-    
-    lista.addEventListener('click', async function (evento) {
-        
-        // VISUALIZAR USUÁRIO OU MINISTRANTE
-        const botaoVisualizar = evento.target.closest('.botao-acao.visualizar');
 
-        if (botaoVisualizar) {
-            const email = botaoVisualizar.dataset.email;
 
-            if (email) {
-                window.location.href =
-                    '/usuarios/visualizar/' + encodeURIComponent(email);
-            }
+    // =====================================
+    // VISUALIZAR, EDITAR E EXCLUIR
+    // =====================================
 
-            return;
-        }
+    if (lista) {
 
-        // EDITAR USUÁRIO
-        const botaoEditar = evento.target.closest('.botao-acao.editar');
+        lista.addEventListener('click', async function (evento) {
 
-        if (botaoEditar) {
-            const email = botaoEditar.dataset.email;
-
-            if (email) {
-                window.location.href =
-                    '/usuarios/editar/' + encodeURIComponent(email);
-            }
-
-            return;
-        }
-
-        // EXCLUIR USUÁRIO OU MINISTRANTE
-        const botaoExcluir = evento.target.closest('.botao-acao.excluir');
-
-        if (!botaoExcluir) return;
-
-        const email = botaoExcluir.dataset.email;
-        const ministrante = botaoExcluir.dataset.ministrante === '1';
-
-        if (!email) {
-            alert('Não foi possível identificar o cadastro.');
-            return;
-        }
-
-        const confirmado = confirm(
-            'Tem certeza de que deseja excluir este cadastro? Essa ação não pode ser desfeita.'
-        );
-
-        if (!confirmado) return;
-
-        const rota = ministrante
-            ? '/usuarios/ministrantes/excluir/'
-            : '/usuarios/excluir/';
-
-        try {
-            const resposta = await fetch(
-                rota + encodeURIComponent(email),
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        tipo: ministrante ? 'ministrante' : 'usuario'
-                    })
-                }
+            // VISUALIZAR
+            const botaoVisualizar = evento.target.closest(
+                '.botao-acao.visualizar'
             );
 
-            if (resposta.redirected) {
-                window.location.href = resposta.url;
+            if (botaoVisualizar) {
+
+                const email = botaoVisualizar.dataset.email;
+
+                if (email) {
+                    window.location.href =
+                        '/usuarios/visualizar/' +
+                        encodeURIComponent(email);
+                }
+
                 return;
             }
 
-            if (!resposta.ok) {
-                const mensagemErro = await resposta.text();
-                alert(mensagemErro || 'Não foi possível excluir o cadastro.');
+
+            // EDITAR
+            const botaoEditar = evento.target.closest(
+                '.botao-acao.editar'
+            );
+
+            if (botaoEditar) {
+
+                const email = botaoEditar.dataset.email;
+
+                const ministrante =
+                    botaoEditar.dataset.ministrante === '1';
+
+                if (email) {
+
+                    const rota = ministrante
+                        ? '/usuarios/ministrantes/editar/'
+                        : '/usuarios/editar/';
+
+                    window.location.href =
+                        rota + encodeURIComponent(email);
+                }
+
                 return;
             }
 
-            window.location.reload();
-        } catch (erro) {
-            console.error('Erro ao excluir cadastro:', erro);
-            alert('Não foi possível conectar ao servidor.');
-        }
-    });
 
-});
+            // EXCLUIR
+            const botaoExcluir = evento.target.closest(
+                '.botao-acao.excluir'
+            );
 
+            if (!botaoExcluir) return;
 
-// excluir
- const mensagens = {
-    usuarioExcluido: {
-        texto: 'Usuário excluído com sucesso!', // texto = msg que aparecerá
-        tipo: 'sucesso' // o tipo para puxar no css 
-    },
+            const email = botaoExcluir.dataset.email;
 
-    erro: {
-        texto: 'Não foi possível realizar essa operação.',
-        tipo: 'erro'
+            const ministrante =
+                botaoExcluir.dataset.ministrante === '1';
+
+            if (!email) {
+                alert('Não foi possível identificar o cadastro.');
+                return;
+            }
+
+            const confirmado = confirm(
+                'Tem certeza de que deseja excluir este cadastro? Essa ação não pode ser desfeita.'
+            );
+
+            if (!confirmado) return;
+
+            const rota = ministrante
+                ? '/usuarios/ministrantes/excluir/'
+                : '/usuarios/excluir/';
+
+            try {
+
+                const resposta = await fetch(
+                    rota + encodeURIComponent(email),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type':
+                                'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            tipo: ministrante ? 'ministrante' : 'usuario'
+                        })
+                    }
+                );
+
+                if (resposta.redirected) {
+                    window.location.href = resposta.url;
+                    return;
+                }
+
+                if (!resposta.ok) {
+
+                    const mensagemErro = await resposta.text();
+
+                    alert(
+                        mensagemErro ||
+                        'Não foi possível excluir o cadastro.'
+                    );
+
+                    return;
+                }
+
+                window.location.reload();
+
+            } catch (erro) {
+
+                console.error('Erro ao excluir cadastro:', erro);
+
+                alert('Não foi possível conectar ao servidor.');
+            }
+        });
     }
-};
- 
-    const parametros = new URLSearchParams(window.location.search);
-    const tipoMensagem = parametros.get('mensagem');
-    const elementoMensagem = document.getElementById('mensagem');
-  
-    if (elementoMensagem && mensagens[tipoMensagem]) {
-        const mensagem = mensagens[tipoMensagem];
 
-        elementoMensagem.textContent = mensagem.texto;
-        elementoMensagem.classList.add(mensagem.tipo);
+
+    // =====================================
+    // MENSAGENS DE RETORNO
+    // =====================================
+
+    const mensagens = {
+
+        usuarioExcluido: {
+            texto: 'Usuário excluído com sucesso!',
+            tipo: 'sucesso'
+        },
+
+        usuarioEditado: {
+            texto: 'Usuário salvo com sucesso!',
+            tipo: 'sucesso'
+        },
+
+        usuarioCadastrado: {
+            texto: 'Usuário cadastrado com sucesso!',
+            tipo: 'sucesso'
+        },
+
+        erro: {
+            texto: 'Não foi possível realizar essa operação.',
+            tipo: 'erro'
+        }
+    };
+
+
+    const parametros = new URLSearchParams(
+        window.location.search
+    );
+
+    const tipoMensagem = parametros.get('mensagem');
+
+    const elementoMensagem = document.getElementById('mensagem');
+
+    if (elementoMensagem && mensagens[tipoMensagem]) {
+
+        const mensagemAtual = mensagens[tipoMensagem];
+
+        elementoMensagem.textContent = mensagemAtual.texto;
+
+        elementoMensagem.classList.remove('sucesso', 'erro');
+        elementoMensagem.classList.add(mensagemAtual.tipo);
+
         elementoMensagem.hidden = false;
 
-        // p msg desaparecer dozinha depoois de 4s
-        setTimeout(() => {
+        setTimeout(function () {
             elementoMensagem.hidden = true;
         }, 4000);
 
@@ -239,64 +329,4 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 
-    // editar
- const mensagensE = {
-    usuarioEditado: {
-        texto: 'Usuário salvo com sucesso!', // texto = msg que aparecerá
-        tipo: 'sucesso' // o tipo para puxar no css 
-    }
-};
- 
-    const parametrosE = new URLSearchParams(window.location.search);
-    const tipoMensagemE = parametros.get('mensagem');
-    const elementoMensagemE = document.getElementById('mensagem');
-  
-    if (elementoMensagemE && mensagensE[tipoMensagemE]) {
-        const mensagemE = mensagensE[tipoMensagemE];
-
-        elementoMensagemE.textContent = mensagemE.texto;
-        elementoMensagemE.classList.add(mensagemE.tipo);
-        elementoMensagemE.hidden = false;
-
-        // p msg desaparecer dozinha depoois de 4s
-        setTimeout(() => {
-            elementoMensagemE.hidden = true;
-        }, 4000);
-
-        window.history.replaceState(
-            {},
-            '',
-            window.location.pathname
-        );
-    }
-
-// cadastra
- const mensagensC = {
-    usuarioCadastrado: {
-        texto: 'Usuário cadastrado com sucesso!', // texto = msg que aparecerá
-        tipo: 'sucesso' // o tipo para puxar no css 
-    }
-};
- 
-    const parametrosC = new URLSearchParams(window.location.search);
-    const tipoMensagemC = parametros.get('mensagem');
-    const elementoMensagemC = document.getElementById('mensagem');
-  
-    if (elementoMensagemC && mensagensC[tipoMensagemC]) {
-        const mensagemC = mensagensC[tipoMensagemC];
-
-        elementoMensagemC.textContent = mensagemC.texto;
-        elementoMensagemC.classList.add(mensagemC.tipo);
-        elementoMensagemC.hidden = false;
-
-        // p msg desaparecer dozinha depoois de 4s
-        setTimeout(() => {
-            elementoMensagemC.hidden = true;
-        }, 4000);
-
-        window.history.replaceState(
-            {},
-            '',
-            window.location.pathname
-        );
-    }
+});

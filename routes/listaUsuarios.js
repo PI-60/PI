@@ -17,6 +17,21 @@ const router = express.Router();
 
 router.get('/usuarios', exigirLogin, async (req, res) => {
     try {
+
+        const emailLogado = req.session.usuario.email;
+
+const [coordenadores] = await db.execute(
+    'SELECT email FROM coordenador WHERE email = ?',
+    [emailLogado]
+);
+
+const [administradores] = await db.execute(
+    'SELECT email FROM administrador WHERE email = ?',
+    [emailLogado]
+);
+
+const ehCoordenador = coordenadores.length > 0;
+const ehAdministrador = administradores.length > 0;
         const [usuarios] = await db.execute(`
             SELECT
                 u.email,
@@ -54,9 +69,11 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
         `);
 
         return res.render('telaUsuario', {
-            layout: 'layouts/mainLogado',
-            usuarios
-        });
+    layout: 'layouts/mainLogado',
+    usuarios,
+    ehCoordenador,
+    ehAdministrador
+});
     } catch (erro) {
         console.error('Erro ao listar usuários:', erro);
         return res.status(500).send('Erro ao carregar a lista de usuários.');

@@ -1,3 +1,4 @@
+
 import express from 'express';
 import db from '../database.js';
 
@@ -5,12 +6,35 @@ const router = express.Router();
 
 console.log('USUARIO.JS FOI CARREGADO');
 
-// ============================
+// ========================================
+// FUNÇÃO PARA VERIFICAR PERMISSÕES
+// ========================================
+
+async function verificarPermissoes(email) {
+    const [coordenadores] = await db.execute(
+        'SELECT email FROM coordenador WHERE email = ?',
+        [email]
+    );
+
+    const [administradores] = await db.execute(
+        'SELECT email FROM administrador WHERE email = ?',
+        [email]
+    );
+
+    return {
+        ehCoordenador: coordenadores.length > 0,
+        ehAdministrador: administradores.length > 0
+    };
+}
+
+// ========================================
 // ROTAS DE LOGIN
-// ============================
+// ========================================
 
 router.get('/login', async (req, res) => {
-    res.render('telaLogin', { layout: 'layouts/login' });
+    res.render('telaLogin', {
+        layout: 'layouts/login'
+    });
 });
 
 router.post('/login', async (req, res) => {
@@ -20,41 +44,40 @@ router.post('/login', async (req, res) => {
         const [usuarios] = await db.execute(
             'SELECT * FROM usuario WHERE email = ? AND senha = ?',
             [email, senha]
-            // procura no banco de dados se existe esse usuario que tenha esse e-mail e essa senha
         );
 
         if (usuarios.length > 0) {
-            // Salva o usuário na sessão
             req.session.usuario = {
                 nome: usuarios[0].nome,
                 email: usuarios[0].email
             };
 
-            res.redirect('/inicioLogado');
-        } else {
-            res.render('telaLogin', {
-                layout: 'layouts/login',
-                erro: 'E-mail ou senha incorretos!'
-            });
+            return res.redirect('/inicioLogado');
         }
+
+        return res.render('telaLogin', {
+            layout: 'layouts/login',
+            erro: 'E-mail ou senha incorretos!'
+        });
+
     } catch (error) {
         console.error('Erro no login:', error);
-        res.status(500).send('Erro interno do servidor.');
+        return res.status(500).send('Erro interno do servidor.');
     }
 });
 
-// ============================
+// ========================================
 // ROTAS DE RECUPERAÇÃO DE SENHA
-// ============================
+// ========================================
 
 router.get('/recuperacao-senha', async (req, res) => {
-    res.render('recuperacaoSenha', { layout: 'layouts/recuperacao' });
+    res.render('recuperacaoSenha', {
+        layout: 'layouts/recuperacao'
+    });
 });
 
 router.post('/recuperacao-senha', async (req, res) => {
     const { email } = req.body;
-
-    console.log('E-mail informado:', email);
 
     try {
         const [usuarios] = await db.execute(
@@ -63,138 +86,285 @@ router.post('/recuperacao-senha', async (req, res) => {
         );
 
         if (usuarios.length > 0) {
-            res.send('E-mail encontrado! Agora vamos fazer a próxima etapa da recuperação.');
-        } else {
-            res.send('E-mail não encontrado no sistema.');
+            return res.send(
+                'E-mail encontrado! Agora vamos fazer a próxima etapa da recuperação.'
+            );
         }
+
+        return res.send('E-mail não encontrado no sistema.');
+
     } catch (error) {
         console.error('Erro na recuperação:', error);
-        res.status(500).send('Erro interno do servidor.');
+        return res.status(500).send('Erro interno do servidor.');
     }
 });
 
-// ============================
+// ========================================
 // ROTAS DE CADASTRO
-// ============================
+// ========================================
+
+// ABRIR TELA DE CADASTRO
 
 router.get('/cadastro', async (req, res) => {
-    // Verifica se o usuário está logado
-    if (req.session.usuario) {
-        // Faz a consulta para verificar se é um coordenador (utilizando o email do usuário logado)
-        const [usuario] = await db.execute(
-            'SELECT * FROM coordenador WHERE email = ?',
-            [req.session.usuario.email]
-        );
-
-        // se encontrou, carrega a página
-        if (usuario.length > 0) {
-            let participante = null;
-
-            // se veio um id (botão de editar da lista), busca o participante para preencher o formulário
-            if (req.query.id) {
-                const [resultado] = await db.execute(
-                    'SELECT idParticipante, nome, CPF, telefone FROM participante WHERE idParticipante = ?',
-                    [req.query.id]
-                );
-                participante = resultado[0] || null;
-            }
-
-            res.render('telaCadastroB', { layout: 'layouts/cadastro', participante });
-        } else {
-            // faz o redirect caso não possa acessar
-            res.redirect('/inicioLogado'); 
-        }
-    } else {
-        // caso não esteja logado
-        res.redirect('/login');
+    if (!req.session.usuario) {
+        return res.redirect('/login');
     }
-});
-
-router.post('/cadastro', async (req, res) => {
-    const { nome, email, cpf, telefone, tipo, senha, siape, idParticipante } = req.body;
-
-    console.log(req.body);
 
     try {
-        let sql;
+        const email = req.session.usuario.email;
+        const permissoes = await verificarPermissoes(email);
 
-        // MINISTRANTE
-        if (tipo == 'ministrante') {
-            sql = 'INSERT INTO ministrante (email, nome, telefone) VALUES (?, ?, ?)';
-            await db.execute(sql, [email, nome, telefone]);
+        // Somente coordenador ou administrador pode acessar
+        if (!permissoes.ehCoordenador && !permissoes.ehAdministrador) {
+            return res.redirect('/inicioLogado');
         }
 
-        // BOLSISTA
-        if (tipo == 'bolsista') {
-            sql = 'INSERT INTO usuario (email, nome, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';
-            await db.execute(sql, [email, nome, senha, telefone, cpf]);
-            sql = 'INSERT INTO bolsista (email) VALUES (?)';
-            await db.execute(sql, [email]);
+        let participante = null;
+
+        // Se recebeu um ID, busca os dados do participante
+        if (req.query.id) {
+
+            // Somente coordenador ou administrador pode editar participante
+            const [resultado] = await db.execute(
+                `SELECT idParticipante, nome, CPF, telefone
+                 FROM participante
+                 WHERE idParticipante = ?`,
+                [req.query.id]
+            );
+
+            participante = resultado[0] || null;
+
+            if (!participante) {
+                return res.redirect('/participantes?mensagem=erro');
+            }
         }
 
-        // EDIÇÃO DE PARTICIPANTE (veio com id) - sempre atualiza, o tipo não pode ser trocado
-            if (idParticipante) {
-                try {
-                    const [resultado] = await db.execute(
-                        `UPDATE participante
-                        SET nome = ?, cpf = ?, telefone = ?
-                        WHERE idParticipante = ?`,
-                        [nome, cpf || null, telefone || null, idParticipante]
-                    );
+        return res.render('telaCadastroB', {
+            layout: 'layouts/cadastro',
+            participante,
+            ehCoordenador: permissoes.ehCoordenador,
+            ehAdministrador: permissoes.ehAdministrador
+        });
 
-                    // verifica se algum participante foi atualizado
-                    if (resultado.affectedRows > 0) {
-                        return res.redirect('/participantes?mensagem=participanteEditado');
-                        
-                    } else {
-                        return res.redirect('/participantes?mensagem=erro');
-                    }
+    } catch (error) {
+        console.error('Erro ao abrir cadastro:', error);
+        return res.status(500).send('Erro ao carregar a página de cadastro.');
+    }
+});
 
-                } catch (error) {
-                    console.error('Erro ao editar participante:', error);
-                    return res.redirect('/participantes?mensagem=erro');
-                }
+// REALIZAR CADASTRO
+
+router.post('/cadastro', async (req, res) => {
+
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
+
+    const {
+        nome,
+        email,
+        cpf,
+        telefone,
+        tipo,
+        senha,
+        siape,
+        idParticipante
+    } = req.body;
+
+    try {
+        const emailLogado = req.session.usuario.email;
+        const permissoes = await verificarPermissoes(emailLogado);
+
+        const ehCoordenador = permissoes.ehCoordenador;
+        const ehAdministrador = permissoes.ehAdministrador;
+
+        // Impede que bolsistas realizem cadastros
+        if (!ehCoordenador && !ehAdministrador) {
+            return res.status(403).send(
+                'Acesso negado. Você não tem permissão para cadastrar.'
+            );
+        }
+
+
+// Define quais tipos cada perfil pode cadastrar
+const tiposPermitidos = ehCoordenador
+    ? ['participante', 'ministrante', 'bolsista', 'coordenador']
+    : ehAdministrador
+        ? ['participante', 'ministrante']
+        : [];
+
+// Bloqueia qualquer tipo não permitido
+if (!tiposPermitidos.includes(tipo)) {
+    return res.status(403).send(
+        'Acesso negado. Você não tem permissão para cadastrar este tipo de usuário.'
+    );
+}
+
+
+        // ========================================
+        // EDIÇÃO DE PARTICIPANTE
+        // ========================================
+
+        if (idParticipante) {
+
+            if (!ehCoordenador && !ehAdministrador) {
+                return res.status(403).send('Acesso negado.');
             }
 
-        // PARTICIPANTE
-        if (tipo == 'participante') {
-            sql = 'INSERT INTO participante (nome, cpf, telefone) VALUES (?, ?, ?)';
-            await db.execute(sql, [nome, cpf, telefone]);
+            const [resultado] = await db.execute(
+                `UPDATE participante
+                 SET nome = ?, CPF = ?, telefone = ?
+                 WHERE idParticipante = ?`,
+                [
+                    nome,
+                    cpf || null,
+                    telefone || null,
+                    idParticipante
+                ]
+            );
+
+            if (resultado.affectedRows > 0) {
+                return res.redirect(
+                    '/participantes?mensagem=participanteEditado'
+                );
+            }
+
+            return res.redirect('/participantes?mensagem=erro');
         }
 
-        // COORDENADOR
-        if (tipo == 'coordenador') {
-            sql = 'INSERT INTO usuario (email, nome, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)';
-            await db.execute(sql, [email, nome, senha, telefone, cpf]);
-            sql = 'INSERT INTO coordenador (email, siape) VALUES (?, ?)';
-            await db.execute(sql, [email, siape]);
+        // ========================================
+        // CADASTRO DE PARTICIPANTE
+        // ========================================
+
+        if (tipo === 'participante') {
+
+            if (!ehCoordenador && !ehAdministrador) {
+                return res.status(403).send('Acesso negado.');
+            }
+
+            await db.execute(
+                `INSERT INTO participante (nome, cpf, telefone)
+                 VALUES (?, ?, ?)`,
+                [nome, cpf || null, telefone || null]
+            );
+
+            return res.redirect('/participantes?mensagem=participanteCadastrado');
         }
 
-       return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+        // ========================================
+        // CADASTRO DE MINISTRANTE
+        // ========================================
+
+        if (tipo === 'ministrante') {
+
+            if (!ehCoordenador && !ehAdministrador) {
+                return res.status(403).send('Acesso negado.');
+            }
+
+            await db.execute(
+                `INSERT INTO ministrante (email, nome, telefone)
+                 VALUES (?, ?, ?)`,
+                [email, nome, telefone || null]
+            );
+
+            return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+        }
+
+        // ========================================
+        // CADASTRO DE BOLSISTA
+        // ========================================
+
+        if (tipo === 'bolsista') {
+
+            // Somente coordenador pode cadastrar bolsista
+            if (!ehCoordenador) {
+                return res.status(403).send(
+                    'Acesso negado. Somente coordenadores podem cadastrar bolsistas.'
+                );
+            }
+
+            await db.execute(
+                `INSERT INTO usuario (email, nome, senha, telefone, cpf)
+                 VALUES (?, ?, ?, ?, ?)`,
+                [email, nome, senha, telefone || null, cpf || null]
+            );
+
+            await db.execute(
+                'INSERT INTO bolsista (email) VALUES (?)',
+                [email]
+            );
+
+            return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+        }
+
+        // ========================================
+        // CADASTRO DE COORDENADOR
+        // ========================================
+
+        if (tipo === 'coordenador') {
+
+            // Somente coordenador pode cadastrar outro coordenador
+            if (!ehCoordenador) {
+                return res.status(403).send(
+                    'Acesso negado. Somente coordenadores podem cadastrar coordenadores.'
+                );
+            }
+
+            await db.execute(
+                `INSERT INTO usuario (email, nome, senha, telefone, cpf)
+                 VALUES (?, ?, ?, ?, ?)`,
+                [email, nome, senha, telefone || null, cpf || null]
+            );
+
+            await db.execute(
+                'INSERT INTO coordenador (email, siape) VALUES (?, ?)',
+                [email, siape]
+            );
+
+            return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+        }
+
+        // ========================================
+        // TIPO DE CADASTRO INVÁLIDO
+        // ========================================
+
+        return res.redirect('/usuarios?mensagem=erro');
+
     } catch (error) {
-         return res.redirect('/usuarios?mensagem=erro');
+        console.error('Erro ao realizar cadastro:', error);
+        return res.redirect('/usuarios?mensagem=erro');
     }
 });
 
-// ============================
+// ========================================
 // ROTAS DE DASHBOARD DE USUÁRIO
-// ============================
+// ========================================
 
 router.get('/inicioLogado', (req, res) => {
-    if (req.session.usuario) {
-        res.render('pagInicialLogado', { layout: 'layouts/mainLogado' });
-    } else {
-        res.redirect('/login');
+
+    if (!req.session.usuario) {
+        return res.redirect('/login');
     }
+
+    return res.render('pagInicialLogado', {
+        layout: 'layouts/mainLogado'
+    });
 });
+
+// ========================================
+// LOGOUT
+// ========================================
+
 router.get('/logout', (req, res) => {
+
     req.session.destroy((err) => {
+
         if (err) {
             console.error('Erro ao deslogar:', err);
             return res.status(500).send('Erro ao deslogar');
         }
 
-        res.redirect('/login');
+        return res.redirect('/login');
     });
 });
 
