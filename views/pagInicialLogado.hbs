@@ -4,22 +4,22 @@
 <link rel="stylesheet" href="./css/styleLogado.css">
 
   {{#if (eq mensagem "sucesso")}}
-      <div class="mensagem-desistencia sucesso">
-          Você desistiu da coordenação e agora é administrador!
-      </div>
-  {{/if}}
+    <script>
+        alert("Você desistiu da coordenação e agora é administrador!");
+    </script>
+{{/if}}
 
-  {{#if (eq mensagem "ultimo")}}
-      <div class="mensagem-desistencia erro">
-          Não é possível desistir da coordenação porque você é o único coordenador cadastrado.
-      </div>
-  {{/if}}
+{{#if (eq mensagem "ultimo")}}
+    <script>
+        alert("Não é possível desistir da coordenação porque você é o único coordenador cadastrado.");
+    </script>
+{{/if}}
 
-  {{#if (eq mensagem "erro")}}
-      <div class="mensagem-desistencia erro">
-          Ocorreu um erro ao tentar desistir da coordenação. Tente novamente.
-      </div>
-  {{/if}}
+{{#if (eq mensagem "erro")}}
+    <script>
+        alert("Ocorreu um erro ao tentar desistir da coordenação. Tente novamente.");
+    </script>
+{{/if}}
 
   <aside class="sidebar">
 
