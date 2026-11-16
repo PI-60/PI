@@ -47,12 +47,28 @@ router.post('/login', async (req, res) => {
         );
 
         if (usuarios.length > 0) {
+
+            const emailUsuario = usuarios[0].email;
+
+            // ve se o usuário é coordenador
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailUsuario]
+            );
+
+            // salva os dados na sessão
             req.session.usuario = {
                 nome: usuarios[0].nome,
-                email: usuarios[0].email
+                email: usuarios[0].email,
+                tipo: coordenadores.length > 0 ? 'coordenador' : 'usuario'
             };
-
-            return res.redirect('/inicioLogado');
+            
+            res.redirect('/inicioLogado');
+        } else {
+            res.render('telaLogin', {
+                layout: 'layouts/login',
+                erro: 'E-mail ou senha incorretos!'
+            });
         }
 
         return res.render('telaLogin', {
@@ -342,19 +358,102 @@ if (!tiposPermitidos.includes(tipo)) {
 
 router.get('/inicioLogado', (req, res) => {
 
-    if (!req.session.usuario) {
-        return res.redirect('/login');
+    if (req.session.usuario) {
+
+        res.render('pagInicialLogado', {
+            layout: 'layouts/mainLogado',
+            mensagem: req.query.desistencia
+        });
+
+    } else {
+        res.redirect('/login');
     }
 
-    return res.render('pagInicialLogado', {
-        layout: 'layouts/mainLogado'
-    });
 });
 
-// ========================================
-// LOGOUT
-// ========================================
+    // ==========================================
+    // DESISTÊNCIA DA COORDENAÇÃO
+    // ==========================================
 
+    router.post('/coordenador/desistir', async (req, res) => {
+
+        // ve se existe alguém logado
+        if (!req.session.usuario) {
+            return res.redirect('/login');
+        }
+
+        const email = req.session.usuario.email;
+
+        let transacaoIniciada = false;
+
+        try {
+
+            // comeca transação no banco
+            await db.beginTransaction();
+            transacaoIniciada = true;
+
+            // ve se o usuário é coordenador
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [email]
+            );
+
+            if (coordenadores.length === 0) {
+                await db.rollback();
+                transacaoIniciada = false;
+
+                return res.redirect('/inicioLogado');
+            }
+
+            // busca os coordenadores cadastrados
+            const [todosCoordenadores] = await db.execute(
+                'SELECT email FROM coordenador FOR UPDATE'
+            );
+
+            // impede que o coordenador desista quando só tem um
+            if (todosCoordenadores.length <= 1) {
+
+                await db.rollback();
+                transacaoIniciada = false;
+
+                return res.redirect('/inicioLogado?desistencia=ultimo');
+            }
+
+            // tira o usuário da tabela coordenador
+            await db.execute(
+                'DELETE FROM coordenador WHERE email = ?',
+                [email]
+            );
+
+            // add o usuário na tabela administrador
+            await db.execute(
+                'INSERT INTO administrador (email) VALUES (?)',
+                [email]
+            );
+
+            // Confirma as alterações no banco
+            await db.commit();
+            transacaoIniciada = false;
+
+            // atualiza o tipo de usuário na sessão
+            req.session.usuario.tipo = 'administrador';
+
+            console.log('Coordenador desistiu da função:', email);
+
+            return res.redirect('/inicioLogado?desistencia=sucesso');
+
+        } catch (error) {
+
+            if (transacaoIniciada) {
+                await db.rollback();
+            }
+
+            console.error('Erro ao desistir da coordenação:', error);
+
+            return res.redirect('/inicioLogado?desistencia=erro');
+        }
+
+    });
 router.get('/logout', (req, res) => {
 
     req.session.destroy((err) => {

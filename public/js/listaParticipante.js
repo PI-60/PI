@@ -4,13 +4,24 @@
     const semResultados = document.getElementById('semresul');
     const botao = document.querySelector('.botao-freq');
 
-
-    if (botao) {
-        botao.addEventListener('click', function () {
-            window.location.href = '/frequencia';
+    // =========================================
+    // IMPRIMIR LISTA DE PARTICIPANTES
+    // =========================================
+    //acha o botao
+    const btnImprimir = document.getElementById('btnImprimir');
+    //se for clicado vai pra impressao
+    if (btnImprimir) {
+        btnImprimir.addEventListener('click', () => {
+            window.print();
         });
     }
-
+    //=======================================
+        if (botao) {
+            botao.addEventListener('click', function () {
+                window.location.href = '/frequencia';
+            });
+        }
+   
 
     // remove acentos e deixa minúsculo (assim "jose" encontra "josé")]
     //constante normalzar recebe texto
