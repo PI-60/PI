@@ -9,7 +9,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 - [x] Banco de dados funcional
 - [x] Implementação de tela de registro de frequência de participantes
-- [ ] Todos os CRUDs completos e funcionais
+- [x] Todos os CRUDs completos e funcionais
 - [ ] Teste com os bolsistas do projeto
 - [ ] Adesão total do projeto de extensão
 
