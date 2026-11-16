@@ -198,6 +198,23 @@
                 {{/unless}}
 
                 <!-- botão de cadastro, tipo submit (form) -->
+                {{#if ehCoordenador}}
+    {{#if usuario.bolsista}}
+        {{#unless usuario.administrador}}
+            <div class="campo-checkbox-admin">
+                <label>
+                    <input
+                        type="checkbox"
+                        name="tornarAdministrador"
+                        value="1"
+                    >
+                    Tornar administrador
+                </label>
+            </div>
+        {{/unless}}
+    {{/if}}
+{{/if}}
+
                 <button type="submit" class="button">
                     {{#if editandoUsuario}}
                         SALVAR 
@@ -211,6 +228,11 @@
                 </button>
 
             </div>
-        </form>
+                </form>
+
+        
+
+
+
     </section>
 </main>
