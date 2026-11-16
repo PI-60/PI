@@ -26,197 +26,83 @@ function mudarCor(select) {
   select.classList.add(select.value === 'presenca' ? 'presenca' : 'falta');
 }
 
-function limparLista(textoVazio) {
-
-    linhas.innerHTML = '';
-    btnSalvar.disabled = true;
-
-    semResul.textContent = textoVazio;
-    semResul.style.display = 'block';
-    contador.textContent = '';
-    botoesPaginacao.innerHTML = '';
-
-    campoPesquisa.value = '';
-    paginaAtual = 1;
-}
-
-function criarLinha(p) {
-  const linha = document.createElement('div');
-  // linha-participante = visual da página de Participantes
-  linha.className = 'linha-participante linha-frequencia';
-  linha.dataset.id = p.idParticipante;
-
-  const nome = document.createElement('span');
-  nome.className = 'nome-participante';
-  nome.textContent = p.nome; // textContent evita injeção de HTML
-
-  const select = document.createElement('select');
-  select.className = 'select-frequencia';
-  select.innerHTML =
-    '<option value="presenca">Presença</option>' +
-    '<option value="falta">Falta</option>';
-
-  // frequencia: 1 = presença, 0 = falta, null = ainda não registrada (padrão: presença)
-  select.value = p.frequencia === 0 ? 'falta' : 'presenca';
-  mudarCor(select);
-  select.addEventListener('change', () => mudarCor(select));
-
-  linha.append(nome, select);
-  return linha;
-}
-
 // Remove acentos e transforma em minúsculo
 const normalizar = (texto) =>
-    texto.normalize('NFD')
-        .toLowerCase()
-        .replace(/[\u0300-\u036f]/g, '');
-
+  texto.normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
 
 // PAGINAÇÃO E PESQUISA
 function mostrarPagina() {
+  const todasLinhas = Array.from(linhas.querySelectorAll('.linha-frequencia'));
+  const termo = normalizar(campoPesquisa.value.trim());
 
-    const todasLinhas = Array.from(
-        linhas.querySelectorAll('.linha-frequencia')
-    );
+  const filtrados = todasLinhas.filter((linha) => {
+    const nome = normalizar(linha.querySelector('.nome-participante').textContent);
+    return nome.includes(termo);
+  });
 
-    const termo = normalizar(campoPesquisa.value.trim());
+  const total = filtrados.length;
+  const totalPaginas = Math.ceil(total / porPagina);
 
-    // Filtra pelo nome
-    const filtrados = todasLinhas.filter((linha) => {
+  paginaAtual = Math.max(1, Math.min(paginaAtual, Math.max(1, totalPaginas)));
 
-        const nome = normalizar(
-            linha.querySelector('.nome-participante').textContent
-        );
+  todasLinhas.forEach((linha) => (linha.style.display = 'none'));
 
-        return nome.includes(termo);
+  const inicio = (paginaAtual - 1) * porPagina;
+  const fim = Math.min(inicio + porPagina, total);
+
+  filtrados.slice(inicio, fim).forEach((linha) => (linha.style.display = ''));
+
+  contador.textContent = total > 0
+    ? `Mostrando ${inicio + 1}–${fim} de ${total} participantes`
+    : 'Mostrando 0 participantes';
+
+  semResul.style.display = total === 0 ? 'block' : 'none';
+
+  botoesPaginacao.innerHTML = '';
+  for (let i = 1; i <= totalPaginas; i++) {
+    const botao = document.createElement('button');
+    botao.type = 'button';
+    botao.textContent = i;
+    botao.classList.add('pagina');
+    if (i === paginaAtual) botao.classList.add('ativa');
+
+    botao.addEventListener('click', () => {
+      paginaAtual = i;
+      mostrarPagina();
     });
 
-    const total = filtrados.length;
-    const totalPaginas = Math.ceil(total / porPagina);
-
-    // Garante que a página seja válida
-    paginaAtual = Math.max(
-        1,
-        Math.min(paginaAtual, Math.max(1, totalPaginas))
-    );
-
-    // Esconde todos
-    todasLinhas.forEach((linha) => {
-        linha.style.display = 'none';
-    });
-
-    // Calcula quais serão exibidos
-    const inicio = (paginaAtual - 1) * porPagina;
-    const fim = Math.min(inicio + porPagina, total);
-
-    // Mostra somente os cinco participantes da página
-    filtrados.slice(inicio, fim).forEach((linha) => {
-        linha.style.display = '';
-    });
-
-    // Contador
-    contador.textContent = total > 0
-        ? `Mostrando ${inicio + 1}–${fim} de ${total} participantes`
-        : 'Mostrando 0 participantes';
-
-    // Mensagem quando não encontrar
-    semResul.style.display = total === 0 ? 'block' : 'none';
-
-    if (total === 0 && todasLinhas.length > 0) {
-        semResul.textContent = 'Nenhum participante encontrado.';
-    }
-
-    // Limpa os botões anteriores
-    botoesPaginacao.innerHTML = '';
-
-    // Cria os botões das páginas
-    for (let i = 1; i <= totalPaginas; i++) {
-
-        const botao = document.createElement('button');
-
-        botao.type = 'button';
-        botao.textContent = i;
-        botao.classList.add('pagina');
-
-        if (i === paginaAtual) {
-            botao.classList.add('ativa');
-        }
-
-        botao.addEventListener('click', () => {
-            paginaAtual = i;
-            mostrarPagina();
-        });
-
-        botoesPaginacao.appendChild(botao);
-    }
+    botoesPaginacao.appendChild(botao);
+  }
 }
-
 
 // Pesquisa
 campoPesquisa.addEventListener('input', () => {
-    paginaAtual = 1;
-    mostrarPagina();
+  paginaAtual = 1;
+  mostrarPagina();
 });
 
-// ---- 2) escolheu a data: carrega os participantes ----
-// ---- Carrega participantes do encontro selecionado ----
-async function carregarLista() {
+// Cor do select (um único listener para todas as linhas)
+linhas.addEventListener('change', (e) => {
+  if (e.target.matches('.select-frequencia')) mudarCor(e.target);
+});
 
-    if (!selOficina.value) {
-        limparLista('Selecione uma oficina.');
-        return;
-    }
+// Só libera o botão SALVAR depois de escolher oficina/dia
+selOficina.addEventListener('change', () => {
+  btnSalvar.disabled = !selOficina.value;
+});
 
-    // Recupera o ID da oficina e a data escolhida
-    const [idOficina, data] = selOficina.value.split('|');
-
-    try {
-
-        const resp = await fetch(
-            `/frequencia/lista?oficina=${encodeURIComponent(idOficina)}&data=${encodeURIComponent(data)}`
-        );
-
-        const dados = await resp.json();
-
-        console.log('Participantes recebidos:', dados);
-
-        if (!resp.ok) {
-            throw new Error(dados.erro || 'Erro ao carregar participantes.');
-        }
-
-        if (dados.length === 0) {
-            limparLista('Nenhum participante cadastrado.');
-            return;
-        }
-
-        linhas.innerHTML = '';
-
-        campoPesquisa.value = '';
-        paginaAtual = 1;
-
-        dados.forEach(p => {
-            linhas.appendChild(criarLinha(p));
-        });
-
-        semResul.style.display = 'none';
-        btnSalvar.disabled = false;
-
-        mostrarPagina();
-
-    } catch (err) {
-
-        mostrarMensagem(err.message, 'erro');
-
-    }
-
-}
-
-selOficina.addEventListener('change', carregarLista);
-
-// ---- 3) salvar ----
+// ---- salvar ----
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  if (!selOficina.value) {
+    mostrarMensagem('Selecione a oficina e o dia.', 'erro');
+    return;
+  }
+
+  // Envia TODOS os participantes (inclusive os escondidos pela pesquisa/paginação)
   const registros = [...linhas.querySelectorAll('.linha-frequencia')].map(l => ({
     idParticipante: Number(l.dataset.id),
     presente: l.querySelector('select').value === 'presenca'
@@ -224,17 +110,14 @@ form.addEventListener('submit', async (e) => {
 
   if (registros.length === 0) return;
 
+  const [idOficina, data] = selOficina.value.split('|');
   btnSalvar.disabled = true;
 
   try {
     const resp = await fetch('/frequencia', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-       idOficina: Number(selOficina.value.split('|')[0]),
-        data: selOficina.value.split('|')[1],
-        registros
-      })
+      body: JSON.stringify({ idOficina: Number(idOficina), data, registros })
     });
     const resultado = await resp.json();
     if (!resp.ok) throw new Error(resultado.erro || 'Erro ao salvar.');
@@ -243,6 +126,50 @@ form.addEventListener('submit', async (e) => {
   } catch (err) {
     mostrarMensagem(err.message, 'erro');
   } finally {
-    btnSalvar.disabled = false;
+    btnSalvar.disabled = !selOficina.value;
   }
 });
+
+// Primeira exibição (aplica paginação nas linhas que vieram do HTML)
+mostrarPagina();
+
+
+const mensagens = {
+    freqsalva: {
+        texto: 'Frequência salva com sucesso!', // texto = msg que aparecerá
+        tipo: 'sucesso' // o tipo para puxar no css 
+    },
+
+    erro: {
+        texto: 'Não foi possível realizar essa operação.',
+        tipo: 'erro'
+    }
+};
+ 
+    const parametros = new URLSearchParams(window.location.search);
+    const tipoMensagem = parametros.get('mensagem');
+    const elementoMensagem = document.getElementById('mensagem');
+  
+    if (elementoMensagem && mensagens[tipoMensagem]) {
+        const mensagem = mensagens[tipoMensagem];
+
+        //textContent = define o texto que aparece 
+        elementoMensagem.textContent = mensagem.texto;
+        // mensagem.tipo for = sucesso a msg fica com a classe sucesso p aplica a cor
+        elementoMensagem.classList.add(mensagem.tipo);
+        // msg aparece
+        elementoMensagem.hidden = false;
+
+        // p msg desaparecer dozinha depoois de 4s
+        setTimeout(() => {
+            elementoMensagem.hidden = true;
+        }, 4000);
+
+        window.history.replaceState(
+            {},
+            '',
+            window.location.pathname
+        );
+    }
+
+ 

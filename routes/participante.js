@@ -1,74 +1,98 @@
 import express from 'express';
-import db from '../database.js'; // ajuste o caminho conforme a localização do seu módulo de conexão com o banco
+import db from '../database.js';
+
 
 const router = express.Router();
 
 // ============================
 // ROTAS DE FREQUENCIA
 // ============================
-
-// mostrar e salvar o participantes
+// GET /frequencia
 router.get('/frequencia', async (req, res) => {
-         if (!req.session.usuario) {
-       return res.redirect('/login');
-    }
-    // pesquisar
-    try {
-       const termo = req.query.termo || '';
+  if (!req.session.usuario) return res.redirect('/login');
 
-        const [participantes] = await db.query(
-            'SELECT idParticipante, nome, telefone, CPF FROM participante WHERE nome LIKE ?',
-                [`%${termo}%`]
-        );
-
-          res.render('telaFrequencia', {
-           layout: 'layouts/telasNavegacao',
-          participantes
-      });
-
-    } catch (erro) {
-        console.error(erro);
-        res.status(500).send('Erro ao buscar participantes');
-    }
-
-
-});
-
-  router.post('/frequencia', async (req, res) => {
-
-      const [data] = await db.query(
-        //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
-        `SELECT oficina.idOficina FROM oficina
-         JOIN dia WHERE dia.dtOficinaDia = dia.idOficina
-        `  //join tabela usuaeio quando o eail dobolsita for = email do usuariio
+  try {
+    // Participantes (a pesquisa agora é feita no front)
+    const [participantes] = await db.query(
+      'SELECT idParticipante, nome FROM participante ORDER BY nome'
     );
 
-    try{
-      // {{dia.datas}}
-         const [data] = await db.execute(
-                `INSERT INTO  dia
-                 (dtOficinaDia)
-                 VALUES (?)`,
-                [data]
-            );
+    // Oficinas + dias em que acontecem
+    const [linhas] = await db.query(
+      `SELECT o.idOficina,
+              o.titulo,
+              DATE_FORMAT(d.dia_dtOficinaDia, '%Y-%m-%d') AS data,
+              DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m/%Y') AS dataBr
+         FROM oficina_acontece_dia d
+         JOIN oficina o ON o.idOficina = d.oficina_idOficina
+        ORDER BY o.titulo, d.dia_dtOficinaDia`
+    );
 
-             const [frequencia] = await db.execute(
-                `INSERT INTO  participa
-                 (idParticipante, dia_dtOficinaDia, oficina_idOficina,frequencia)
-                 VALUES (?, ?, ?, ?)`,
-                []/// colocar como eu vou azer 
-            );
-    }
+    const opcoes = linhas.map(l => ({
+      valor: `${l.idOficina}|${l.data}`,
+      rotulo: `${l.titulo} - ${l.dataBr}`
+    }));
 
-    catch (erro){
+    res.render('telaFrequencia', {
+      layout: 'layouts/telasNavegacao',
+      participantes,
+      opcoes
+    });
+  } catch (erro) {
+    console.error(erro);
+    res.status(500).send('Erro ao carregar a tela de frequência');
+  }
+});
 
-    }
-
-
-
-
- 
+// POST /frequencia
+router.post('/frequencia', async (req, res) => {
   
+    console.log('BODY:', req.body);
+
+  if (!req.session.usuario) {
+    return res.status(401).json({ erro: 'Não autenticado' });
+  }
+
+  const { idOficina, data, registros } = req.body;
+
+  if (!idOficina || !data || !Array.isArray(registros) || registros.length === 0) {
+    return res.status(400).json({ erro: 'Dados incompletos.' });
+  }
+
+  try {
+    // Garante que a oficina realmente acontece nesse dia
+    const [existe] = await db.query(
+      `SELECT 1 FROM oficina_acontece_dia
+        WHERE oficina_idOficina = ? AND dia_dtOficinaDia = ?`,
+      [idOficina, data]
+    );
+    if (existe.length === 0) {
+      return res.status(400).json({ erro: 'Essa oficina não acontece nesse dia.' });
+    }
+
+    // Um único INSERT com todas as linhas (atômico por natureza)
+    const valores = registros.map(r => [
+      r.idParticipante,
+      data,
+      idOficina,
+      r.presente ? 1 : 0
+    ]);
+
+    await db.query(
+      `INSERT INTO participa
+         (idParticipante, dia_dtOficinaDia, oficina_idOficina, frequencia)
+       VALUES ?
+       ON DUPLICATE KEY UPDATE frequencia = VALUES(frequencia)`,
+      [valores]
+    );
+
+    //freqsalva res.redirect('/atividades?mensagem=atividadeCadastrada');
+
+   res.redirect('/frequencia?mensagem=freqsalva');
+  } catch (erro) {
+    console.error(erro);
+     return res.redirect('/frequencia?mensagem=erro');
+  }
 });
 // ============================
 // ROTAS DE PARTICPANTE

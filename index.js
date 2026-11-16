@@ -22,6 +22,7 @@ const __dirname = path.dirname(__filename);
 //criando meu servido
 const app = express();
 
+
 app.use(session({
   secret: 'chave-secreta-do-projeto',
   resave: false,

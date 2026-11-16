@@ -30,7 +30,7 @@
             <div id="mensagem" class="mensagem" hidden></div>
 
         <div class="page-content">
-        <form id="Frequencia" class="formulario">
+        <form id="Frequencia" class="formulario" method="POST" action="/frequencia">
 
                 <h1 id="titulo">Aferir Frequência</h1>
 
@@ -39,7 +39,7 @@
                     <div class="filtrofreq">
                              <div class="campo-frequencia">
                             <label for="oficina">Oficina</label>
-                           <select id="selectDia" name="dia">
+                          <select id="oficina" name="oficina">
                             <option value="">Selecione a atividade e o dia</option>
                             {{#each opcoes}}
                                 <option value="{{this.valor}}">{{this.rotulo}}</option>
@@ -47,7 +47,7 @@
                             </select>
 
                         <!-- pesquisa os participantes -->
-                <input type="text" id="pesquisa" placeholder="Pesquisar participante...">
+              <input type="text" id="pesquisa-frequencia" placeholder="Pesquisar participante...">
 
                 <!-- Cabeçalho da lista -->
                 <div id="listaf">
@@ -57,13 +57,18 @@
                 </div>
 
                <!-- Participantes vindos do banco -->
-                        <div class="linha-participante">  
-                    <select class="select-frequencia presenca" onchange="mudarCor(this)"  name="frequencia[{{idParticipante}}]">
-                    <option value="presenca">Presente</option>
-                    <option value="falta">Faltou</option>
-                </select>
+                   <div id="linhas-frequencia">
+                    {{#each participantes}}
+                        <div class="linha-participante linha-frequencia" data-id="{{this.idParticipante}}">
+                        <span class="nome-participante">{{this.nome}}</span>
+                        <select class="select-frequencia presenca">
+                            <option value="presenca">Presença</option>
+                            <option value="falta">Falta</option>
+                        </select>
+                        </div>
+                    {{/each}}
                     </div>
-            </div>
+
 
              <div id="linhas-frequencia"></div>
 
@@ -73,7 +78,7 @@
             <div id="contador-participantes"></div>
             <div id="botoes-paginacao"></div>
 
-                <button type="submit" class="botaofreq">
+                <button  id="button"  type="submit" class="botaofreq">
                     SALVAR
                 </button>
 
