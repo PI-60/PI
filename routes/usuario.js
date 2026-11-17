@@ -28,7 +28,7 @@ async function verificarPermissoes(email) {
 }
 
 // ========================================
-// ROTAS DE LOGIN
+// ROTAS DE LOGINN
 // ========================================
 
 router.get('/login', async (req, res) => {
