@@ -15,7 +15,7 @@ body {
 
 .formulario {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     padding: 40px;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -72,6 +72,7 @@ body {
 #oficina, #pesquisa-frequencia{
   border-radius: 6px;
   font-size: 15px;
+  
 
 }
 
@@ -93,22 +94,12 @@ body {
     color: #333;
 }
 
-.campo-frequencia select {
-    width: 100%;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-}
 
-
-.campo-frequencia select:focus,
-.select-frequencia:focus {
-    outline: none;   
+#pesquisa-frequencia:focus,
+#oficina:focus {
+    outline: none;
+    border-color: #278747;
+   
 }
 
 #listaf {
@@ -221,7 +212,7 @@ body {
     background-color: #d4edda;
     color: #155724;
     border-radius: 18px;
-    width: 56%;
+    width: 68%;
     
 }
 
@@ -232,6 +223,38 @@ body {
      width: 56%;
    
 }
+
+.mensagem {
+    position: fixed;
+    top: 95px;
+    left: 55%;
+    transform: translateX(-50%);
+    z-index: 9999; /* p ficar na frente*/
+    padding: 14px 24px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mensagem.sucesso {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.mensagem.erro {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.mensagem[hidden] {
+    display: none;
+}
+
 /*SIDEBAR
 /* =========================================
    LAYOUT COM SIDEBAR
@@ -368,17 +391,7 @@ body {
 /* =========================================
    RESULTADO E PAGINAÇÃO
 ========================================= */
-
-   #semresul {
-    width: 100%;
-    padding: 18px;
-    box-sizing: border-box;
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-}
-
- .paginacao {
+.paginacao {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -387,11 +400,15 @@ body {
     width: 100%;
     margin-top: 16px;
     color: #555;
-    font-size: 12px;
+    font-size: 13px;
 }
 
+#botoes-paginacao {
+    display: inline-flex;
+    gap: 8px;                
+}
 
-  #botoes-paginacao button {
+#botoes-paginacao button {
     min-width: 38px;
     min-height: 38px;
     padding: 4px 9px;
@@ -400,28 +417,26 @@ body {
     background: #fff;
     color: #333;
     font-family: 'Manrope', sans-serif;
+    font-size: 16px;       
     cursor: pointer;
-    gap: 5px;
 }
 
- #botoes-paginacao button:hover {
+#botoes-paginacao button:hover {
     border-color: #278747;
     color: #278747;
 }
 
- #botoes-paginacao button:disabled {
+/* pagina atual */
+#botoes-paginacao button.ativa {
+    background: #fdeedd;
+    border-color: #f0a04b;
+    color: #333;
+}
+
+#botoes-paginacao button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
-
-#contador-participantes, #botoes-paginacao{
-  justify-content: space-between;
-  display:inline-flex;
-  
-  
-  
-}
-
 
 /* =========================================
    LAYOUT COM SIDEBAR

@@ -134,42 +134,4 @@ form.addEventListener('submit', async (e) => {
 mostrarPagina();
 
 
-const mensagens = {
-    freqsalva: {
-        texto: 'Frequência salva com sucesso!', // texto = msg que aparecerá
-        tipo: 'sucesso' // o tipo para puxar no css 
-    },
-
-    erro: {
-        texto: 'Não foi possível realizar essa operação.',
-        tipo: 'erro'
-    }
-};
- 
-    const parametros = new URLSearchParams(window.location.search);
-    const tipoMensagem = parametros.get('mensagem');
-    const elementoMensagem = document.getElementById('mensagem');
-  
-    if (elementoMensagem && mensagens[tipoMensagem]) {
-        const mensagem = mensagens[tipoMensagem];
-
-        //textContent = define o texto que aparece 
-        elementoMensagem.textContent = mensagem.texto;
-        // mensagem.tipo for = sucesso a msg fica com a classe sucesso p aplica a cor
-        elementoMensagem.classList.add(mensagem.tipo);
-        // msg aparece
-        elementoMensagem.hidden = false;
-
-        // p msg desaparecer dozinha depoois de 4s
-        setTimeout(() => {
-            elementoMensagem.hidden = true;
-        }, 4000);
-
-        window.history.replaceState(
-            {},
-            '',
-            window.location.pathname
-        );
-    }
-
  

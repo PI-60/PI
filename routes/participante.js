@@ -88,10 +88,10 @@ router.post('/frequencia', async (req, res) => {
 
     //freqsalva res.redirect('/atividades?mensagem=atividadeCadastrada');
 
-   res.redirect('/frequencia?mensagem=freqsalva');
+    return res.json({ mensagem: 'Frequência salva com sucesso!' });
   } catch (erro) {
     console.error(erro);
-     return res.redirect('/frequencia?mensagem=erro');
+    return res.status(500).json({ erro: 'Não foi possível salvar a frequência.' });
   }
 });
 // ============================
