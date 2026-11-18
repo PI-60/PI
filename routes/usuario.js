@@ -1,13 +1,147 @@
 import express from 'express';
 import db from '../database.js';
+import {
+    exigirCoordenador,
+    exigirCoordenadorOuAdministrador
+} from '../middleware/permissoes.js';
 
 const router = express.Router();
+
+
 
 console.log('USUARIO.JS FOI CARREGADO');
 
 // ============================
 // ROTAS DE LOGIN
 // ============================
+
+
+// ========================================
+// DESATIVAR E REATIVAR USUÁRIOS
+// ========================================
+router.post('/usuarios/:tipo/:email/desativar', async (req, res) => {
+    try {
+        if (!req.session.usuario) {
+            return res.status(401).send('Faça login novamente.');
+        }
+
+        const emailLogado = req.session.usuario.email;
+        const { tipo, email } = req.params;
+
+        if (tipo !== 'usuario' && tipo !== 'ministrante') {
+            return res.status(400).send('Tipo inválido.');
+        }
+
+        if (tipo === 'usuario') {
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailLogado]
+            );
+
+            if (coordenadores.length === 0) {
+                return res.status(403).send('Apenas coordenadores podem alterar usuários.');
+            }
+        } else {
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailLogado]
+            );
+
+            const [administradores] = await db.execute(
+                'SELECT email FROM administrador WHERE email = ?',
+                [emailLogado]
+            );
+
+            if (coordenadores.length === 0 && administradores.length === 0) {
+                return res.status(403).send('Acesso negado.');
+            }
+        }
+
+        if (email === emailLogado) {
+            return res.status(403).send(
+                'Você não pode desativar sua própria conta.'
+            );
+        }
+
+        const tabela = tipo === 'usuario' ? 'usuario' : 'ministrante';
+
+        const [resultado] = await db.execute(
+            `UPDATE ${tabela} SET ativo = FALSE WHERE email = ?`,
+            [email]
+        );
+
+        if (resultado.affectedRows === 0) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        return res.redirect('/usuarios?mensagem=usuarioDesativado');
+
+    } catch (error) {
+        console.error('Erro ao desativar usuário:', error);
+        return res.status(500).send('Erro ao desativar usuário.');
+    }
+});
+
+
+// ========================================
+// REATIVAR USUÁRIOS
+// ========================================
+router.post('/usuarios/:tipo/:email/reativar', async (req, res) => {
+    try {
+        if (!req.session.usuario) {
+            return res.status(401).send('Faça login novamente.');
+        }
+
+        const emailLogado = req.session.usuario.email;
+        const { tipo, email } = req.params;
+
+        if (tipo !== 'usuario' && tipo !== 'ministrante') {
+            return res.status(400).send('Tipo inválido.');
+        }
+
+        if (tipo === 'usuario') {
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailLogado]
+            );
+
+            if (coordenadores.length === 0) {
+                return res.status(403).send('Apenas coordenadores podem alterar usuários.');
+            }
+        } else {
+            const [coordenadores] = await db.execute(
+                'SELECT email FROM coordenador WHERE email = ?',
+                [emailLogado]
+            );
+
+            const [administradores] = await db.execute(
+                'SELECT email FROM administrador WHERE email = ?',
+                [emailLogado]
+            );
+
+            if (coordenadores.length === 0 && administradores.length === 0) {
+                return res.status(403).send('Acesso negado.');
+            }
+        }
+
+        const tabela = tipo === 'usuario' ? 'usuario' : 'ministrante';
+
+        const [resultado] = await db.execute(
+            `UPDATE ${tabela} SET ativo = TRUE WHERE email = ?`,
+            [email]
+        );
+
+        if (resultado.affectedRows === 0) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        return res.redirect('/usuarios?mensagem=usuarioReativado');
+
+    } catch (error) {
+        console.error('Erro ao reativar usuário:', error);
+        return res.status(500).send('Erro ao reativar usuário.');
+    }
+});
 
 router.get('/login', async (req, res) => {
     res.render('telaLogin', { layout: 'layouts/login' });
@@ -18,8 +152,11 @@ router.post('/login', async (req, res) => {
 
     try {
         const [usuarios] = await db.execute(
-            'SELECT * FROM usuario WHERE email = ? AND senha = ?',
-            [email, senha]
+    `SELECT * FROM usuario
+     WHERE email = ?
+     AND senha = ?
+     AND ativo = TRUE`,
+    [email, senha]
             // procura no banco de dados se existe esse usuario que tenha esse e-mail e essa senha
         );
 

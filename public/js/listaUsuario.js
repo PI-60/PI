@@ -199,6 +199,65 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
+            // DESATIVAR / REATIVAR
+            const botaoStatus = evento.target.closest(
+                '.botao-acao.desativar, .botao-acao.reativar'
+            );
+
+            if (botaoStatus) {
+
+                const email = botaoStatus.dataset.email;
+                const tipo = botaoStatus.dataset.tipo;
+
+                const desativando = botaoStatus.classList.contains('desativar');
+
+                if (!email || !tipo) {
+                    alert('Não foi possível identificar o cadastro.');
+                    return;
+                }
+
+                const acao = desativando ? 'desativar' : 'reativar';
+
+                const confirmado = confirm(
+                    desativando
+                        ? 'Tem certeza de que deseja desativar este usuário? Ele não poderá mais acessar o sistema.'
+                        : 'Tem certeza de que deseja reativar este usuário?'
+                );
+
+                if (!confirmado) return;
+
+                try {
+
+                    const resposta = await fetch(
+                        `/usuarios/${tipo}/${encodeURIComponent(email)}/${acao}`,
+                        {
+                            method: 'POST'
+                        }
+                    );
+
+                    if (resposta.redirected) {
+                        window.location.href = resposta.url;
+                        return;
+                    }
+
+                    if (!resposta.ok) {
+                        const mensagemErro = await resposta.text();
+                        alert(mensagemErro || 'Não foi possível alterar o status.');
+                        return;
+                    }
+
+                    window.location.reload();
+
+                } catch (erro) {
+
+                    console.error('Erro ao alterar status:', erro);
+
+                    alert('Não foi possível conectar ao servidor.');
+                }
+
+                return;
+            }
+
             // EXCLUIR
             const botaoExcluir = evento.target.closest(
                 '.botao-acao.excluir'
@@ -291,11 +350,21 @@ document.addEventListener('DOMContentLoaded', function () {
             texto: 'Usuário cadastrado com sucesso!',
             tipo: 'sucesso'
         },
+        usuarioDesativado: {
+        texto: 'Usuário desativado com sucesso!',
+        tipo: 'sucesso'
+        },
+
+    usuarioReativado: {
+    texto: 'Usuário reativado com sucesso!',
+    tipo: 'sucesso'
+    },
 
         erro: {
             texto: 'Não foi possível realizar essa operação.',
             tipo: 'erro'
         }
+        
     };
 
 

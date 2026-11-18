@@ -33,41 +33,42 @@ const [administradores] = await db.execute(
 const ehCoordenador = coordenadores.length > 0;
 const ehAdministrador = administradores.length > 0;
         const [usuarios] = await db.execute(`
-            SELECT
-                u.email,
-                u.nome,
-                u.telefone,
-                u.CPF,
-                CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
-                CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
-                CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
-                0 AS ministrante
-            FROM usuario u
-            LEFT JOIN administrador a ON a.email = u.email
-            LEFT JOIN coordenador c ON c.email = u.email
-            LEFT JOIN bolsista b ON b.email = u.email
+    SELECT
+        u.email,
+        u.nome,
+        u.telefone,
+        u.CPF,
+        u.ativo,
+        CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
+        CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
+        CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
+        0 AS ministrante
+    FROM usuario u
+    LEFT JOIN administrador a ON a.email = u.email
+    LEFT JOIN coordenador c ON c.email = u.email
+    LEFT JOIN bolsista b ON b.email = u.email
 
-            UNION ALL
+    UNION ALL
 
-            SELECT
-                m.email,
-                m.nome,
-                m.telefone,
-                NULL AS CPF,
-                0 AS administrador,
-                0 AS coordenador,
-                0 AS bolsista,
-                1 AS ministrante
-            FROM ministrante m
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM usuario u
-                WHERE u.email = m.email
-            )
+    SELECT
+        m.email,
+        m.nome,
+        m.telefone,
+        NULL AS CPF,
+        m.ativo,
+        0 AS administrador,
+        0 AS coordenador,
+        0 AS bolsista,
+        1 AS ministrante
+    FROM ministrante m
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM usuario u
+        WHERE u.email = m.email
+    )
 
-            ORDER BY nome
-        `);
-
+    ORDER BY nome
+`);
         return res.render('telaUsuario', {
     layout: 'layouts/mainLogado',
     usuarios,
@@ -89,40 +90,44 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
     try {
         const email = req.params.email;
 
-        const [usuarios] = await db.execute(
-            `SELECT
-                u.email,
-                u.nome,
-                u.telefone,
-                u.CPF,
-                CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
-                CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
-                CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
-                0 AS ministrante
-             FROM usuario u
-             LEFT JOIN administrador a ON a.email = u.email
-             LEFT JOIN coordenador c ON c.email = u.email
-             LEFT JOIN bolsista b ON b.email = u.email
-             WHERE u.email = ?
+        
+const [usuarios] = await db.execute(`
+    SELECT
+        u.email,
+        u.nome,
+        u.telefone,
+        u.CPF,
+        u.ativo,
+        CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
+        CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
+        CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
+        0 AS ministrante
+    FROM usuario u
+    LEFT JOIN administrador a ON a.email = u.email
+    LEFT JOIN coordenador c ON c.email = u.email
+    LEFT JOIN bolsista b ON b.email = u.email
 
-             UNION ALL
+    UNION ALL
 
-             SELECT
-                m.email,
-                m.nome,
-                m.telefone,
-                NULL AS CPF,
-                0 AS administrador,
-                0 AS coordenador,
-                0 AS bolsista,
-                1 AS ministrante
-             FROM ministrante m
-             WHERE m.email = ?
-             AND NOT EXISTS (
-                 SELECT 1 FROM usuario u WHERE u.email = m.email
-             )`,
-            [email, email]
-        );
+    SELECT
+        m.email,
+        m.nome,
+        m.telefone,
+        NULL AS CPF,
+        m.ativo,
+        0 AS administrador,
+        0 AS coordenador,
+        0 AS bolsista,
+        1 AS ministrante
+    FROM ministrante m
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM usuario u
+        WHERE u.email = m.email
+    )
+
+    ORDER BY nome
+`);
 
         if (usuarios.length === 0) {
             return res.status(404).send('Cadastro não encontrado.');
