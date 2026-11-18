@@ -17,7 +17,7 @@ console.log('USUARIO.JS FOI CARREGADO');
 
 
 // ========================================
-// DESATIVAR E REATIVAR USUÁRIOS
+// DESATIVAR E REATIVAR USUÁRIO
 // ========================================
 router.post('/usuarios/:tipo/:email/desativar', async (req, res) => {
     try {
