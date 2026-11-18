@@ -11,13 +11,11 @@ const router = express.Router();
 
 console.log('USUARIO.JS FOI CARREGADO');
 
-// ============================
-// ROTAS DE LOGINN
-// ============================
+
 
 
 // ========================================
-// DESATIVAR E REATIVAR USUÁRIO
+// ROTAS DE LOGINN
 // ========================================
 router.post('/usuarios/:tipo/:email/desativar', async (req, res) => {
     try {
