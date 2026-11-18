@@ -239,6 +239,34 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
+-- -----------------------------------------------------
+-- Table `ifsc60`.`notificacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ifsc60`.`notificacao` (
+  `idNotificacao` INT NOT NULL AUTO_INCREMENT,
+  `oficina_idOficina` INT NOT NULL,
+  `bolsista_email` VARCHAR(100) NOT NULL,
+  `mensagem` VARCHAR(255) NOT NULL,
+  `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lida` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idNotificacao`),
+  INDEX `fk_notificacao_oficina1_idx` (`oficina_idOficina` ASC) VISIBLE,
+  INDEX `fk_notificacao_bolsista1_idx` (`bolsista_email` ASC) VISIBLE,
+  CONSTRAINT `fk_notificacao_oficina1`
+    FOREIGN KEY (`oficina_idOficina`)
+    REFERENCES `ifsc60`.`oficina` (`idOficina`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_notificacao_bolsista1`
+    FOREIGN KEY (`bolsista_email`)
+    REFERENCES `ifsc60`.`bolsista` (`email`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
