@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // =====================================
-    // VISUALIZAR, EDITAR E EXCLUIR
+    // VISUALIZAR, EDITARR E EXCLUIR
     // =====================================
 
     if (lista) {
