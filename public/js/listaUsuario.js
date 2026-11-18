@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // =====================================
-    // CADASTRAR USUÁRIO
+    // CADASTRAR USUÁRIOs
     // =====================================
 
     if (botaoCadastrar) {
