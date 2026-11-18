@@ -23,7 +23,7 @@ const listaNotificacoes = document.getElementById('listaNotificacoes');
 const badgeNotificacao = document.getElementById('badgeNotificacao');
 const marcarTodasLidas = document.getElementById('marcarTodasLidas');
 
-// transforma a data da notificação em algo como "3 dias 18 horas atrás"
+// transforma a data da notificação em algo como "3 dias 18 horas atrás!"
 function tempoRelativo(dataString) {
     const agora = new Date();
     const data = new Date(dataString);
