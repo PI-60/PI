@@ -12,7 +12,7 @@ const router = express.Router();
 console.log('USUARIO.JS FOI CARREGADO');
 
 // ============================
-// ROTAS DE LOGIN
+// ROTAS DE LOGINN
 // ============================
 
 
