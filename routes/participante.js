@@ -25,12 +25,17 @@ router.get('/frequencia', async (req, res) => {
               DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m/%Y') AS dataBr
          FROM oficina_acontece_dia d
          JOIN oficina o ON o.idOficina = d.oficina_idOficina
-        ORDER BY o.titulo, d.dia_dtOficinaDia`
+       ORDER BY (d.dia_dtOficinaDia < CURDATE()),
+         ABS(DATEDIFF(d.dia_dtOficinaDia, CURDATE())),
+         o.titulo`
+
+        
     );
 
     const opcoes = linhas.map(l => ({
       valor: `${l.idOficina}|${l.data}`,
-      rotulo: `${l.titulo} - ${l.dataBr}`
+      rotulo: `${l.titulo} - ${l.dataBr}${l.lancada ? ' (já lançada)' : ''}`,
+      lancada: !!l.lancada
     }));
 
     res.render('telaFrequencia', {
@@ -70,6 +75,18 @@ router.post('/frequencia', async (req, res) => {
       return res.status(400).json({ erro: 'Essa oficina não acontece nesse dia.' });
     }
 
+    const [jaLancada] = await db.query(
+      `SELECT 1 FROM participa
+        WHERE oficina_idOficina = ? AND dia_dtOficinaDia = ?
+          AND frequencia IS NOT NULL
+        LIMIT 1`,
+      [idOficina, data]
+    );
+    if (jaLancada.length > 0) {
+      return res.status(409).json({ erro: 'A frequência desta oficina já foi lançada nesse dia.' });
+    }
+
+
     // Um único INSERT com todas as linhas (atômico por natureza)
     const valores = registros.map(r => [
       r.idParticipante,
@@ -81,8 +98,7 @@ router.post('/frequencia', async (req, res) => {
     await db.query(
       `INSERT INTO participa
          (idParticipante, dia_dtOficinaDia, oficina_idOficina, frequencia)
-       VALUES ?
-       ON DUPLICATE KEY UPDATE frequencia = VALUES(frequencia)`,
+       VALUES ?`,
       [valores]
     );
 
@@ -90,6 +106,9 @@ router.post('/frequencia', async (req, res) => {
 
     return res.json({ mensagem: 'Frequência salva com sucesso!' });
   } catch (erro) {
+    if (erro.code === 'ER_DUP_ENTRY') {
+  return res.status(409).json({ erro: 'A frequência desta oficina já foi lançada nesse dia.' });
+  }
     console.error(erro);
     return res.status(500).json({ erro: 'Não foi possível salvar a frequência.' });
   }

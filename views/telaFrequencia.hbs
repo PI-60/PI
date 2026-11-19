@@ -42,7 +42,7 @@
                           <select id="oficina" name="oficina">
                             <option value="">Selecione a atividade e o dia</option>
                             {{#each opcoes}}
-                                <option value="{{this.valor}}">{{this.rotulo}}</option>
+                                 <option value="{{this.valor}}" {{#if this.lancada}}disabled{{/if}}>{{this.rotulo}}</option>
                             {{/each}}
                             </select>
 

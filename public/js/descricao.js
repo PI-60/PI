@@ -70,13 +70,9 @@ if (grade && modal && botaoFechar) {
 
             document.getElementById("descricaoOficina").textContent =
                 oficina.descricao || "";
-
+                
             document.getElementById("dataiOficina").textContent =
-                oficina.dt_inicio || "";
-
-
-            document.getElementById("datafOficina").textContent =
-                oficina.dt_termino || "";
+                oficina.datas && oficina.datas.length  ? oficina.datas.join(", ") : "Datas não definidas";
 
             document.getElementById("localOficina").textContent =
                 oficina.local || "";

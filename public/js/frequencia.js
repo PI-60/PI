@@ -90,8 +90,10 @@ linhas.addEventListener('change', (e) => {
 
 // Só libera o botão SALVAR depois de escolher oficina/dia
 selOficina.addEventListener('change', () => {
-  btnSalvar.disabled = !selOficina.value;
+  const opt = selOficina.selectedOptions[0];
+  btnSalvar.disabled = !selOficina.value || opt.disabled;
 });
+
 
 // ---- salvar ----
 form.addEventListener('submit', async (e) => {
@@ -100,6 +102,7 @@ form.addEventListener('submit', async (e) => {
   if (!selOficina.value) {
     mostrarMensagem('Selecione a oficina e o dia.', 'erro');
     return;
+    
   }
 
   // Envia TODOS os participantes (inclusive os escondidos pela pesquisa/paginação)
@@ -118,17 +121,38 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idOficina: Number(idOficina), data, registros })
+
     });
+
+     const opt = selOficina.querySelector(`option[value="${selOficina.value}"]`);
+    if (opt) {
+      opt.disabled = true;
+      opt.textContent += ' (já lançada)';
+    }
     const resultado = await resp.json();
     if (!resp.ok) throw new Error(resultado.erro || 'Erro ao salvar.');
 
     mostrarMensagem(resultado.mensagem, 'sucesso');
+      // volta o select para selecione
+    selOficina.value = '';
+
+    // limpa a pesquisa e volta para pag 1
+    campoPesquisa.value = '';
+    paginaAtual = 1;
+
+    // volta todos os participantes para o valor padrão
+    linhas.querySelectorAll('.select-frequencia').forEach((sel) => {
+      sel.selectedIndex = 0;   // primeira opção do select
+      mudarCor(sel);           // atualiza a cor (verde/vermelho)
+    });
+
   } catch (err) {
     mostrarMensagem(err.message, 'erro');
   } finally {
     btnSalvar.disabled = !selOficina.value;
   }
 });
+
 
 // Primeira exibição (aplica paginação nas linhas que vieram do HTML)
 mostrarPagina();

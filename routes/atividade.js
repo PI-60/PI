@@ -266,11 +266,17 @@ router.get('/atividades', async (req, res) => {
     }
     try {
 
+
         // pesquisar
         const letra = req.query.letra || '';
 
              const [atividades] = await db.query(
-            `SELECT o.idOficina, o.titulo, o.local
+            `SELECT o.idOficina, o.titulo, o.local,
+                    GROUP_CONCAT(
+                      DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m')
+                      ORDER BY d.dia_dtOficinaDia
+                      SEPARATOR ', '
+                    ) AS data
              FROM oficina o
              LEFT JOIN oficina_acontece_dia d ON d.oficina_idOficina = o.idOficina
              WHERE o.titulo LIKE ?
@@ -279,6 +285,7 @@ router.get('/atividades', async (req, res) => {
             [`%${letra}%`]
        
         );
+
 
 
         res.render('telaAtividades', {
@@ -355,11 +362,11 @@ router.get('/atividade/:id', async (req, res) => {
 
 
         //  dias da oficina em ordem
-        const [diasRows] = await db.execute(
-            `SELECT dia_dtOficinaDia AS dia FROM oficina_acontece_dia
-             WHERE oficina_idOficina = ? ORDER BY dia_dtOficinaDia`,
-            [id]
-        );
+        const [datas] = await db.query(
+    `SELECT DATE_FORMAT(dia_dtOficinaDia, '%d/%m/%Y') AS data
+     FROM oficina_acontece_dia
+     WHERE oficina_idOficina = ?
+     ORDER BY dia_dtOficinaDia`, [id]);
 
 
         /* oficinas = um array que contem as oficinas encontradas
@@ -372,8 +379,7 @@ router.get('/atividade/:id', async (req, res) => {
              //  dt_inicio e dt_termino = primeiro e ultimo dia (o modal continua funcionando)
         
             // lista completa
-            dias: diasRows.map(d => formatarData(d.dia)),
-
+              datas: datas.map(d => d.data),
             bolsistas: bolsistas
         });
 
