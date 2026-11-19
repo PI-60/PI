@@ -29,11 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const campoBolsista3 = bolsista3.closest(".campo");
 
     
-    const dataTermino = document.getElementById("dataTermino");
-    const campodataTermino = dataTermino.closest(".campo");
-
-    const dataInicio = document.getElementById("dataInicio");
-    const campodataInicio = dataInicio.closest(".campo");
 
     console.log("Título:", titulo);
     console.log("Container título:", campoTitulo);
@@ -56,11 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Bolsista 3:", bolsista3);
     console.log("Container bolsista:", campoBolsista3);
 
-    console.log("Data inicio:", dataInicio);
-    console.log("Container data inicio:", campodataInicio);
-
-    console.log("Data termino:", dataTermino);
-    console.log("Container data termino:", campodataTermino);
 
 
 

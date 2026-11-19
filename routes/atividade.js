@@ -202,7 +202,7 @@ router.post('/cadastroat', async (req, res) => {
             const [resultado] = await db.execute(
                 `INSERT INTO oficina
                  ( ministrante_email, titulo, descricao, local)
-                 VALUES (?, ?, ?, ?, ?, ?)`,
+                 VALUES (?, ?, ?, ?)`,
                 [emailM, titulo, descricao, local]
             );
 
@@ -270,8 +270,7 @@ router.get('/atividades', async (req, res) => {
         const letra = req.query.letra || '';
 
              const [atividades] = await db.query(
-            `SELECT o.idOficina, o.titulo, o.local,
-                    MIN(d.dia_dtOficinaDia) AS dt_inicio
+            `SELECT o.idOficina, o.titulo, o.local
              FROM oficina o
              LEFT JOIN oficina_acontece_dia d ON d.oficina_idOficina = o.idOficina
              WHERE o.titulo LIKE ?
@@ -280,22 +279,6 @@ router.get('/atividades', async (req, res) => {
             [`%${letra}%`]
        
         );
-
-        // Formatar as datas
-    atividades.forEach(atividade => {
-
-        if (atividade.dt_inicio) {
-
-            const data = new Date(atividade.dt_inicio);
-
-            atividade.dt_inicio =
-                String(data.getDate()).padStart(2, '0') + '/' +
-                String(data.getMonth() + 1).padStart(2, '0') + '/' +
-                data.getFullYear();
-
-        }
-
-    });
 
 
         res.render('telaAtividades', {
@@ -387,8 +370,7 @@ router.get('/atividade/:id', async (req, res) => {
             ...oficinas[0],
 
              //  dt_inicio e dt_termino = primeiro e ultimo dia (o modal continua funcionando)
-            dt_inicio: formatarData(diasRows[0]?.dia),
-            dt_termino: formatarData(diasRows[diasRows.length - 1]?.dia),
+        
             // lista completa
             dias: diasRows.map(d => formatarData(d.dia)),
 
