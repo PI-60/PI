@@ -8,35 +8,30 @@ body {
     background:var(--surface-alt);
 }
 
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #back {
     font-size: 50px;
     border-bottom: none;
 }
 
-.formulario-frequencia {
+.formulario {
     width: 100%;
-    max-width: 1000px;
-    min-width: 1000px;
-
-    margin-left: 229px;
-
-    padding: 70px;
-
-    background-color: white;
+    max-width: 1200px;
+    padding: 40px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
-
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
+}
+
+.formulario h1 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 700;
+    font-family: 'Fraunces', serif;
 }
 
 #titulo {
@@ -45,10 +40,52 @@ section {
     text-align: center;
 }
 
+.filtrofreq {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#pesquisa{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: #fff;
+}
+
 .campo-frequencia {
     display: flex;
     flex-direction: column;
     gap: 7px;
+    width: 100%;
+}
+
+#oficina, #pesquisa-frequencia{
+  border-radius: 6px;
+  font-size: 15px;
+  
+
+}
+
+.campo-frequencia select,
+.campo-frequencia input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 18px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: #fff;
 }
 
 .campo-frequencia label {
@@ -57,96 +94,167 @@ section {
     color: #333;
 }
 
-.campo-frequencia select {
-    width: 100%;
-    height: 42px;
 
-    padding: 0 12px;
-
-    border: 1px solid #d5d5d5;
-    border-radius: 6px;
-
-    font-size: 14px;
+#pesquisa-frequencia:focus,
+#oficina:focus {
     outline: none;
+    border-color: #278747;
+   
 }
 
-.campo-frequencia select:focus,
-.select-frequencia:focus {
-    border-color: #129745;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+#listaf {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+
 }
 
 .cabecalho-frequencia {
-    display: grid;
-    grid-template-columns: 1fr 250px;
-    gap: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  background: #f7f7f7;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+    border-collapse: collapse;
+    font-family: 'Manrope', sans-serif;
+    border-bottom: 1px solid #ddd;
+   
+}
 
-    margin-top: 20px;
+.linha-frequencia:last-child {
+  border-bottom: none;
+}
 
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
+.cabecalho-frequencia,
+.linha-participante {
+    grid-template-columns: 1fr 180px;
+    
 }
 
 .linha-participante {
+    width: 100%;
+    min-height: 62px;
+
+    padding: 10px 15px;
+
+    background-color: #fff;
+
+    border-bottom: 1px solid #e1e1e1;
+
     display: grid;
-    grid-template-columns: 1fr 250px;
-    gap: 20px;
+    grid-template-columns: 1fr 180px;
 
     align-items: center;
+    gap: 15px;
+
+    transition: background 0.2s ease;
+
+}
+.linha-participante:last-child {
+    border-bottom: none;
 }
 
+.linha-participante:hover {
+    background: #fafafa;
+}
 .nome-participante {
-    font-size: 14px;
-    color: #333;
+  font-weight: 600;
+    font-size: 13px;
+    color: #555;
 }
 
 .select-frequencia {
-    width: 100%;
-    height: 42px;
-
-    padding: 0 12px;
-
-    border: 1px solid #d5d5d5;
-    border-radius: 6px;
-
-    font-size: 14px;
-    outline: none;
-}
-
-.formulario-frequencia button {
-    width: 120px;
-    height: 42px;
-
-    border: none;
-    border-radius: 6px;
-
-    background-color: #0b990b;
-    color: rgb(255, 253, 253);
-
-    font-size: 15px;
+   display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 18px;
+    font-size: 11px;
     font-weight: 600;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    color: #333;
 
-    cursor: pointer;
-
-    margin-top: 20px;
+   
 }
 
-.formulario-frequencia button:hover {
+
+ .botaofreq {
+ display:inline-flex;
+ width: 50%;
+  align-items:center;
+  gap:8px;
+  background:var(--verde);
+  color:#fff;
+  border:none;
+   border-radius: 6px;
+  padding:12px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  white-space:nowrap;
+  transition: background .2s ease, transform .2s ease;
+}
+
+ .botaofreq:hover {
     background-color: hsl(133, 75%, 17%);
 }
 
 .select-frequencia.presenca {
     background-color: #d4edda;
     color: #155724;
-    border: 2px solid #28a745;
+    border-radius: 18px;
+    width: 68%;
+    
 }
 
 .select-frequencia.falta {
     background-color: #f8d7da;
     color: #721c24;
-    border: 2px solid #dc3545;
+    border-radius: 18px;
+     width: 56%;
+   
 }
+
+.mensagem {
+    position: fixed;
+    top: 95px;
+    left: 55%;
+    transform: translateX(-50%);
+    z-index: 9999; /* p ficar na frente*/
+    padding: 14px 24px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mensagem.sucesso {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.mensagem.erro {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.mensagem[hidden] {
+    display: none;
+}
+
 /*SIDEBAR
 /* =========================================
    LAYOUT COM SIDEBAR
@@ -269,59 +377,67 @@ section {
 ========================================= */
 
 .page-content {
-  margin-left: 205px;
+    margin-left: 205px;
+    width: calc(100% - 205px);
+    min-height: 100vh;
+    background-color:var(--surface-alt);
+    padding: 30px 24px 40px;
 
-  min-height: 100vh;
-
-  width: calc(100% - 205px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-
 /* =========================================
-   RESPONSIVIDADE
+   RESULTADO E PAGINAÇÃO
 ========================================= */
-
-@media (max-width: 800px) {
-
-  .sidebar {
-    position: relative;
-
+.paginacao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
     width: 100%;
+    margin-top: 16px;
+    color: #555;
+    font-size: 13px;
+}
 
-    height: auto;
-    min-height: auto;
+#botoes-paginacao {
+    display: inline-flex;
+    gap: 8px;                
+}
 
-    border-right: none;
-    border-bottom: 2px solid #f0bd18;
-  }
+#botoes-paginacao button {
+    min-width: 38px;
+    min-height: 38px;
+    padding: 4px 9px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;       
+    cursor: pointer;
+}
 
-  .app-shell {
-    display: block;
-  }
+#botoes-paginacao button:hover {
+    border-color: #278747;
+    color: #278747;
+}
 
-  .sidebar-top {
-    height: 70px;
-  }
+/* pagina atual */
+#botoes-paginacao button.ativa {
+    background: #fdeedd;
+    border-color: #f0a04b;
+    color: #333;
+}
 
-  .sidebar-nav {
-    display: grid;
+#botoes-paginacao button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
-    grid-template-columns: repeat(2, 1fr);
-
-    padding: 10px 20px 20px;
-  }
-
-  .sidebar-footer {
-    display: none;
-  }
-
-  .page-content {
-    margin-left: 0;
-
-    width: 100%;
-  }
-
-}/*SIDEBAR
 /* =========================================
    LAYOUT COM SIDEBAR
 ========================================= */

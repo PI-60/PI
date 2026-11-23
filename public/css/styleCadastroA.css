@@ -23,7 +23,8 @@ section {
 }
 
 .formulario {
-    width: 60%;
+     width: 100%;
+    max-width: 1200px;
     padding: 40px 120px;
     margin: 0px 5% 0px 5cap;  
     
@@ -94,8 +95,11 @@ section {
 .formulario button {
     grid-column: 1 / -1; /* começa na coluna 1 */
 
+
     width: 230px;
     height: 42px;
+
+  
 
     border: none;
     border-radius: 6px;
@@ -115,6 +119,58 @@ section {
     background-color: hsl(133, 75%, 17%); /* cor dop botao ao ser clicado */
 }
 
+
+#btnAddDia{
+
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+  
+}
+
+
+#listaDias {
+    list-style: none;   /* tira a bolinha */
+    padding: 0;
+    margin-top: 16px;
+    border-radius: 10px;
+}
+
+#listaDias li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* data de um lado, X do outro */
+    gap: 24px;                       /* distância mínima entre data e X */
+    max-width: 240px;                /* quanto mais largo, mais longe o X fica */
+    padding: 6px 0;
+
+}
+
+#listaDias :hover {
+    background: #f0f0f0e0;
+      border-radius: 5px;
+
+}
+
+#listaDias li button {
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+#listaDias li button:hover {
+    background: #fdecea;
+    border-radius: 50%;
+}
 
 
 /*Cadastro Atividades*/

@@ -104,8 +104,7 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`oficina` (
   `titulo` VARCHAR(50) NOT NULL,
   `descricao` VARCHAR(1200) NULL DEFAULT NULL,
   `local` VARCHAR(1200) NULL DEFAULT NULL,
-  `dt_inicio` DATE NOT NULL,
-  `dt_termino` DATE NOT NULL,
+
 
   PRIMARY KEY (`idOficina`),
   INDEX `fk_oficina_ministrante1_idx` (`ministrante_email` ASC) VISIBLE,
@@ -353,17 +352,11 @@ START TRANSACTION;
 USE `ifsc60`;
 
 INSERT INTO `ifsc60`.`oficina`
-(`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
+(`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`)
 VALUES
-(1, 'graciane@gmail.com', 'Oficina de Pintura', 'A oficina de pintura proporciona um espaço para explorar a criatividade por meio das cores e dos desenhos. Durante a atividade, os participantes podem experimentar diferentes técnicas e materiais. A proposta estimula a expressão artística, a imaginação e a concentração. Além disso, promove momentos de interação e troca de experiências entre os participantes.', 'IFSC Gaspar', '2026-09-08', '2026-09-09');
-
-INSERT INTO `ifsc60`.`oficina`
-(`idOficina`, `ministrante_email`, `titulo`, `descricao`, `local`, `dt_inicio`, `dt_termino`)
-VALUES
-(2, 'pedro@gmail.com', 'Oficina de tecnologia', 'A oficina de tecnologia apresenta ferramentas e recursos digitais, incentivando o aprendizado e a familiarização com a tecnologia. A atividade promove a autonomia, a inclusão digital e a troca de conhecimentos entre os participantes', 'IFSC Gaspar', '2026-09-08', '2026-09-10');
-
+(1, 'graciane@gmail.com', 'Oficina de Pintura', 'A oficina de pintura proporciona um espaço para explorar a criatividade por meio das cores e dos desenhos. Durante a atividade, os participantes podem experimentar diferentes técnicas e materiais. A proposta estimula a expressão artística, a imaginação e a concentração. Além disso, promove momentos de interação e troca de experiências entre os participantes.', 'IFSC Gaspar'),
+(2, 'pedro@gmail.com', 'Oficina de tecnologia', 'A oficina de tecnologia apresenta ferramentas e recursos digitais, incentivando o aprendizado e a familiarização com a tecnologia. A atividade promove a autonomia, a inclusão digital e a troca de conhecimentos entre os participantes', 'IFSC Gaspar');
 COMMIT;
-
 -- -----------------------------------------------------
 -- Data for table `ifsc60`.`dia`
 -- -----------------------------------------------------
@@ -430,12 +423,5 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 
 COMMIT;
 
--- -----------------------------------------------------
--- TABELA ATIVO
--- -----------------------------------------------------
 
-USE ifsc60;
-
-ALTER TABLE usuario
-ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
 
