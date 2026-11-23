@@ -200,6 +200,9 @@ router.post('/cadastroat', async (req, res) => {
 
             idOficina = resultado.insertId;
         }
+              res.redirect(`/atividades?mensagem=${isEdicao ? 'atividadeEditada' : 'atividadeCadastrada'}`);
+
+        
 
         // cadasta os bolsistas
         const sqlBolsista = `
