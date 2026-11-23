@@ -24,6 +24,7 @@ const __dirname = path.dirname(__filename);
 //criando meu servido
 const app = express();
 
+
 app.use(session({
   secret: 'chave-secreta-do-projeto',
   resave: false,
@@ -44,12 +45,24 @@ app.use(express.urlencoded({ extended: true })); // permite que o Express consig
 // sem isso o req.body poderia não pegar direito
 app.use(express.json());
 
-// deixa o usuário logado (e a inicial do nome) disponível em todas as views
+
+// deixa as informações do usuário disponíveis em todas as views
 app.use((req, res, next) => {
-  const usuario = req.session.usuario;
-  res.locals.usuario = usuario;
-  res.locals.inicialUsuario = usuario && usuario.nome ? usuario.nome.trim().charAt(0).toUpperCase() : '';
-  next();
+
+    const usuario = req.session.usuario;
+
+    res.locals.usuario = usuario;
+
+    res.locals.inicialUsuario =
+        usuario && usuario.nome
+            ? usuario.nome.trim().charAt(0).toUpperCase()
+            : '';
+
+    // ve se o usuário é coordenador
+    res.locals.ehCoordenador =
+        usuario && usuario.tipo === 'coordenador';
+
+    next();
 });
 
 // --- rotas get  (c  arregam as telas) ---

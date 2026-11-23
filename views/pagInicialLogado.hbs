@@ -3,6 +3,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/styleLogado.css">
 
+  {{#if (eq mensagem "sucesso")}}
+    <script>
+        alert("Você desistiu da coordenação e agora é administrador!");
+    </script>
+{{/if}}
+
+{{#if (eq mensagem "ultimo")}}
+    <script>
+        alert("Não é possível desistir da coordenação porque você é o único coordenador cadastrado.");
+    </script>
+{{/if}}
+
+{{#if (eq mensagem "erro")}}
+    <script>
+        alert("Ocorreu um erro ao tentar desistir da coordenação. Tente novamente.");
+    </script>
+{{/if}}
+
   <aside class="sidebar">
 
     <div class="sidebar-top">

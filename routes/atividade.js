@@ -5,6 +5,30 @@ import { notificarBolsistaAdicionado } from './notificacao.js';
 const router = express.Router();
 
 
+
+// DIAS - grava os dias da oficina: cria em "dia" se nao existir e liga em oficina_acontece_dia
+async function salvarDias(idOficina, dias) {
+    // remove os dias que sairam da lista
+    await db.query(
+        `DELETE FROM oficina_acontece_dia
+          WHERE oficina_idOficina = ? AND dia_dtOficinaDia NOT IN (?)`,
+        [idOficina, dias]
+    );
+    // cria os dias novos na tabela dia (IGNORE = pula os que ja existem)
+    await db.query(
+        'INSERT IGNORE INTO dia (dtOficinaDia) VALUES ?',
+        [dias.map(d => [d])]
+    );
+    // liga a oficina aos dias
+    await db.query(
+        'INSERT IGNORE INTO oficina_acontece_dia (oficina_idOficina, dia_dtOficinaDia) VALUES ?',
+        [dias.map(d => [idOficina, d])]
+    );
+}
+
+
+
+
 // ROTA DE CADASTRO ATIVIDADES
 
 router.get('/cadastroat', async (req, res) => {
@@ -41,7 +65,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
 
         // dados da oficina
         const [resultado] = await db.execute(
-            `SELECT idOficina, ministrante_email, titulo, descricao, local, dt_inicio, dt_termino
+            `SELECT idOficina, ministrante_email, titulo, descricao, local
              FROM oficina
              WHERE idOficina = ?`,
             [id]
@@ -73,6 +97,14 @@ router.get('/atividades/:id/editar', async (req, res) => {
              WHERE oficina_idOficina = ?`,
             [id]
         );
+         // DIAS - dias em que a oficina acontece
+        const [diasRows] = await db.query(
+            `SELECT DATE_FORMAT(dia_dtOficinaDia, '%Y-%m-%d') AS dia
+             FROM oficina_acontece_dia
+             WHERE oficina_idOficina = ?
+             ORDER BY dia_dtOficinaDia`,
+            [id]
+        );
 
         // formata Date -> YYYY-MM-DD para o <input type="date"> chat
         const formatarData = (d) => {
@@ -92,8 +124,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
             descricao: oficina.descricao,
             local: oficina.local,
             ministrante_email: oficina.ministrante_email,
-            dataInicio: formatarData(oficina.dt_inicio),
-            dataTermino: formatarData(oficina.dt_termino),
+             diasTexto: diasRows.map(d => d.dia).join(','),
             bolsista1: bolsistasSelecionados[0]?.usuario_email || '',
             bolsista2: bolsistasSelecionados[1]?.usuario_email || '',
             bolsista3: bolsistasSelecionados[2]?.usuario_email || ''
@@ -128,12 +159,14 @@ router.post('/cadastroat', async (req, res) => {
         emailM,
         descricao,
         local,
-        dataInicio,
-        dataTermino,
         bolsista1,
         bolsista2,
         bolsista3
     } = req.body;
+        //"dias" chega do formulario (1 valor = texto, varios = array)
+      const dias = [...new Set([].concat(req.body.dias || []))]
+        .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d))
+        .sort();
 
     console.log(req.body)
 
@@ -144,9 +177,9 @@ router.post('/cadastroat', async (req, res) => {
 
             await db.execute(
                 `UPDATE oficina
-                 SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?, dt_inicio = ?, dt_termino = ?
+                 SET ministrante_email = ?, titulo = ?, descricao = ?, local = ?
                  WHERE idOficina = ?`,
-                [emailM, titulo, descricao, local, dataInicio, dataTermino, idOficina]
+                [emailM, titulo, descricao, local, idOficina]
             );
 
             // remove os vínculos antigos para cadastra os novos
@@ -160,9 +193,9 @@ router.post('/cadastroat', async (req, res) => {
             //  cadastra a oficina
             const [resultado] = await db.execute(
                 `INSERT INTO oficina
-                 ( ministrante_email, titulo, descricao, local, dt_inicio, dt_termino)
-                 VALUES (?, ?, ?, ?, ?, ?)`,
-                [emailM, titulo, descricao, local, dataInicio, dataTermino]
+                 ( ministrante_email, titulo, descricao, local)
+                 VALUES (?, ?, ?, ?)`,
+                [emailM, titulo, descricao, local]
             );
 
             idOficina = resultado.insertId;
@@ -182,7 +215,27 @@ router.post('/cadastroat', async (req, res) => {
             }
         }
 
-        res.redirect(`/atividades?mensagem=${isEdicao ? 'atividadeEditada' : 'atividadeCadastrada'}`);
+        // bolsista 2
+        if (bolsista2) {
+            await db.execute(sqlBolsista, [
+                bolsista2,
+                idOficina
+            ]);
+        }
+
+
+        // bolsista 3
+        if (bolsista3) {
+            await db.execute(sqlBolsista, [
+                bolsista3,
+                idOficina
+            ]);
+        }
+          if (dias.length > 0) {
+            await salvarDias(idOficina, dias);
+        }
+
+        res.redirect('/atividades?mensagem=atividadeCadastrada');
 
     } catch (error) {
         console.error(error);
@@ -201,29 +254,26 @@ router.get('/atividades', async (req, res) => {
     }
     try {
 
+
         // pesquisar
         const letra = req.query.letra || '';
 
-        const [atividades] = await db.query(
-            'SELECT idOficina,  titulo, local, dt_inicio FROM oficina  WHERE titulo LIKE ?  ORDER BY idOficina DESC',
+             const [atividades] = await db.query(
+            `SELECT o.idOficina, o.titulo, o.local,
+                    GROUP_CONCAT(
+                      DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m')
+                      ORDER BY d.dia_dtOficinaDia
+                      SEPARATOR ', '
+                    ) AS data
+             FROM oficina o
+             LEFT JOIN oficina_acontece_dia d ON d.oficina_idOficina = o.idOficina
+             WHERE o.titulo LIKE ?
+             GROUP BY o.idOficina, o.titulo, o.local
+             ORDER BY o.idOficina DESC`,
             [`%${letra}%`]
+       
         );
 
-        // Formatar as datas
-    atividades.forEach(atividade => {
-
-        if (atividade.dt_inicio) {
-
-            const data = new Date(atividade.dt_inicio);
-
-            atividade.dt_inicio =
-                String(data.getDate()).padStart(2, '0') + '/' +
-                String(data.getMonth() + 1).padStart(2, '0') + '/' +
-                data.getFullYear();
-
-        }
-
-    });
 
 
         res.render('telaAtividades', {
@@ -271,7 +321,7 @@ router.get('/atividade/:id', async (req, res) => {
         const id = req.params.id;
 
         const [oficinas] = await db.execute(
-            `SELECT idOficina, ministrante_email, titulo, descricao, local, dt_inicio, dt_termino FROM oficina WHERE idOficina = ?`,
+            `SELECT idOficina, ministrante_email, titulo, descricao, local FROM oficina WHERE idOficina = ?`,
             [id]
         );
 
@@ -298,6 +348,15 @@ router.get('/atividade/:id', async (req, res) => {
             [id]
         );
 
+
+        //  dias da oficina em ordem
+        const [datas] = await db.query(
+    `SELECT DATE_FORMAT(dia_dtOficinaDia, '%d/%m/%Y') AS data
+     FROM oficina_acontece_dia
+     WHERE oficina_idOficina = ?
+     ORDER BY dia_dtOficinaDia`, [id]);
+
+
         /* oficinas = um array que contem as oficinas encontradas
             o [0] acessa o primeiro elemento
               (...)  chamados de operador spread eles copiam as propriedades do primeiro objeto de oficinas para o novo objeto
@@ -305,9 +364,10 @@ router.get('/atividade/:id', async (req, res) => {
             res.json({
             ...oficinas[0],
 
-            dt_inicio: formatarData(oficinas[0].dt_inicio),
-            dt_termino: formatarData(oficinas[0].dt_termino),
-
+             //  dt_inicio e dt_termino = primeiro e ultimo dia (o modal continua funcionando)
+        
+            // lista completa
+              datas: datas.map(d => d.data),
             bolsistas: bolsistas
         });
 

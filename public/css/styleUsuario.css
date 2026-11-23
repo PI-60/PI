@@ -575,12 +575,39 @@
     }
 }
 
-/* Corrige o cursor dos botões de ação da lista de usuários */
-.usuarios-page .botao-acao,
-.usuarios-page .botao-acao:disabled {
-    cursor: pointer !important;
-    opacity: 1;
+
+/* =========================================
+   ESTILO DOS BOTÕES DE AÇÕES
+========================================= */
+
+/* Efeito ao passar o mouse nos botões permitidos */
+.usuarios-page .botao-acao:not(:disabled):hover {
+    background-color: #f7f7f7;
+    transform: translateY(-1px);
+    transition: 0.2s ease;
 }
+
+/* Botões que o perfil não pode utilizar */
+.usuarios-page .botao-acao.desabilitado,
+.usuarios-page .botao-acao:disabled {
+    color: #a6a6a6 !important;
+    border-color: #e1e1e1;
+    background-color: #f3f3f3;
+    cursor: not-allowed !important;
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+/* Evita efeitos de interação nos botões desabilitados */
+.usuarios-page .botao-acao.desabilitado:hover,
+.usuarios-page .botao-acao:disabled:hover {
+    color: #a6a6a6 !important;
+    border-color: #e1e1e1;
+    background-color: #f3f3f3;
+    transform: none;
+}
+
+
 
 .mensagem {
     position: fixed;
@@ -685,5 +712,30 @@
     display: block;
 }
 
+
+/* =========================================
+   CONTROLES SEM BOTÃO DE CADASTRO
+========================================= */
+
+/* Quando não existir botão de cadastrar,
+   a pesquisa e o filtro ocupam toda a linha */
+.usuarios-page .controles-usuarios:not(:has(.botao-cadastrar)) {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    width: 100%;
+}
+
+/* Tablets */
+@media (max-width: 800px) {
+    .usuarios-page .controles-usuarios:not(:has(.botao-cadastrar)) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* Celulares */
+@media (max-width: 520px) {
+    .usuarios-page .controles-usuarios:not(:has(.botao-cadastrar)) {
+        grid-template-columns: 1fr;
+    }
+}
 
 

@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="/css/styleFrequencia.css">
+<script src="/js/frequencia.js" defer></script>
 
+
+
+
+<main class="app-shell">
 <aside class="sidebar">
       <div class="sidebar-top">
-          <span></span>
-          <span></span>
-          <span></span>
         </button>
         <span class="sidebar-brand">IFSC60+</span>
       </div>
@@ -25,86 +27,71 @@
       </div>
     </aside>
 
-<div id="back">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/inicioLogado" style="text-decoration: none;">&lt;</a>
-</div>
+            <div id="mensagem" class="mensagem" hidden></div>
 
-<main class="center">
+        <div class="page-content">
+        <form id="Frequencia" class="formulario" method="POST" action="/frequencia">
 
-    <script>
-    function mudarCor(select) {
-        select.classList.remove("presenca", "falta");
-
-        if (select.value === "presenca") {
-            select.classList.add("presenca");
-        } else {
-            select.classList.add("falta");
-        }
-    }
-</script>
-
-    <section>
-
-        <form id="Frequencia">
-
-            <div class="formulario-frequencia">
-
-                <h1 id="titulo">Aferir Frequência</h1>
+                <h1 id="titulo">Frequência</h1>
 
                 <!-- Escolha da oficina -->
-                <div class="campo-frequencia">
-                    <label for="oficina">Oficina</label>
 
-                    <select id="oficina" name="oficina">
-                        <option value="">Selecione a oficina</option>
-                        <option value="1">Curso MySQL</option>
-                        <option value="2">Curso Javascript</option>
-                    </select>
-                </div>
+                    <div class="filtrofreq">
+                             <div class="campo-frequencia">
+                            <label for="oficina">Oficina</label>
+                          <select id="oficina" name="oficina">
+                            <option value="">Selecione a atividade e o dia</option>
+                            {{#each opcoes}}
+                                 <option value="{{this.valor}}" {{#if this.lancada}}disabled{{/if}}>{{this.rotulo}}</option>
+                            {{/each}}
+                            </select>
 
-                <!-- Escolha do dia -->
-                <div class="campo-frequencia">
-                    <label for="data">Data</label>
-
-                    <select id="data" name="data">
-                        <option value="">Selecione a data</option>
-                        <option value="2026-09-08">08/09/2026</option>
-                        <option value="2026-09-09">09/09/2026</option>
-                        <option value="2026-09-10">10/09/2026</option>
-                    </select>
-                </div>
+                        <!-- pesquisa os participantes -->
+                        <label for="pesquisa-frequencia">Pesquisar participantes</label>
+              <input type="text" id="pesquisa-frequencia" placeholder="Pesquisar participante...">
+              <br>
 
                 <!-- Cabeçalho da lista -->
+                <div id="listaf">
                 <div class="cabecalho-frequencia">
-                    <span>Nome do Participante</span>
+                    <span>Participante</span>
                     <span>Frequência</span>
                 </div>
 
                <!-- Participantes vindos do banco -->
-{{#each participantes}}
+                   <div id="linhas-frequencia">
+                    {{#each participantes}}
+                        <div class="linha-participante linha-frequencia" data-id="{{this.idParticipante}}">
+                        <span class="nome-participante">{{this.nome}}</span>
+                        <select class="select-frequencia presenca">
+                            <option value="presenca">Presença</option>
+                            <option value="falta">Falta</option>
+                        </select>
+                        </div>
+                    {{/each}}
+                    </div>
+                     </div>
 
-    <div class="linha-participante">
 
-        <span class="nome-participante">
-            {{nome}}
-        </span>
+             <div id="linhas-frequencia"></div>
 
-       <select class="select-frequencia presenca" onchange="mudarCor(this)">
-    <option value="presenca">Presença</option>
-    <option value="falta">Falta</option>
-</select>
-    </div>
+             <div class="paginacao">
 
-{{/each}}
-                <button type="submit" class="button">
-                    Salvar
-                </button>
+            <p id="semresul">Selecione a oficina e a data.</p>
+         
+
+            <div id="contador-participantes"></div>
+            <div id="botoes-paginacao"></div>
 
             </div>
 
-        </form>
+                <button  id="button"  type="submit" class="botaofreq">
+                    SALVAR
+                </button>
 
-    </section>
+
+        </form>
+       
+    
 
 </main>

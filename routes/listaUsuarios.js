@@ -18,12 +18,33 @@ const router = express.Router();
 
 router.get('/usuarios', exigirLogin, async (req, res) => {
     try {
+        const emailLogado = req.session.usuario.email;
+
+        const [coordenadores] = await db.execute(
+            'SELECT email FROM coordenador WHERE email = ?',
+            [emailLogado]
+        );
+
+        const [administradores] = await db.execute(
+            'SELECT email FROM administrador WHERE email = ?',
+            [emailLogado]
+        );
+        const ehCoordenador = coordenadores.length > 0;
+        const ehAdministrador = administradores.length > 0;
+
         const [usuarios] = await db.execute(`
             SELECT
                 u.email,
                 u.nome,
                 u.telefone,
                 u.CPF,
+                u.ativo,
+                CASE
+                    WHEN b.email IS NOT NULL THEN 'bolsista'
+                    WHEN a.email IS NOT NULL THEN 'administrador'
+                    WHEN c.email IS NOT NULL THEN 'coordenador'
+                    ELSE 'usuario'
+                END AS tipo,
                 CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
                 CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
                 CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
@@ -32,6 +53,7 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
             LEFT JOIN administrador a ON a.email = u.email
             LEFT JOIN coordenador c ON c.email = u.email
             LEFT JOIN bolsista b ON b.email = u.email
+            WHERE u.ativo = TRUE
 
             UNION ALL
 
@@ -40,12 +62,95 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
                 m.nome,
                 m.telefone,
                 NULL AS CPF,
+                m.ativo,
+                'ministrante' AS tipo,
                 0 AS administrador,
                 0 AS coordenador,
                 0 AS bolsista,
                 1 AS ministrante
             FROM ministrante m
-            WHERE NOT EXISTS (
+            WHERE m.ativo = TRUE
+            AND NOT EXISTS (
+                SELECT 1
+                FROM usuario u
+                WHERE u.email = m.email
+            )
+
+            ORDER BY nome
+        `);
+        return res.render('telaUsuario', {
+            layout: 'layouts/mainLogado',
+            usuarios,
+            ehCoordenador,
+            ehAdministrador
+        });
+
+    } catch (erro) {
+        console.error('Erro ao listar usuários:', erro);
+        return res.status(500).send('Erro ao carregar a lista de usuários.');
+    }
+});
+
+// ========================================
+// LISTAGEM DE USUÁRIOS DESATIVADOS
+// ========================================
+
+router.get('/usuarios/desativados', exigirLogin, async (req, res) => {
+    try {
+        const emailLogado = req.session.usuario.email;
+
+        const [coordenadores] = await db.execute(
+            'SELECT email FROM coordenador WHERE email = ?',
+            [emailLogado]
+        );
+
+        const [administradores] = await db.execute(
+            'SELECT email FROM administrador WHERE email = ?',
+            [emailLogado]
+        );
+
+        const ehCoordenador = coordenadores.length > 0;
+        const ehAdministrador = administradores.length > 0;
+
+        const [usuarios] = await db.execute(`
+            SELECT
+                u.email,
+                u.nome,
+                u.telefone,
+                u.CPF,
+                u.ativo,
+                CASE
+                    WHEN b.email IS NOT NULL THEN 'bolsista'
+                    WHEN a.email IS NOT NULL THEN 'administrador'
+                    WHEN c.email IS NOT NULL THEN 'coordenador'
+                    ELSE 'usuario'
+                END AS tipo,
+                CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
+                CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
+                CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
+                0 AS ministrante
+            FROM usuario u
+            LEFT JOIN administrador a ON a.email = u.email
+            LEFT JOIN coordenador c ON c.email = u.email
+            LEFT JOIN bolsista b ON b.email = u.email
+            WHERE u.ativo = FALSE
+
+            UNION ALL
+
+            SELECT
+                m.email,
+                m.nome,
+                m.telefone,
+                NULL AS CPF,
+                m.ativo,
+                'ministrante' AS tipo,
+                0 AS administrador,
+                0 AS coordenador,
+                0 AS bolsista,
+                1 AS ministrante
+            FROM ministrante m
+            WHERE m.ativo = FALSE
+            AND NOT EXISTS (
                 SELECT 1
                 FROM usuario u
                 WHERE u.email = m.email
@@ -54,20 +159,22 @@ router.get('/usuarios', exigirLogin, async (req, res) => {
             ORDER BY nome
         `);
 
-        return res.render('telaUsuario', {
-            layout: 'layouts/telasNavegacao',
-            usuarios
+        return res.render('telaUsuariosDesativados', {
+            layout: 'layouts/mainLogado',
+            usuarios,
+            ehCoordenador,
+            ehAdministrador
         });
+
     } catch (erro) {
-        console.error('Erro ao listar usuários:', erro);
-        return res.status(500).send('Erro ao carregar a lista de usuários.');
+        console.error('Erro ao listar usuários desativados:', erro);
+        return res.status(500).send('Erro ao carregar usuários desativados.');
     }
 });
 
-
- // ========================================
- // VISUALIZAR USUÁRIO OU MINISTRANTE
- // ========================================
+// ========================================
+// VISUALIZAR USUÁRIO OU MINISTRANTE
+// ========================================
 
 router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
     try {
@@ -79,35 +186,38 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
                 u.nome,
                 u.telefone,
                 u.CPF,
+                u.ativo,
                 CASE WHEN a.email IS NOT NULL THEN 1 ELSE 0 END AS administrador,
                 CASE WHEN c.email IS NOT NULL THEN 1 ELSE 0 END AS coordenador,
                 CASE WHEN b.email IS NOT NULL THEN 1 ELSE 0 END AS bolsista,
                 0 AS ministrante
-             FROM usuario u
-             LEFT JOIN administrador a ON a.email = u.email
-             LEFT JOIN coordenador c ON c.email = u.email
-             LEFT JOIN bolsista b ON b.email = u.email
-             WHERE u.email = ?
+            FROM usuario u
+            LEFT JOIN administrador a ON a.email = u.email
+            LEFT JOIN coordenador c ON c.email = u.email
+            LEFT JOIN bolsista b ON b.email = u.email
+            WHERE u.email = ?
 
-             UNION ALL
+            UNION ALL
 
-             SELECT
+            SELECT
                 m.email,
                 m.nome,
                 m.telefone,
                 NULL AS CPF,
+                m.ativo,
                 0 AS administrador,
                 0 AS coordenador,
                 0 AS bolsista,
                 1 AS ministrante
-             FROM ministrante m
-             WHERE m.email = ?
-             AND NOT EXISTS (
-                 SELECT 1 FROM usuario u WHERE u.email = m.email
-             )`,
+            FROM ministrante m
+            WHERE m.email = ?
+            AND NOT EXISTS (
+                SELECT 1
+                FROM usuario u
+                WHERE u.email = m.email
+            )`,
             [email, email]
         );
-
         if (usuarios.length === 0) {
             return res.status(404).send('Cadastro não encontrado.');
         }
@@ -116,6 +226,7 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
             layout: 'layouts/telasNavegacao',
             usuario: usuarios[0]
         });
+
     } catch (erro) {
         console.error('Erro ao visualizar cadastro:', erro);
         return res.status(500).send('Erro ao carregar os dados.');
@@ -125,7 +236,7 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
 
 // ========================================
 // ABRIR FORMULÁRIO DE EDIÇÃO DE USUÁRIO
-// Somente coordenadores
+// SOMENTE COORDENADORES
 // ========================================
 
 router.get(
@@ -142,17 +253,25 @@ router.get(
                     u.telefone,
                     u.CPF,
                     CASE
+                        WHEN b.email IS NOT NULL THEN 'bolsista'
                         WHEN a.email IS NOT NULL THEN 'administrador'
                         WHEN c.email IS NOT NULL THEN 'coordenador'
-                        WHEN b.email IS NOT NULL THEN 'bolsista'
                         ELSE 'usuario'
-                    END AS tipo
-                 FROM usuario u
-                 LEFT JOIN administrador a ON a.email = u.email
-                 LEFT JOIN coordenador c ON c.email = u.email
-                 LEFT JOIN bolsista b ON b.email = u.email
-                 WHERE u.email = ?`,
-                [email]
+                    END AS tipo,
+                    CASE
+                        WHEN b.email IS NOT NULL THEN 1
+                        ELSE 0
+                    END AS bolsista,
+                    CASE
+                        WHEN a.email IS NOT NULL THEN 1
+                        ELSE 0
+                    END AS administrador
+                FROM usuario u
+                LEFT JOIN administrador a ON a.email = u.email
+                LEFT JOIN coordenador c ON c.email = u.email
+                LEFT JOIN bolsista b ON b.email = u.email
+               WHERE u.email = ?`,
+[email]
             );
 
             if (usuarios.length === 0) {
@@ -162,8 +281,10 @@ router.get(
             return res.render('telaCadastroB', {
                 layout: 'layouts/cadastro',
                 usuario: usuarios[0],
-                editandoUsuario: true
+                editandoUsuario: true,
+                ehCoordenador: true
             });
+
         } catch (erro) {
             console.error('Erro ao abrir edição de usuário:', erro);
             return res.status(500).send('Erro ao abrir o cadastro.');
@@ -171,9 +292,10 @@ router.get(
     }
 );
 
+
 // ========================================
 // ABRIR FORMULÁRIO DE EDIÇÃO DE MINISTRANTE
-// Coordenadores e administradores
+// COORDENADORES E ADMINISTRADORES
 // ========================================
 
 router.get(
@@ -204,6 +326,7 @@ router.get(
                 editandoUsuario: true,
                 editandoMinistrante: true
             });
+
         } catch (erro) {
             console.error('Erro ao abrir edição de ministrante:', erro);
             return res.status(500).send('Erro ao abrir o cadastro.');
@@ -211,9 +334,16 @@ router.get(
     }
 );
 
+
 // ========================================
 // SALVAR EDIÇÃO DE USUÁRIO
-// Somente coordenadores
+// SOMENTE COORDENADORES
+// ========================================
+
+
+// ========================================
+// SALVAR EDIÇÃO DE USUÁRIO
+// SOMENTE COORDENADORES
 // ========================================
 
 router.post(
@@ -221,10 +351,21 @@ router.post(
     exigirCoordenador,
     async (req, res) => {
         const email = req.params.email;
-        const { nome, telefone, cpf } = req.body;
+        const { nome, telefone, cpf, tornarAdministrador } = req.body;
 
         if (!nome?.trim()) {
             return res.status(400).send('O nome é obrigatório.');
+        }
+
+        const concederAdministrador = tornarAdministrador === '1';
+
+        if (
+            concederAdministrador &&
+            email === req.session.usuario.email
+        ) {
+            return res.status(403).send(
+                'Você não pode alterar suas próprias permissões.'
+            );
         }
 
         try {
@@ -237,29 +378,73 @@ router.post(
                 return res.status(404).send('Usuário não encontrado.');
             }
 
-            await db.execute(
-                `UPDATE usuario
-                 SET nome = ?, telefone = ?, CPF = ?
-                 WHERE email = ?`,
-                [
-                    nome.trim(),
-                    telefone?.trim() || null,
-                    cpf?.trim() || null,
-                    email
-                ]
-            );
+            await db.beginTransaction();
 
-            return res.redirect('/usuarios?mensagem=usuarioEditado');
+            try {
+                await db.execute(
+                    `UPDATE usuario
+                     SET nome = ?, telefone = ?, CPF = ?
+                     WHERE email = ?`,
+                    [
+                        nome.trim(),
+                        telefone?.trim() || null,
+                        cpf?.trim() || null,
+                        email
+                    ]
+                );
+
+                if (concederAdministrador) {
+                    const [bolsistas] = await db.execute(
+                        'SELECT email FROM bolsista WHERE email = ?',
+                        [email]
+                    );
+
+                    if (bolsistas.length === 0) {
+                        await db.rollback();
+
+                        return res.status(400).send(
+                            'Somente bolsistas podem receber essa permissão.'
+                        );
+                    }
+
+                    const [administradores] = await db.execute(
+                        'SELECT email FROM administrador WHERE email = ?',
+                        [email]
+                    );
+
+                    if (administradores.length === 0) {
+                        await db.execute(
+                            'INSERT INTO administrador (email) VALUES (?)',
+                            [email]
+                        );
+                    }
+                }
+
+                await db.commit();
+
+                return res.redirect(
+                    '/usuarios?mensagem=usuarioEditado'
+                );
+
+            } catch (erro) {
+                await db.rollback();
+                throw erro;
+            }
+
         } catch (erro) {
             console.error('Erro ao editar usuário:', erro);
-            return res.status(500).send('Erro ao salvar a edição do usuário.');
+
+            return res.status(500).send(
+                'Erro ao salvar a edição do usuário.'
+            );
         }
     }
 );
 
+
 // ========================================
 // SALVAR EDIÇÃO DE MINISTRANTE
-// Coordenadores e administradores
+// COORDENADORES E ADMINISTRADORES
 // ========================================
 
 router.post(
@@ -295,16 +480,20 @@ router.post(
             );
 
             return res.redirect('/usuarios?mensagem=usuarioEditado');
+
         } catch (erro) {
             console.error('Erro ao editar ministrante:', erro);
-            return res.status(500).send('Erro ao salvar a edição do ministrante.');
+            return res.status(500).send(
+                'Erro ao salvar a edição do ministrante.'
+            );
         }
     }
 );
 
+
 // ========================================
 // CADASTRO DE USUÁRIO
-// Somente coordenadores
+// SOMENTE COORDENADORES
 // ========================================
 
 router.post(
@@ -315,8 +504,7 @@ router.post(
 
         const tiposPermitidos = [
             'coordenador',
-            'bolsista',
-            'administrador'
+            'bolsista'
         ];
 
         if (!nome?.trim() || !email?.trim() || !senha || !tipo) {
@@ -362,14 +550,8 @@ router.post(
                 );
             }
 
-            if (tipo === 'administrador') {
-                await db.execute(
-                    'INSERT INTO administrador (email) VALUES (?)',
-                    [email.trim()]
-                );
-            }
-
             return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+
         } catch (erro) {
             console.error('Erro ao cadastrar usuário:', erro);
 
@@ -384,9 +566,10 @@ router.post(
     }
 );
 
+
 // ========================================
 // CADASTRO DE MINISTRANTE
-// Coordenadores e administradores
+// COORDENADORES E ADMINISTRADORES
 // ========================================
 
 router.post(
@@ -413,6 +596,7 @@ router.post(
             );
 
             return res.redirect('/usuarios?mensagem=usuarioCadastrado');
+
         } catch (erro) {
             console.error('Erro ao cadastrar ministrante:', erro);
 
@@ -427,9 +611,10 @@ router.post(
     }
 );
 
+
 // ========================================
 // EXCLUIR USUÁRIO
-// Somente coordenadores
+// SOMENTE COORDENADORES
 // ========================================
 
 router.post(
@@ -448,7 +633,6 @@ router.post(
                 return res.status(404).send('Usuário não encontrado.');
             }
 
-            // Impede que o coordenador exclua a própria conta.
             if (req.session.usuario.email === email) {
                 return res.status(403).send(
                     'Você não pode excluir a própria conta.'
@@ -462,14 +646,17 @@ router.post(
                     'DELETE FROM administrador WHERE email = ?',
                     [email]
                 );
+
                 await db.execute(
                     'DELETE FROM coordenador WHERE email = ?',
                     [email]
                 );
+
                 await db.execute(
                     'DELETE FROM bolsista WHERE email = ?',
                     [email]
                 );
+
                 await db.execute(
                     'DELETE FROM usuario WHERE email = ?',
                     [email]
@@ -478,10 +665,12 @@ router.post(
                 await db.commit();
 
                 return res.redirect('/usuarios?mensagem=usuarioExcluido');
+
             } catch (erro) {
                 await db.rollback();
                 throw erro;
             }
+
         } catch (erro) {
             console.error('Erro ao excluir usuário:', erro);
             return res.status(500).send('Erro ao excluir usuário.');
@@ -490,10 +679,10 @@ router.post(
 );
 
 
- // ========================================
- // EXCLUIR MINISTRANTE
- // Somente administradores
- // ========================================
+// ========================================
+// EXCLUIR MINISTRANTE
+// COORDENADORES E ADMINISTRADORES
+// ========================================
 
 router.post(
     '/usuarios/ministrantes/excluir/:email',
@@ -502,7 +691,6 @@ router.post(
         const email = req.params.email;
 
         try {
-            // Verifica se o ministrante existe
             const [ministrantes] = await db.execute(
                 'SELECT email FROM ministrante WHERE email = ?',
                 [email]
@@ -514,35 +702,84 @@ router.post(
                 );
             }
 
-            // Desvincula o ministrante das oficinas
             await db.execute(
-                'UPDATE oficina SET ministrante_email = NULL WHERE ministrante_email = ?',
+                `UPDATE oficina
+                 SET ministrante_email = NULL
+                 WHERE ministrante_email = ?`,
                 [email]
             );
 
-            // Exclui o cadastro do ministrante
             await db.execute(
                 'DELETE FROM ministrante WHERE email = ?',
                 [email]
             );
 
-            return res.redirect(
-                '/usuarios?mensagem=usuarioExcluido'
-            );
+            return res.redirect('/usuarios?mensagem=usuarioExcluido');
 
         } catch (erro) {
-            console.error(
-                'Erro ao excluir ministrante:',
-                erro
-            );
-
-            return res.status(500).send(
-                'Erro ao excluir ministrante.'
-            );
+            console.error('Erro ao excluir ministrante:', erro);
+            return res.status(500).send('Erro ao excluir ministrante.');
         }
     }
 );
 
+
+// ========================================
+// TORNAR BOLSISTA TAMBÉM ADMINISTRADOR
+// SOMENTE COORDENADORES
+// ========================================
+
+router.post(
+    '/usuarios/tornar-administrador/:email',
+    exigirCoordenador,
+    async (req, res) => {
+        const email = req.params.email;
+        const emailLogado = req.session.usuario.email;
+
+        if (email === emailLogado) {
+            return res.status(403).send(
+                'Você não pode alterar suas próprias permissões.'
+            );
+        }
+
+        try {
+            const [bolsistas] = await db.execute(
+                'SELECT email FROM bolsista WHERE email = ?',
+                [email]
+            );
+
+            if (bolsistas.length === 0) {
+                return res.status(404).send(
+                    'Este usuário não é um bolsista.'
+                );
+            }
+
+            const [administradores] = await db.execute(
+                'SELECT email FROM administrador WHERE email = ?',
+                [email]
+            );
+
+            if (administradores.length > 0) {
+                return res.redirect('/usuarios?mensagem=erro');
+            }
+
+            await db.execute(
+                'INSERT INTO administrador (email) VALUES (?)',
+                [email]
+            );
+
+            return res.redirect(
+                '/usuarios?mensagem=administradorConcedido'
+            );
+
+        } catch (erro) {
+            console.error('Erro ao promover bolsista:', erro);
+            return res.status(500).send(
+                'Erro ao conceder permissão de administrador.'
+            );
+        }
+    }
+);
 
 
 export default router;

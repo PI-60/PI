@@ -118,6 +118,8 @@ display:inline-flex;
     gap: 15px;
     transition: background 0.2s ease;
     
+
+    
 }
 
 .linha-participante:hover {
@@ -477,4 +479,193 @@ display:inline-flex;
     background: #fff0e0;
     border-color: #ff7900;
     color: #333;
+}
+
+/* =========================================
+   BOTÃO IMPRIMIR
+========================================= */
+
+.botao-imprimir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--verde);
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    padding: 12px 22px;
+
+    font-size: 13.5px;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: background 0.2s ease;
+}
+
+
+.botao-imprimir:hover {
+    background-color: var(--verde-escuro);
+}
+
+/* Cabeçalho que aparece somente na impressão */
+
+.cabecalho-impressao {
+    display: none;
+}
+
+
+/* =========================================
+   IMPRESSÃO 
+========================================= */
+
+/*o !important da prioridae pra aquela regra acima de outra, usei aqui por conta do conflito do layout da tela com o da impressao*/
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 15mm;
+    }
+
+    /* esconde o layout do site */
+    body > .topbar,
+    body > header,
+    body > footer,
+    .sidebar {
+        display: none !important;
+    }
+
+    /* trira pesquisa, botões e paginação */
+    .linha-pesquisa,
+    .acoes-participante,
+    .paginacao,
+    #mensagem,
+    #semresul,
+    #btnImprimir {
+        display: none !important;
+    }
+
+    /* remove os espaços reservados ao layout */
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    .participantes-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        background: white !important;
+        display: block !important;
+    }
+
+    /* form como linha */
+    .formulario {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: white !important;
+        display: block !important;
+    }
+
+    /* título */
+    .formulario h1 {
+        display: block !important;
+        text-align: center;
+        font-size: 22px;
+        margin: 0 0 25px 0 !important;
+        color: black !important;
+    }
+
+    /* lista */
+    #listap {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        border: 1px solid #ccc !important;
+        overflow: visible !important;
+    }
+
+    /* mostrar todos os participantes, mesmo os escondidos pela paginação*/
+    #listap .linha-participante {
+        display: grid !important;
+        grid-template-columns: 2fr 1.2fr 1.2fr !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 42px !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+        background: white !important;
+        border-bottom: 1px solid #ccc !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .nome-participante,
+    .telefone-participante,
+    .cpf-participante {
+        color: black !important;
+        font-size: 11px !important;
+    }
+}
+
+@media print {
+
+    #listap .linha-participante {
+        display: grid !important;
+
+        grid-template-columns: 2fr 1.2fr 1.2fr !important;
+
+        align-items: center !important;
+        gap: 10px !important;
+
+        width: 100% !important;
+        min-height: 40px !important;
+
+        padding: 10px 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* cancela as regras do mobile */
+    #listap .nome-participante,
+    #listap .telefone-participante,
+    #listap .cpf-participante {
+        display: block !important;
+
+        grid-column: auto !important;
+        grid-row: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        text-align: left !important;
+        color: black !important;
+        font-size: 12px !important;
+    }
+
+    /* esconde os botoes de edicao */
+    #listap .acoes-participante {
+        display: none !important;
+    }
+
+    #listap {
+    border: none !important;
+    }
+
+    #listap .linha-participante {
+        border: none !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+    }
 }

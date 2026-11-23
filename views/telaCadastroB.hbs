@@ -5,7 +5,7 @@
 <div id="back">
 
     <a
-        href="{{#if editandoUsuario}}/usuarios{{else}}{{#if participante}}/participantes{{else}}/inicioLogado{{/if}}{{/if}}"
+        href="{{#if editandoUsuario}}/usuarios{{else}}{{#if participante}}/participantes{{else}}/usuarios{{/if}}{{/if}}"
         style="text-decoration: none;"
     >&lt;</a>
 
@@ -157,20 +157,32 @@
                             >
                         {{/if}}
 
-                        <select
-                            id="tipoU"
-                            class="select"
-                            name="tipo"
-                            {{#if participante}}disabled{{/if}}
-                        >
-                            <option value="usuario">Selecione o tipo de Usuário</option>
-                            <option value="bolsista">Bolsista</option>
-                            <option value="participante" {{#if participante}}selected{{/if}}>
-                                Participante
-                            </option>
-                            <option value="ministrante">Ministrante</option>
-                            <option value="coordenador">Coordenador</option>
-                        </select>
+                        
+<select
+    id="tipoU"
+    class="select"
+    name="tipo"
+    {{#if participante}}disabled{{/if}}
+    required
+>
+    <option value="usuario" selected disabled>
+        Selecione o tipo de Usuário
+    </option>
+
+    
+    {{#if ehCoordenador}}
+        <option value="bolsista">Bolsista</option>
+        <option value="participante">Participante</option>
+        <option value="ministrante">Ministrante</option>
+        <option value="coordenador">Coordenador</option>
+    {{else}}
+        {{#if ehAdministrador}}
+            <option value="participante">Participante</option>
+            <option value="ministrante">Ministrante</option>
+        {{/if}}
+    {{/if}}
+</select>
+
                     </div>
                 {{else}}
                     <!-- Na edição de usuário, o tipo atual é exibido sem permitir alteração -->
@@ -185,6 +197,23 @@
                 {{/unless}}
 
                 <!-- botão de cadastro, tipo submit (form) -->
+                {{#if ehCoordenador}}
+    {{#if usuario.bolsista}}
+        {{#unless usuario.administrador}}
+            <div class="campo-checkbox-admin">
+                <label>
+                    <input
+                        type="checkbox"
+                        name="tornarAdministrador"
+                        value="1"
+                    >
+                    Tornar administrador
+                </label>
+            </div>
+        {{/unless}}
+    {{/if}}
+{{/if}}
+
                 <button type="submit" class="button">
                     {{#if editandoUsuario}}
                         SALVAR 
@@ -198,6 +227,11 @@
                 </button>
 
             </div>
-        </form>
+                </form>
+
+        
+
+
+
     </section>
 </main>
