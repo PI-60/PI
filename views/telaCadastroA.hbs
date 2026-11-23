@@ -133,31 +133,23 @@
                                 placeholder="Descreva a atividade..." > {{atividade.descricao}}</textarea>
                         </div>
                         <br>
-                        <div class="campo">
-                            <label for="dataInicio">Data de início</label>
-
-                            <input
-                                id="dataInicio"
-                                type="date"
-                                name="dataInicio"
-                                 value="{{atividade.dataInicio}}">
+                        <!-- dias em que a oficina acontece -->
+                        <div class="campo campo-dias">
+                            <label for="novoDia">Dias da atividade</label>
+                            <div class="linha-dia">
+                                <input type="date" id="novoDia">
+                                <button type="button" id="btnAddDia">Adicionar dia</button>
+                            </div>
+                            <br>
+                            <label for="">Dias adicionados:</label>
+                            <ul id="listaDias" data-dias="{{atividade.diasTexto}}"></ul>
+                            <small id="erroDias" hidden>Adicione pelo menos um dia.</small>
                         </div>
-                        <br>
-                        <div class="campo">
-                            <label for="dataTermino">Data de término</label>
-
-                            <input
-                                type="date"
-                                id="dataTermino"
-                                name="dataTermino"
-                               value="{{ atividade.dataTermino}}">
-                        </div>
-
-                    </div>
+                                            </div>
 
                     <!-- BOTÃO -->
                     <button type="submit" class="button">
-                           {{#if atividade}}Salvar{{else}}CADASTRAR{{/if}} </button>
+                           {{#if atividade}}SALVAR{{else}}CADASTRAR{{/if}} </button>
                     </button>
 
                 </form>
