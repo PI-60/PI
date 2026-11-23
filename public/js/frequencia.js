@@ -124,13 +124,15 @@ form.addEventListener('submit', async (e) => {
 
     });
 
-     const opt = selOficina.querySelector(`option[value="${selOficina.value}"]`);
+    const resultado = await resp.json();
+    if (!resp.ok) throw new Error(resultado.erro || 'Erro ao salvar.');
+
+    // só marca como lançada depois que o servidor confirmou
+    const opt = selOficina.querySelector(`option[value="${selOficina.value}"]`);
     if (opt) {
       opt.disabled = true;
       opt.textContent += ' (já lançada)';
     }
-    const resultado = await resp.json();
-    if (!resp.ok) throw new Error(resultado.erro || 'Erro ao salvar.');
 
     mostrarMensagem(resultado.mensagem, 'sucesso');
       // volta o select para selecione
@@ -159,3 +161,93 @@ mostrarPagina();
 
 
  
+// ============================
+// PLANILHA DE FREQUÊNCIA (modal)
+// ============================
+const modalPlanilha = document.getElementById('modalPlanilha');
+const corpoPlanilha = document.getElementById('planilhaCorpo');
+
+const escaparHtml = (texto) =>
+  String(texto).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+
+function montarPlanilha({ participantes, atividades, presencas }) {
+  if (atividades.length === 0 || participantes.length === 0) {
+    return '<p class="planilha-vazia">Nenhuma atividade ou participante cadastrado ainda.</p>';
+  }
+
+  const presentes = new Set(presencas);
+
+  const cabecalho = atividades.map((a) => `
+    <th class="col-atividade">
+      <span class="atividade-data">${escaparHtml(a.dataCurta)}</span>
+      <span class="atividade-titulo">${escaparHtml(a.titulo)}</span>
+    </th>`).join('');
+
+  const linhasTabela = participantes.map((p, i) => {
+    let total = 0;
+    const celulas = atividades.map((a) => {
+      if (presentes.has(`${p.idParticipante}|${a.idOficina}|${a.data}`)) {
+        total++;
+        return '<td class="celula presente" title="Presente">✓</td>';
+      }
+      return '<td class="celula ausente"></td>';
+    }).join('');
+
+    return `
+      <tr>
+        <td class="col-num">${i + 1}</td>
+        <td class="col-nome">${escaparHtml(p.nome)}</td>
+        ${celulas}
+        <td class="col-total">${total}</td>
+      </tr>`;
+  }).join('');
+
+  return `
+    <div class="planilha-scroll">
+      <table class="planilha">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th class="col-nome">Participante</th>
+            ${cabecalho}
+            <th class="col-total">Total</th>
+          </tr>
+        </thead>
+        <tbody>${linhasTabela}</tbody>
+      </table>
+    </div>`;
+}
+
+// busca no servidor toda vez que abre, então sempre mostra o que acabou de ser salvo
+async function abrirPlanilha() {
+  modalPlanilha.classList.add('aberto');
+  modalPlanilha.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  corpoPlanilha.innerHTML = '<p class="planilha-vazia">Carregando...</p>';
+
+  try {
+    const resp = await fetch('/frequencia/planilha');
+    const dados = await resp.json();
+    if (!resp.ok) throw new Error(dados.erro || 'Erro ao carregar a planilha.');
+    corpoPlanilha.innerHTML = montarPlanilha(dados);
+  } catch (err) {
+    corpoPlanilha.innerHTML = `<p class="planilha-vazia">${escaparHtml(err.message)}</p>`;
+  }
+}
+
+function fecharPlanilha() {
+  modalPlanilha.classList.remove('aberto');
+  modalPlanilha.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('abrirPlanilha').addEventListener('click', abrirPlanilha);
+document.getElementById('fecharPlanilha').addEventListener('click', fecharPlanilha);
+modalPlanilha.addEventListener('click', (e) => {
+  if (e.target === modalPlanilha) fecharPlanilha();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalPlanilha.classList.contains('aberto')) fecharPlanilha();
+});

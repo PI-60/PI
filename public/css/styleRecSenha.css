@@ -92,3 +92,12 @@ form {
 .formulario-recuperacao button:hover {
     background-color: hsl(133, 75%, 17%);
 }
+/* mensagens de aviso da recuperação/redefinição de senha */
+.aviso {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+.aviso.sucesso { background: #e6f4ea; color: #0f6b33; border: 1px solid #129745; }
+.aviso.erro { background: #fdecea; color: #a12622; border: 1px solid #d93025; }

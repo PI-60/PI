@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/css/styleRecSenha.css">
+<!-- tela aberta pelo link do e-mail, onde a pessoa cria a nova senha -->
+
+<main class="center">
+
+    <section>
+
+        {{#if tokenValido}}
+
+        <form id="RedefinirSenha" method="post" action="/redefinir-senha">
+
+            <!-- o token do link vai junto, escondido, para o servidor saber de quem é a senha -->
+            <input type="hidden" name="token" value="{{token}}">
+
+            <div class="formulario-recuperacao">
+
+                <h1>Nova Senha</h1>
+
+                {{#if erro}}<p class="aviso erro">{{erro}}</p>{{/if}}
+
+                <div class="campo">
+                    <label for="novaSenha">Nova senha</label>
+                    <input type="password" id="novaSenha" name="novaSenha"
+                        placeholder="Mínimo de 6 caracteres" minlength="6" required>
+                </div>
+
+                <div class="campo">
+                    <label for="confirmarSenha">Confirmar nova senha</label>
+                    <input type="password" id="confirmarSenha" name="confirmarSenha"
+                        placeholder="Digite a senha novamente" minlength="6" required>
+                </div>
+
+                <button type="submit" class="button">Salvar nova senha</button>
+
+            </div>
+
+        </form>
+
+        {{else}}
+
+        <div class="formulario-recuperacao">
+            <h1>Link inválido</h1>
+            <p class="aviso erro">Este link de redefinição é inválido ou já expirou.</p>
+            <a href="/recuperacao-senha" class="button" style="text-align: center; text-decoration: none;">
+                Pedir um novo link
+            </a>
+        </div>
+
+        {{/if}}
+
+    </section>
+
+</main>

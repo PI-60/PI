@@ -42,6 +42,9 @@
                     <a href="/recuperacao-senha">Esqueceu sua senha?</a>
                 </p>
                 <!-- Handlebars -->
+                {{#if sucesso}}
+                <p style="color: #0f6b33;">{{sucesso}}</p>
+                {{/if}}
                 {{#if erro}}
                 <p class="text-danger" style="color: red;">{{erro}}</p>
                 {{/if}}

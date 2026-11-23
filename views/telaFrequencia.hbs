@@ -73,8 +73,6 @@
                      </div>
 
 
-             <div id="linhas-frequencia"></div>
-
              <div class="paginacao">
 
             <p id="semresul">Selecione a oficina e a data.</p>
@@ -85,12 +83,43 @@
 
             </div>
 
-                <button  id="button"  type="submit" class="botaofreq">
-                    SALVAR
-                </button>
+                <div class="acoes-frequencia">
+                    <button  id="button"  type="submit" class="botaofreq">
+                        SALVAR
+                    </button>
+
+                    <button type="button" class="botao-planilha" id="abrirPlanilha"
+                        title="Ver planilha de frequência" aria-label="Ver planilha de frequência">
+                        <i class="bi bi-clipboard"></i>
+                    </button>
+                </div>
 
 
         </form>
+
+<!-- Modal da planilha de frequência (preenchida pelo frequencia.js) -->
+<div class="modal-planilha" id="modalPlanilha" aria-hidden="true">
+    <div class="modal-planilha-conteudo" role="dialog" aria-modal="true" aria-labelledby="tituloPlanilha">
+
+        <div class="modal-planilha-topo">
+            <div>
+                <h2 id="tituloPlanilha">Planilha de Frequência</h2>
+                <p class="modal-planilha-sub">Presença dos participantes em cada atividade</p>
+            </div>
+            <button type="button" class="modal-planilha-fechar" id="fecharPlanilha" aria-label="Fechar">✕</button>
+        </div>
+
+        <div class="planilha-legenda">
+            <span><i class="legenda-cor presente"></i> Presente</span>
+            <span><i class="legenda-cor ausente"></i> Sem presença</span>
+        </div>
+
+        <div id="planilhaCorpo">
+            <p class="planilha-vazia">Carregando...</p>
+        </div>
+
+    </div>
+</div>
        
     
 
