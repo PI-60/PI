@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`usuario` (
   `senha` VARCHAR(255) NOT NULL,
   `telefone` VARCHAR(15) NULL DEFAULT NULL,
   `CPF` VARCHAR(14) NOT NULL,
-  PRIMARY KEY (`email`))
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`email`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -427,3 +429,13 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficinaDia`) VALUES (2, '2026-09-10');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- TABELA ATIVO
+-- -----------------------------------------------------
+
+USE ifsc60;
+
+ALTER TABLE usuario
+ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
+
