@@ -612,3 +612,288 @@ body {
   }
 
 }
+/* =========================================
+   BOTÕES DE AÇÃO (Salvar + 📋)
+========================================= */
+
+.acoes-frequencia {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.acoes-frequencia .botaofreq {
+    width: 200px;
+    height: 42px;
+    margin-top: 0;
+    justify-content: center;
+}
+
+.botao-planilha {
+    width: 48px;
+    height: 42px;
+    margin-top: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #f3f4f6;
+    color: #172033;
+    border: 1px solid #d5d5d5;
+    border-radius: 8px;
+
+    font-size: 19px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.botao-planilha:hover {
+    background-color: #f2edf9;
+    color: #7d4be8;
+}
+
+
+/* =========================================
+   MODAL DA PLANILHA
+========================================= */
+
+.modal-planilha {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background: rgba(23, 32, 51, 0.55);
+    backdrop-filter: blur(3px);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal-planilha.aberto {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-planilha-conteudo {
+    width: 100%;
+    max-width: 1100px;
+    max-height: 88vh;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 28px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.2s ease;
+}
+
+.modal-planilha.aberto .modal-planilha-conteudo {
+    transform: none;
+}
+
+.modal-planilha-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.modal-planilha-topo h2 {
+    margin: 0;
+    font-family: "Fraunces", serif;
+    font-size: 24px;
+    color: #172033;
+}
+
+.modal-planilha-sub {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.modal-planilha-fechar {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #374151;
+
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.modal-planilha-fechar:hover {
+    background: #e5e7eb;
+}
+
+.planilha-legenda {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.planilha-legenda span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legenda-cor {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.legenda-cor.presente {
+    background: #34c759;
+}
+
+.legenda-cor.ausente {
+    background: #fff6cc;
+    border: 1px solid #f0d97a;
+}
+
+.planilha-vazia {
+    padding: 40px;
+    text-align: center;
+    color: #6b7280;
+}
+
+
+/* =========================================
+   TABELA (PLANILHA)
+========================================= */
+
+.planilha-scroll {
+    overflow: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.planilha {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+.planilha th,
+.planilha td {
+    border-right: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    padding: 10px 12px;
+}
+
+.planilha thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    background: #f59e0b;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.col-atividade {
+    min-width: 110px;
+}
+
+.atividade-data {
+    display: block;
+    font-size: 15px;
+}
+
+.atividade-titulo {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+.planilha .col-num {
+    width: 44px;
+    text-align: center;
+    font-weight: 700;
+    color: #b45309;
+    background: #fff3e0;
+}
+
+.planilha thead .col-num {
+    background: #d97706;
+    color: #fff;
+}
+
+.planilha .col-nome {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+
+    min-width: 200px;
+    text-align: left;
+    font-weight: 600;
+    color: #172033;
+    background: #ffffff;
+}
+
+.planilha thead .col-nome {
+    z-index: 3;
+    text-align: left;
+    background: #f59e0b;
+    color: #fff;
+}
+
+.planilha tbody tr:hover td {
+    filter: brightness(0.96);
+}
+
+.celula {
+    text-align: center;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.celula.presente {
+    background: #34c759;
+    color: #ffffff;
+}
+
+.celula.ausente {
+    background: #fff6cc;
+}
+
+.planilha .col-total {
+    text-align: center;
+    font-weight: 700;
+    color: #278747;
+    background: #f0faf3;
+}
+
+.planilha thead .col-total {
+    background: #278747;
+    color: #ffffff;
+}

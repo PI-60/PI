@@ -22,7 +22,13 @@ router.get('/frequencia', async (req, res) => {
       `SELECT o.idOficina,
               o.titulo,
               DATE_FORMAT(d.dia_dtOficinaDia, '%Y-%m-%d') AS data,
-              DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m/%Y') AS dataBr
+              DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m/%Y') AS dataBr,
+              EXISTS (
+                SELECT 1 FROM participa pa
+                 WHERE pa.oficina_idOficina = d.oficina_idOficina
+                   AND pa.dia_dtOficinaDia = d.dia_dtOficinaDia
+                   AND pa.frequencia IS NOT NULL
+              ) AS lancada
          FROM oficina_acontece_dia d
          JOIN oficina o ON o.idOficina = d.oficina_idOficina
        ORDER BY (d.dia_dtOficinaDia < CURDATE()),
@@ -111,6 +117,47 @@ router.post('/frequencia', async (req, res) => {
   }
     console.error(erro);
     return res.status(500).json({ erro: 'Não foi possível salvar a frequência.' });
+  }
+});
+
+// GET /frequencia/planilha -> dados da planilha (participantes x atividades)
+router.get('/frequencia/planilha', async (req, res) => {
+  if (!req.session.usuario) {
+    return res.status(401).json({ erro: 'Sessão expirada. Faça login novamente.' });
+  }
+
+  try {
+    const [participantes] = await db.query(
+      'SELECT idParticipante, TRIM(nome) AS nome FROM participante ORDER BY nome'
+    );
+
+    // colunas: cada atividade em cada dia em que acontece
+    const [atividades] = await db.query(
+      `SELECT o.idOficina,
+              o.titulo,
+              DATE_FORMAT(d.dia_dtOficinaDia, '%Y-%m-%d') AS data,
+              DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m') AS dataCurta
+         FROM oficina_acontece_dia d
+         JOIN oficina o ON o.idOficina = d.oficina_idOficina
+        ORDER BY d.dia_dtOficinaDia, o.titulo`
+    );
+
+    const [registros] = await db.query(
+      `SELECT idParticipante,
+              oficina_idOficina AS idOficina,
+              DATE_FORMAT(dia_dtOficinaDia, '%Y-%m-%d') AS data
+         FROM participa
+        WHERE frequencia = 1`
+    );
+
+    res.json({
+      participantes,
+      atividades,
+      presencas: registros.map(r => `${r.idParticipante}|${r.idOficina}|${r.data}`)
+    });
+  } catch (erro) {
+    console.error(erro);
+    res.status(500).json({ erro: 'Erro ao carregar a planilha.' });
   }
 });
 // ============================

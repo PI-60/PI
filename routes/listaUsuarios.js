@@ -1,5 +1,6 @@
 
 import express from 'express';
+import { gerarHash } from '../utils/senha.js';
 import db from '../database.js';
 
 import {
@@ -222,7 +223,7 @@ router.get('/usuarios/visualizar/:email', exigirLogin, async (req, res) => {
         }
 
         return res.render('telaVisualizarUsuario', {
-            layout: 'layouts/mainLogado',
+            layout: 'layouts/telasNavegacao',
             usuario: usuarios[0]
         });
 
@@ -528,7 +529,7 @@ router.post(
                 [
                     email.trim(),
                     nome.trim(),
-                    senha,
+                    await gerarHash(senha),
                     telefone?.trim() || null,
                     cpf?.trim() || null
                 ]
