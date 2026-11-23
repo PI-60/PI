@@ -40,6 +40,8 @@
                 >
             </div>
 
+
+
             <div class="filtro-tipo">
                 <label for="filtroTipo" class="sr-only">
                     Filtrar por tipo de usuário
@@ -53,6 +55,7 @@
                     <option value="ministrante">Ministrante</option>
                 </select>
             </div>
+
 
             {{#if ehCoordenador}}
                 <button
@@ -474,6 +477,10 @@
         <p id="semresul" style="display:none;">
             Nenhum usuário encontrado.
         </p>
+
+        <a href="/usuarios/desativados" class="botao-usuarios-desativados">
+    Usuários desativados → 
+</a>
 
         <div class="paginacao">
             <span id="contador-usuarios">Carregando usuários...</span>

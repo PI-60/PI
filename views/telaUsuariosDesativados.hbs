@@ -40,9 +40,6 @@
                 >
             </div>
 
-            <a href="/usuarios" class="botao-voltar-usuarios">
-    ← Voltar para usuários ativos
-</a>
 
             <div class="filtro-tipo">
                 <label for="filtroTipo" class="sr-only">
@@ -61,12 +58,7 @@
             
         </div>
 
-        <div class="legenda-funcoes">
-            <span><i class="ponto administrador"></i>Administrador</span>
-            <span><i class="ponto coordenador"></i>Coordenador</span>
-            <span><i class="ponto bolsista"></i>Bolsista</span>
-            <span><i class="ponto ministrante"></i>Ministrante</span>
-        </div>
+        
 
         <div class="tabela-container">
 
@@ -97,46 +89,46 @@
                         <td class="email-usuario">{{email}}</td>
 
                         <td>
-                            <div class="funcoes-usuario">
+    <div class="funcoes-usuario funcoes-desativados">
 
-                                {{#if administrador}}
-                                    <span class="tag-funcao administrador">
-                                        Administrador
-                                    </span>
-                                {{/if}}
+        {{#if administrador}}
+            <span class="tag-funcao administrador">
+                Administrador
+            </span>
+        {{/if}}
 
-                                {{#if coordenador}}
-                                    <span class="tag-funcao coordenador">
-                                        Coordenador
-                                    </span>
-                                {{/if}}
+        {{#if coordenador}}
+            <span class="tag-funcao coordenador">
+                Coordenador
+            </span>
+        {{/if}}
 
-                                {{#if bolsista}}
-                                    <span class="tag-funcao bolsista">
-                                        Bolsista
-                                    </span>
-                                {{/if}}
+        {{#if bolsista}}
+            <span class="tag-funcao bolsista">
+                Bolsista
+            </span>
+        {{/if}}
 
-                                {{#if ministrante}}
-                                    <span class="tag-funcao ministrante">
-                                        Ministrante
-                                    </span>
-                                {{/if}}
+        {{#if ministrante}}
+            <span class="tag-funcao ministrante">
+                Ministrante
+            </span>
+        {{/if}}
 
-                                {{#unless administrador}}
-                                    {{#unless coordenador}}
-                                        {{#unless bolsista}}
-                                            {{#unless ministrante}}
-                                                <span class="tag-funcao participante">
-                                                    Participante
-                                                </span>
-                                            {{/unless}}
-                                        {{/unless}}
-                                    {{/unless}}
-                                {{/unless}}
+        {{#unless administrador}}
+            {{#unless coordenador}}
+                {{#unless bolsista}}
+                    {{#unless ministrante}}
+                        <span class="tag-funcao participante">
+                            Participante
+                        </span>
+                    {{/unless}}
+                {{/unless}}
+            {{/unless}}
+        {{/unless}}
 
-                            </div>
-                        </td>
+    </div>
+</td>
 
 <td class="acoes-usuario">
 
