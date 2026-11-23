@@ -200,45 +200,27 @@ router.post('/cadastroat', async (req, res) => {
 
             idOficina = resultado.insertId;
         }
-              res.redirect(`/atividades?mensagem=${isEdicao ? 'atividadeEditada' : 'atividadeCadastrada'}`);
 
-        
-
-        // cadasta os bolsistas
+        // cadasta os bolsistas (cada um uma vez só, mesmo se escolhido em dois campos)
         const sqlBolsista = `
             INSERT INTO usuario_monitora_oficina
             (usuario_email, oficina_idOficina)
             VALUES (?, ?)
         `;
 
-        for (const bolsistaEmail of [bolsista1, bolsista2, bolsista3]) {
-            if (bolsistaEmail) {
-                await db.execute(sqlBolsista, [bolsistaEmail, idOficina]);
-                await notificarBolsistaAdicionado(idOficina, bolsistaEmail, titulo);
-            }
+        const bolsistas = [...new Set([bolsista1, bolsista2, bolsista3].filter(Boolean))];
+
+        for (const bolsistaEmail of bolsistas) {
+            await db.execute(sqlBolsista, [bolsistaEmail, idOficina]);
+            await notificarBolsistaAdicionado(idOficina, bolsistaEmail, titulo);
         }
 
-        // bolsista 2
-        if (bolsista2) {
-            await db.execute(sqlBolsista, [
-                bolsista2,
-                idOficina
-            ]);
-        }
-
-
-        // bolsista 3
-        if (bolsista3) {
-            await db.execute(sqlBolsista, [
-                bolsista3,
-                idOficina
-            ]);
-        }
-          if (dias.length > 0) {
+        if (dias.length > 0) {
             await salvarDias(idOficina, dias);
         }
 
-        res.redirect('/atividades?mensagem=atividadeCadastrada');
+        // responde só no final, depois de tudo salvo
+        res.redirect(`/atividades?mensagem=${isEdicao ? 'atividadeEditada' : 'atividadeCadastrada'}`);
 
     } catch (error) {
         console.error(error);

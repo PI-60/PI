@@ -47,7 +47,7 @@ section {
      width: 100%;
     max-width: 1200px;
     padding: 40px 120px;
-    margin: 0px 5% 0px 5cap;  
+    margin: 0 auto; /* centraliza sem passar da largura da tela */
     
 
     background-color: white;

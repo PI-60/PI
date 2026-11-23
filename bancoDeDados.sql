@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`ministrante` (
   `email` VARCHAR(100) NOT NULL,
   `nome` VARCHAR(200) NOT NULL,
   `telefone` VARCHAR(15) NULL DEFAULT NULL,
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`email`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -154,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `ifsc60`.`participa` (
   `dia_dtOficinaDia` DATE NOT NULL,
   `oficina_idOficina` INT NOT NULL,
   `frequencia` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`idParticipante`, `dia_dtOficinaDia`),
+  PRIMARY KEY (`idParticipante`, `oficina_idOficina`, `dia_dtOficinaDia`),
   INDEX `fk_participa_dia1_idx` (`dia_dtOficinaDia` ASC) VISIBLE,
   INDEX `fk_participa_oficina1_idx` (`oficina_idOficina` ASC) VISIBLE,
   CONSTRAINT `participa_ibfk_1`
@@ -429,3 +430,16 @@ COMMIT;
  ----------------------------------------------------- 
 USE ifsc60; ALTER TABLE usuario ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
 
+
+-- -----------------------------------------------------
+-- FREQUÊNCIA: chave de participa passa a incluir a oficina
+-- (permite lançar duas oficinas que acontecem no mesmo dia)
+-- Rodar só em bancos já criados antes dessa mudança.
+-- -----------------------------------------------------
+-- USE ifsc60; ALTER TABLE participa DROP PRIMARY KEY, ADD PRIMARY KEY (idParticipante, oficina_idOficina, dia_dtOficinaDia);
+
+-- -----------------------------------------------------
+-- MINISTRANTE ATIVO (usado em listaUsuarios.js)
+-- Rodar só em bancos já criados antes dessa mudança.
+-- -----------------------------------------------------
+-- USE ifsc60; ALTER TABLE ministrante ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
