@@ -1,0 +1,210 @@
+
+<link rel="stylesheet" href="/css/styleUsuario.css">
+<script src="/js/listaUsuariosDesativados.js" defer></script>
+
+<main class="usuarios-page">
+
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <span class="sidebar-brand">IFSC60+</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/inicioLogado">Início</a>
+            <a href="/atividades">Atividades</a>
+            <a href="/participantes">Participantes</a>
+            <a href="/frequencia">Frequência</a>
+            <a href="/usuarios" class="ativo">Usuários</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <img src="/assets/60.webp" alt="Logo IFSC 60+">
+        </div>
+    </aside>
+
+    <div id="mensagem" class="mensagem" hidden></div>
+
+    <section class="formulario">
+
+<h1>Usuários desativados</h1>
+
+        <div class="controles-usuarios">
+
+            <div id="pesquisa">
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Pesquisar por nome ou e-mail"
+                    aria-label="Pesquisar por nome ou e-mail"
+                >
+            </div>
+
+            <a href="/usuarios" class="botao-voltar-usuarios">
+    ← Voltar para usuários ativos
+</a>
+
+            <div class="filtro-tipo">
+                <label for="filtroTipo" class="sr-only">
+                    Filtrar por tipo de usuário
+                </label>
+
+                <select id="filtroTipo" name="tipo">
+                    <option value="todos">Todos os tipos</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="coordenador">Coordenador</option>
+                    <option value="bolsista">Bolsista</option>
+                    <option value="ministrante">Ministrante</option>
+                </select>
+            </div>
+
+            
+        </div>
+
+        <div class="legenda-funcoes">
+            <span><i class="ponto administrador"></i>Administrador</span>
+            <span><i class="ponto coordenador"></i>Coordenador</span>
+            <span><i class="ponto bolsista"></i>Bolsista</span>
+            <span><i class="ponto ministrante"></i>Ministrante</span>
+        </div>
+
+        <div class="tabela-container">
+
+            <table class="tabela-usuarios">
+
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>E-mail</th>
+                        <th>Tipo de usuário</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="lista-usuarios">
+
+                    {{#each usuarios}}
+
+                    <tr
+                        class="linha-usuario"
+                        data-nome="{{nome}}"
+                        data-email="{{email}}"
+                        data-funcoes="{{#if administrador}}administrador {{/if}}{{#if coordenador}}coordenador {{/if}}{{#if bolsista}}bolsista {{/if}}{{#if ministrante}}ministrante {{/if}}"
+                    >
+
+                        <td class="nome-usuario">{{nome}}</td>
+
+                        <td class="email-usuario">{{email}}</td>
+
+                        <td>
+                            <div class="funcoes-usuario">
+
+                                {{#if administrador}}
+                                    <span class="tag-funcao administrador">
+                                        Administrador
+                                    </span>
+                                {{/if}}
+
+                                {{#if coordenador}}
+                                    <span class="tag-funcao coordenador">
+                                        Coordenador
+                                    </span>
+                                {{/if}}
+
+                                {{#if bolsista}}
+                                    <span class="tag-funcao bolsista">
+                                        Bolsista
+                                    </span>
+                                {{/if}}
+
+                                {{#if ministrante}}
+                                    <span class="tag-funcao ministrante">
+                                        Ministrante
+                                    </span>
+                                {{/if}}
+
+                                {{#unless administrador}}
+                                    {{#unless coordenador}}
+                                        {{#unless bolsista}}
+                                            {{#unless ministrante}}
+                                                <span class="tag-funcao participante">
+                                                    Participante
+                                                </span>
+                                            {{/unless}}
+                                        {{/unless}}
+                                    {{/unless}}
+                                {{/unless}}
+
+                            </div>
+                        </td>
+
+<td class="acoes-usuario">
+
+    {{#if ../ehCoordenador}}
+
+        <button type="button"
+            class="botao-acao reativar"
+            data-email="{{email}}"
+            data-tipo="{{#if ministrante}}ministrante{{else}}usuario{{/if}}"
+            title="Reativar usuário"
+            aria-label="Reativar {{nome}}">
+            <svg width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v10"/>
+                <path d="M5.5 5.5a9 9 0 1 0 13 0"/>
+            </svg>
+        </button>
+
+    {{else}}
+
+        {{#if ../ehAdministrador}}
+
+            {{#if ministrante}}
+
+                <button type="button"
+                    class="botao-acao reativar"
+                    data-email="{{email}}"
+                    data-tipo="ministrante"
+                    title="Reativar ministrante"
+                    aria-label="Reativar {{nome}}">
+                    <svg width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v10"/>
+                       <path d="M5.5 5.5a9 9 0 0 0 13 0"/>
+                    </svg>
+                </button>
+
+            {{/if}}
+
+        {{/if}}
+
+    {{/if}}
+
+</td>
+
+
+
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p id="semresul" style="display:none;">
+            Nenhum usuário encontrado.
+        </p>
+
+        <div class="paginacao">
+            <span id="contador-usuarios">Carregando usuários...</span>
+            <div id="botoes-paginacao"></div>
+        </div>
+
+    </section>
+
+</main>
