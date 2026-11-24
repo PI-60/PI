@@ -543,6 +543,10 @@
 
     .usuarios-page .tabela-container {
         max-width: 100%;
+        /* no celular a tabela é mais larga que a tela: rola só dentro da caixa,
+           em vez de empurrar a página inteira para o lado */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 }
 

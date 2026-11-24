@@ -208,7 +208,10 @@ router.post('/cadastroat', async (req, res) => {
             VALUES (?, ?)
         `;
 
-        const bolsistas = [...new Set([bolsista1, bolsista2, bolsista3].filter(Boolean))];
+        // ignora campo vazio ("Selecione o bolsista") e bolsista repetido
+        const bolsistas = [...new Set(
+            [bolsista1, bolsista2, bolsista3].filter(b => b && b !== 'selecione')
+        )];
 
         for (const bolsistaEmail of bolsistas) {
             await db.execute(sqlBolsista, [bolsistaEmail, idOficina]);

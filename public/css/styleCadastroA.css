@@ -74,7 +74,8 @@ section {
     grid-column: 2;
 }
 
-#titulo {
+/* título da página (antes usava o mesmo id "titulo" do campo de título da atividade) */
+#tituloPagina {
     padding: 10px;
     grid-column: 1 / -1;
     text-align: center;
@@ -125,7 +126,7 @@ section {
     border: none;
     border-radius: 6px;
 
-    background:var(--verde);
+    background:var(--verde, #3ba55d);
     color: rgb(255, 253, 253); /* cor da escrita */
     transition-duration: 0.4s;
 
@@ -211,3 +212,30 @@ section {
     resize: vertical;
 }
 
+
+
+/* =========================================
+   CELULAR / TELA PEQUENA: uma coluna só
+   (antes as 2 colunas com 120px de espaço passavam da largura da tela)
+========================================= */
+@media (max-width: 800px) {
+    #back {
+        margin-left: 16px;
+    }
+
+    .formulario {
+        grid-template-columns: 1fr;
+        padding: 28px 20px;
+        margin: 0 16px;
+        width: auto;
+    }
+
+    .esquerda,
+    .direita {
+        grid-column: 1;
+    }
+
+    .formulario button[type="submit"] {
+        width: 100%;
+    }
+}

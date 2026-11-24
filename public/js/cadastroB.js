@@ -33,35 +33,46 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Siape:", siape);
     console.log("Senha:", passwordB);
 
+    // Na edição de participante o select fica travado (disabled) mostrando
+    // "Selecione o tipo", e o tipo verdadeiro vem num input escondido.
+    // Sem isso o script achava que nada foi escolhido e escondia todos os campos.
+    const tipoFixo = document.querySelector('input[type="hidden"][name="tipo"]');
+
+    function tipoEscolhido() {
+        return tipoU.disabled && tipoFixo ? tipoFixo.value : tipoU.value;
+    }
+
     function atualizarCampos() {
+        const tipo = tipoEscolhido();
+
         // se o valor for diferente de "usuario" mostra as outras opções
         if (escondido) {
             escondido.style.display =
-                tipoU.value !== "usuario" ? "contents" : "none";
+                tipo !== "usuario" ? "contents" : "none";
         }
 
         // participante: esconde o e-mail
         if (campoEmail) {
             campoEmail.style.display =
-                tipoU.value === "participante" ? "none" : "";
+                tipo === "participante" ? "none" : "";
         }
 
         // ministrante: esconde o CPF
         if (campoCPF) {
             campoCPF.style.display =
-                tipoU.value === "ministrante" ? "none" : "";
+                tipo === "ministrante" ? "none" : "";
         }
 
         // coordenador: mostra o SIAPE
         if (campoSiape) {
             campoSiape.style.display =
-                tipoU.value === "coordenador" ? "" : "none";
+                tipo === "coordenador" ? "" : "none";
         }
 
         // bolsista: mostra a senha
         if (campoSenha) {
             campoSenha.style.display =
-                tipoU.value === "bolsista" ? "" : "none";
+                tipo === "bolsista" ? "" : "none";
         }
     }
 

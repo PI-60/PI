@@ -71,6 +71,11 @@
 
     // msg pra quando for realizado com sucesso ou nao
    const mensagens = {
+    participanteCadastrado: {
+        texto: 'Participante cadastrado com sucesso!',
+        tipo: 'sucesso'
+    },
+
     participanteExcluido: {
         texto: 'Participante excluído com sucesso!', // texto = msg que aparecerá
         tipo: 'sucesso' // o tipo para puxar no css 

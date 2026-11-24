@@ -369,6 +369,19 @@ router.get('/cadastro', async (req, res) => {
 });
 
 router.post('/cadastro', async (req, res) => {
+    // mesma regra do GET /cadastro: só coordenador logado pode cadastrar
+    // (antes qualquer um, até sem login, conseguia criar um coordenador)
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
+    const [coordenadorLogado] = await db.execute(
+        'SELECT email FROM coordenador WHERE email = ?',
+        [req.session.usuario.email]
+    );
+    if (coordenadorLogado.length === 0) {
+        return res.status(403).send('Acesso negado. Apenas coordenadores podem cadastrar.');
+    }
+
     const { nome, email, cpf, telefone, tipo, senha, siape, idParticipante } = req.body;
 
     console.log(req.body);
@@ -418,6 +431,8 @@ router.post('/cadastro', async (req, res) => {
         if (tipo == 'participante') {
             sql = 'INSERT INTO participante (nome, cpf, telefone) VALUES (?, ?, ?)';
             await db.execute(sql, [nome, cpf, telefone]);
+            // participante volta para a lista de participantes (antes ia para Usuários)
+            return res.redirect('/participantes?mensagem=participanteCadastrado');
         }
 
         // COORDENADOR
@@ -430,7 +445,10 @@ router.post('/cadastro', async (req, res) => {
 
        return res.redirect('/usuarios?mensagem=usuarioCadastrado');
     } catch (error) {
-         return res.redirect('/usuarios?mensagem=erro');
+         console.error('Erro no cadastro:', error);
+         // se o erro foi ao cadastrar participante, avisa na tela de participantes
+         const voltarPara = tipo == 'participante' ? '/participantes' : '/usuarios';
+         return res.redirect(`${voltarPara}?mensagem=erro`);
     }
 });
 
