@@ -1,11 +1,32 @@
+:root{ 
+  --verde:#3ba55d; 
+  --verde-escuro:#2c8047; 
+  --roxo:#7b4fc9; 
+  --laranja:#f2994a; 
+  --vermelho:#d64545; 
+
+  --ink:#20242b; 
+  --muted:#5c636e; 
+  --surface:#ffffff; 
+  --surface-alt:#f5f6f3; 
+  --surface-tint:#f4f0fb; 
+  --line:#e6e7e2; 
+
+  --font-display:'Fraunces', Georgia, serif; 
+  --font-body:'Manrope', 'Segoe UI', Arial, sans-serif; 
+
+  --container:1180px; 
+} 
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: 'Manrope', sans-serif;
+    font-family: var(--font-body);
     background:var(--surface-alt);
+    
 }
 
 section {
@@ -36,7 +57,20 @@ form {
     justify-content: flex-start;
 
     gap: 20px;
+
 }
+
+#titulo{
+    font-family: var(--font-display);
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-size: clamp(26px, 3vw, 36px);
+    margin-bottom: 14px;
+}
+
+  
+
 
 .campo {
     display: flex;
@@ -45,9 +79,11 @@ form {
 }
 
 .campo label {
-    font-size: 14px;
+    font-family: var(--font-body);
     font-weight: 600;
     color: #333;
+    color:var(--muted); 
+    font-size:15.5px; 
 }
 
 .campo input {
