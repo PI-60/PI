@@ -738,4 +738,19 @@
     }
 }
 
+/* Alinhamento das informações do popup */
+.popup-usuario {
+    text-align: left;
+    align-items: flex-start;
+}
+
+.popup-usuario strong,
+.popup-usuario span {
+    text-align: left;
+}
+
+.popup-funcoes {
+    width: 100%;
+    justify-content: flex-start;
+}
 
