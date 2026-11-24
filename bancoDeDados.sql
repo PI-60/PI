@@ -436,12 +436,6 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 COMMIT;
 
 -- -----------------------------------------------------
- -- TABELA ATIVO -- 
- ----------------------------------------------------- 
-USE ifsc60; ALTER TABLE usuario ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
-
-
--- -----------------------------------------------------
 -- FREQUÊNCIA: chave de participa passa a incluir a oficina
 -- (permite lançar duas oficinas que acontecem no mesmo dia)
 -- Rodar só em bancos já criados antes dessa mudança.

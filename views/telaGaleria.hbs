@@ -18,6 +18,7 @@
         <a href="/participantes">Participantes</a>
         <a href="/frequencia">Frequência</a>
         <a href="/usuarios" class="ativo">Usuários</a>
+           <a href="/galeria" class="ativo">Galeria</a>
       </nav>
 
       <div class="sidebar-footer">
@@ -30,7 +31,6 @@
 <main class="pagina-galeria">
         <div>
             <h1>Galeria de imagens</h1>
-            <p>Confira nossas fotografias</p>
         </div>
 
         <button id="adicionarImagem">
@@ -43,21 +43,47 @@
             accept="image/*"
             hidden
         >
+        <br>
 
     <section class="galeria" id="galeria">
 
-        {{#each imagens}}
+    {{#each imagens}}
 
-            <div class="imagem-item">
+        <div class="imagem-item">
+            <img 
+                src="{{caminho}}" 
+                alt="Imagem da galeria"
+                   data-data="{{data_upload}}"
+            >
+        </div>
 
-                <img src="{{caminho}}" alt="Imagem da galeria">
+    {{/each}}
 
-            </div>
+</section>
 
-        {{/each}}
+<!--  modal -->
+<dialog id="modalImagem" class="modal-imagem">
 
-    </section>
+    <button type="button" id="fecharModal" class="fechar-modal">
+        &times;
+    </button>
 
+    <img id="imagemAmpliada" src="" alt="Imagem ampliada">
+    <div class="informacoes-imagem">
 
+        <h2>Informações da imagem</h2>
 
+        <p>
+            <strong>Data de adição:</strong>
+            <span id="dataImagem"></span>
+        </p>
+
+        <p>
+            <strong>Horário:</strong>
+            <span id="horaImagem"></span>
+        </p>
+
+    </div>
+
+</dialog>
 </main>

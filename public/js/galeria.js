@@ -3,24 +3,31 @@ const botaoAdicionar = document.getElementById("adicionarImagem");
 const inputImagem = document.getElementById("inputImagem");
 const galeria = document.getElementById("galeria");
 
-// FUNÇÃO PARA ADICIONAR IMAGEM NA TELA
+// ELEMENTOS DO MODAL
+const modal = document.getElementById("modalImagem");
+const imagemAmpliada = document.getElementById("imagemAmpliada");
+const dataImagem = document.getElementById("dataImagem");
+const horaImagem = document.getElementById("horaImagem");
+const fecharModal = document.getElementById("fecharModal");
 
-function adicionarImagemNaTela(caminho) {
+
+function adicionarImagemNaTela(caminho, dataUpload) {
 
     const item = document.createElement("div");
     item.classList.add("imagem-item");
 
     const imagem = document.createElement("img");
+
     imagem.src = caminho;
     imagem.alt = "Imagem da galeria";
 
+    // armazena a data de envio na imagem
+    imagem.dataset.data = dataUpload || "";
+
     item.appendChild(imagem);
-    galeria.appendChild(item);
+    galeria.prepend(item);
 
 }
-
-
-// CARREGAR IMAGENS SALVAS NO BANCO
 
 async function carregarImagens() {
 
@@ -30,8 +37,13 @@ async function carregarImagens() {
         const imagens = await resposta.json();
 
         galeria.innerHTML = "";
+
         imagens.forEach(function (item) {
-            adicionarImagemNaTela(item.caminho);
+
+            adicionarImagemNaTela(
+                item.caminho,
+                item.data_upload
+            );
 
         });
 
@@ -43,21 +55,16 @@ async function carregarImagens() {
 
 }
 
-
-// ABRIR SELEÇÃO DE ARQUIVOS
-
 botaoAdicionar.addEventListener("click", function () {
     inputImagem.click();
 
 });
 
 
-// ENVIAR NOVA IMAGEM
 
 inputImagem.addEventListener("change", async function () {
 
     const arquivo = this.files[0];
-
     if (!arquivo) {
         return;
     }
@@ -70,22 +77,23 @@ inputImagem.addEventListener("change", async function () {
         const resposta = await fetch("/adicionar-imagem", {
             method: "POST",
             body: formulario
-
         });
 
         const resultado = await resposta.json();
 
         if (resultado.sucesso) {
-            adicionarImagemNaTela(resultado.imagem);
+
+            adicionarImagemNaTela(
+                resultado.imagem.caminho,
+                resultado.imagem.data_upload
+            );
 
         } else {
-
             alert("Não foi possível adicionar a imagem.");
 
         }
 
     } catch (erro) {
-
         console.error("Erro ao enviar imagem:", erro);
         alert("Erro ao adicionar imagem.");
 
@@ -95,7 +103,48 @@ inputImagem.addEventListener("change", async function () {
 
 });
 
+galeria.addEventListener("click", function (event) {
+    const imagem = event.target.closest(".imagem-item img");
+    if (!imagem) return;
+    // mostra a imagem ampliada
+    imagemAmpliada.src = imagem.src;
+    // recupera a data de envio
+    const data = imagem.dataset.data;
 
-// CARREGAR ASSIM QUE A PÁGINA ABRIR
+    if (data) {
+        // converte a data do msql para formato do javas
+        const dataFormatada = new Date(data.replace(" ", "T"));
+
+        if (!isNaN(dataFormatada.getTime())) {
+
+            dataImagem.textContent =
+                dataFormatada.toLocaleDateString("pt-BR");
+
+            horaImagem.textContent =
+                dataFormatada.toLocaleTimeString("pt-BR");
+
+        } else {
+
+            dataImagem.textContent = "Não disponível";
+            horaImagem.textContent = "Não disponível";
+
+        }
+
+    } else {
+
+        dataImagem.textContent = "Não disponível";
+        horaImagem.textContent = "Não disponível";
+
+    }
+
+    modal.showModal();
+
+});
+
+
+fecharModal.addEventListener("click", function () {
+    modal.close();
+
+});
 
 carregarImagens();

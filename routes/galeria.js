@@ -61,44 +61,6 @@ const upload = multer({
 });
 
 
-// ROTA PARA ADICIONAR IMAGEM
-router.post(
-    "/adicionar-imagem", upload.single("imagem"),async function(req, res) {
-
-        try {
-            if (!req.file) {
-                return res.json({
-                    sucesso: false
-                });
-
-            }
-
-            const caminho = "/uploads/galeria/" + req.file.filename;
-            await pool.execute(
-                "INSERT INTO imagens_galeria (caminho) VALUES (?)",
-                [caminho]
-            );
-
-            res.json({
-
-                sucesso: true,
-                imagem: caminho
-
-            });
-
-        } catch (erro) {
-
-            console.error("Erro ao salvar imagem:", erro);
-
-            res.status(500).json({
-                sucesso: false
-            });
-
-        }
-
-    }
-);
-
 router.get('/galeria', async (req, res) => {
 
     if (!req.session.usuario) {
@@ -125,6 +87,67 @@ router.get('/galeria', async (req, res) => {
 
 });
 
+router.post("/adicionar-imagem", upload.single("imagem"), async function(req, res) {
+        try {
+
+            if (!req.file) {
+                return res.json({ sucesso: false });
+            }
+
+            const caminho = "/uploads/galeria/" + req.file.filename;
+
+            // salva a imagem no banco
+            const [resultado] = await pool.execute(
+                "INSERT INTO imagens_galeria (caminho) VALUES (?)",
+                [caminho]
+            );
+
+            // busca a imagem cadastrada e sua data de upload
+            const [imagens] = await pool.execute(
+                "SELECT id, caminho, data_upload FROM imagens_galeria WHERE id = ?",
+                [resultado.insertId]
+            );
+
+            res.json({
+                sucesso: true,
+                imagem: imagens[0]
+
+            });
+
+        } catch (erro) {
+
+            console.error("Erro ao salvar imagem:", erro);
+
+            res.status(500).json({
+                sucesso: false
+            });
+
+        }
+
+    }
+);
+// ROTA PARA LISTAR AS IMAGENS
+router.get("/listar-imagens", async function(req, res) {
+
+    try {
+
+        const [imagens] = await pool.execute(
+            "SELECT id, caminho, data_upload FROM imagens_galeria ORDER BY id DESC"
+        );
+
+        res.json(imagens);
+
+    } catch (erro) {
+
+        console.error("Erro ao listar imagens:", erro);
+
+        res.status(500).json({
+            erro: "Erro ao carregar imagens."
+        });
+
+    }
+
+});
 
 export default router;
 
