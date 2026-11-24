@@ -189,7 +189,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                window.location.reload();
+                const dados = await resposta.json();
+
+window.location.href = `/usuarios?mensagem=${dados.mensagem}`;
 
             } catch (erro) {
 

@@ -75,7 +75,7 @@ router.post('/usuarios/:tipo/:email/desativar', async (req, res) => {
             return res.status(404).send('Usuário não encontrado.');
         }
 
-        return res.redirect('/usuarios?mensagem=usuarioDesativado');
+      return res.json({ mensagem: 'usuarioDesativado' });
 
     } catch (error) {
         console.error('Erro ao desativar usuário:', error);
@@ -136,7 +136,7 @@ router.post('/usuarios/:tipo/:email/reativar', async (req, res) => {
             return res.status(404).send('Usuário não encontrado.');
         }
 
-        return res.redirect('/usuarios?mensagem=usuarioReativado');
+        return res.json({ mensagem: 'usuarioReativado' });
 
     } catch (error) {
         console.error('Erro ao reativar usuário:', error);
