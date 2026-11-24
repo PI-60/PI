@@ -1,0 +1,63 @@
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/styleGaleria.css">
+<script src="/js/galeria.js" defer></script>
+
+
+<!-- SIDE BAR -->
+  <div class="app-shell">
+
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <span class="sidebar-brand">IFSC60+</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/inicioLogado">Início</a>
+        <a href="/atividades" class="active">Atividades</a>
+        <a href="/participantes">Participantes</a>
+        <a href="/frequencia">Frequência</a>
+        <a href="/usuarios" class="ativo">Usuários</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <img src="/assets/60.webp" alt="Logo IFSC 60+">
+      </div>
+    </aside>
+
+        
+
+<main class="pagina-galeria">
+        <div>
+            <h1>Galeria de imagens</h1>
+            <p>Confira nossas fotografias</p>
+        </div>
+
+        <button id="adicionarImagem">
+            + Adicionar imagem
+        </button>
+
+        <input
+            type="file"
+            id="inputImagem"
+            accept="image/*"
+            hidden
+        >
+
+    <section class="galeria" id="galeria">
+
+        {{#each imagens}}
+
+            <div class="imagem-item">
+
+                <img src="{{caminho}}" alt="Imagem da galeria">
+
+            </div>
+
+        {{/each}}
+
+    </section>
+
+
+
+</main>

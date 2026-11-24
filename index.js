@@ -14,6 +14,7 @@ import userRoutes from './routes/usuario.js';
 import atividadeRoutes from './routes/atividade.js'
 import listaUsuariosRoutes from './routes/listaUsuarios.js';
 import notificacaoRoutes from './routes/notificacao.js';
+import galeriaRoutes from './routes/galeria.js';
 
 
 
@@ -78,6 +79,7 @@ app.use('/', partRoutes);
 app.use('/', atividadeRoutes);
 app.use('/', listaUsuariosRoutes);
 app.use('/', notificacaoRoutes);
+app.use('/', galeriaRoutes);
 
 // --- SERVIDOR ---
 // a porta pode vir do .env (os testes E2E usam outra porta)

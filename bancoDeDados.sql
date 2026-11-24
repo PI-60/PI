@@ -275,6 +275,16 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
+-- Table `ifsc60`.`imagens_galeria`
+-- -----------------------------------------------------
+
+ CREATE TABLE imagens_galeria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    caminho VARCHAR(255) NOT NULL,
+    data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- -----------------------------------------------------
 -- Data for table `ifsc60`.`usuario`
 -- -----------------------------------------------------
 START TRANSACTION;
