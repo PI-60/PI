@@ -21,7 +21,7 @@
                           value="{{atividade.idOficina}}">
                          {{/if}}
 
-                    <h1 id="titulo">Cadastro de Atividades</h1>
+                    <h1 id="tituloPagina">Cadastro de Atividades</h1>
 
                     <!-- COLUNA ESQUERDA -->
                     <div class="coluna esquerda">
@@ -73,7 +73,7 @@
 
                             <!--combox de bolsita-->
                             <select id="bolsista1" name="bolsista1">
-                                <option value="selecione">Selecione o
+                                <option value="">Selecione o
                                     bolsista</option>
                                  {{#each bolsista}}
                                 <option value="{{this.email}}"
@@ -92,7 +92,7 @@
                             </label>
 
                             <select id="bolsista2" name="bolsista2" >
-                                <option value="selecione">Selecione o
+                                <option value="">Selecione o
                                     bolsista</option>
                                {{#each bolsista}}
                                 <option value="{{this.email}}"
@@ -109,7 +109,7 @@
                     <div class="campo">
                         <label for="bolsista3">Selecione o bolsista</label>
                         <select id="bolsista3" name="bolsista3">
-                            <option value="selecione">Selecione o bolsista</option>
+                            <option value="">Selecione o bolsista</option>
                             {{#each bolsista}}
                                 <option value="{{this.email}}"
                                     {{#if (eq this.email ../atividade.bolsista3)}}selected{{/if}}>

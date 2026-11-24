@@ -125,7 +125,7 @@ section {
     border: none;
     border-radius: 6px;
 
-    background-color: var(--verde);
+    background-color: var(--verde, #3ba55d);
     color: rgb(255, 253, 253); /* cor da escrita */
     transition-duration: 0.4s;
 
@@ -138,7 +138,7 @@ section {
 }
 
 .formulario button:hover {
-    background-color: var(--verde-escuro); /* cor dop botao ao ser clicado */
+    background-color: var(--verde-escuro, #2c8047); /* cor dop botao ao ser clicado */
 }
 
 /* tipo travado na edição de participante */

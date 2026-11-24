@@ -35,8 +35,9 @@ section {
     align-items: center;
 }
 form {
-    width: 1000px;
-  
+    /* antes era width: 1000px fixo, e no celular a tela rolava para o lado */
+    width: 100%;
+    max-width: 1000px;
 }
 .formulario-recuperacao {
     width: 100%;
@@ -137,3 +138,18 @@ form {
 }
 .aviso.sucesso { background: #e6f4ea; color: #0f6b33; border: 1px solid #129745; }
 .aviso.erro { background: #fdecea; color: #a12622; border: 1px solid #d93025; }
+
+
+/* =========================================
+   CELULAR: menos espaço nas bordas
+========================================= */
+@media (max-width: 600px) {
+    section {
+        padding: 0 16px;
+    }
+
+    .formulario-recuperacao {
+        padding: 32px 20px;
+        min-height: auto;
+    }
+}
