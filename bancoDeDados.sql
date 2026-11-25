@@ -435,6 +435,10 @@ INSERT INTO `ifsc60`.`oficina_acontece_dia` (`oficina_idOficina`, `dia_dtOficina
 
 COMMIT;
 
+
+
+INSERT INTO imagens_galeria (caminho)
+VALUES ('/uploads/galeria/imgBase.png');
 -- -----------------------------------------------------
 -- FREQUÊNCIA: chave de participa passa a incluir a oficina
 -- (permite lançar duas oficinas que acontecem no mesmo dia)

@@ -42,24 +42,23 @@ const upload = multer({
     storage: armazenamento,
 
     limits: {
-        fileSize: 5 * 1024 * 1024
+     fileSize: 10 * 1024 * 1024
     },
 
     fileFilter: function(req, arquivo, callback) {
 
-        if (arquivo.mimetype.startsWith("image/")) {
-            callback(null, true);
+    console.log("Nome:", arquivo.originalname);
+    console.log("Tipo recebido:", arquivo.mimetype);
 
-        } else {
-
-            callback(new Error("Arquivo não é uma imagem."));
-
-        }
-
+    if (arquivo.mimetype.startsWith("image/")) {
+        callback(null, true);
+    } else {
+        console.log("Arquivo rejeitado!");
+        callback(new Error("Arquivo não é uma imagem."));
     }
 
+}
 });
-
 
 router.get('/galeria', async (req, res) => {
 
