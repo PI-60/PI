@@ -369,3 +369,34 @@
 .mensagem[hidden] {
     display: none;
 }
+
+/* =========================================
+   BOTÃO NOVA ATIVIDADE BLOQUEADO PARA BOLSISTA
+   ========================================= */
+
+.botao-bloqueado {
+    display: inline-block;
+    cursor: not-allowed;
+}
+
+/* Aparência apagada do botão */
+.btn-nova-bloqueada {
+    opacity: 0.45;
+    filter: grayscale(100%);
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+/*  aparência bloqueada mesmo se houver outras regras */
+.btn-nova-bloqueada:disabled {
+    opacity: 0.45;
+    background-color: #d3d3d3;
+    color: #666;
+    border-color: #bdbdbd;
+    cursor: not-allowed;
+}
+
+/* icone fica apagado */
+.btn-nova-bloqueada svg {
+    opacity: 0.6;
+}

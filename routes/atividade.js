@@ -3,6 +3,38 @@ import db from '../database.js'; // ajuste o caminho conforme a localização do
 import { notificarBolsistaAdicionado } from './notificacao.js';
 
 const router = express.Router();
+// PROTEÇÃO: impede bolsistas de cadastrar ou editar atividades
+async function bloquearBolsista(req, res, next) {
+
+    // Verifica se está logado
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
+
+    try {
+        // ve se o e-mail é cadastrado como bolsista
+        const [resultado] = await db.query(
+            'SELECT email FROM bolsista WHERE email = ?',
+            [req.session.usuario.email]
+        );
+
+        // se for bolsista block
+        if (resultado.length > 0) {
+            return res.status(403).send(`
+                <h1>Acesso negado</h1>
+                <p>Você não tem permissão para cadastrar ou editar atividades.</p>
+                <a href="/atividades">Voltar para atividades</a>
+            `);
+        }
+
+        // se não for bolsista continua
+        next();
+
+    } catch (erro) {
+        console.error('Erro ao verificar permissão:', erro);
+        return res.status(500).send('Erro ao verificar permissão de acesso.');
+    }
+}
 
 
 
@@ -31,7 +63,7 @@ async function salvarDias(idOficina, dias) {
 
 // ROTA DE CADASTRO ATIVIDADES
 
-router.get('/cadastroat', async (req, res) => {
+router.get('/cadastroat', bloquearBolsista, async (req, res) => {
     const [bolsista] = await db.query(
         //selecione email de bolsista e nome do bolsista(usuario) da tabela bolsita 
         `SELECT bolsista.email, usuario.nome FROM bolsista
@@ -57,7 +89,7 @@ router.get('/cadastroat', async (req, res) => {
 });
 
 //edita of
-router.get('/atividades/:id/editar', async (req, res) => {
+router.get('/atividades/:id/editar', bloquearBolsista, async (req, res) => {
 
     try {
         const id = req.params.id;
@@ -149,7 +181,7 @@ router.get('/atividades/:id/editar', async (req, res) => {
 });
 
 // cadastrar oficina
-router.post('/cadastroat', async (req, res) => {
+router.post('/cadastroat', bloquearBolsista, async (req, res) => {
 
     let idOficina = req.body.idOficina;
     const isEdicao = Boolean(idOficina);
@@ -264,10 +296,18 @@ router.get('/atividades', async (req, res) => {
 
 
 
+        // ve se o usuário logado é bolsista
+        const [resultadoBolsista] = await db.query(
+        'SELECT email FROM bolsista WHERE email = ?',
+        [req.session.usuario.email]
+        );
+
+        const ehBolsista = resultadoBolsista.length > 0;
+
         res.render('telaAtividades', {
             layout: 'layouts/telasNavegacao',
-            atividades: atividades
-
+            atividades: atividades,
+            ehBolsista: ehBolsista
         });
 
     } catch (erro) {
@@ -277,7 +317,7 @@ router.get('/atividades', async (req, res) => {
 
 });
 // botao excluir
-router.post('/atividades/:id/excluir', async (req, res) => {
+router.post('/atividades/:id/excluir', bloquearBolsista, async (req, res) => {
 
     if (!req.session.usuario) {
         return res.redirect('/login');
