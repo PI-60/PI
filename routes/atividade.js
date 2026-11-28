@@ -12,26 +12,27 @@ async function bloquearBolsista(req, res, next) {
     }
 
     try {
-        // ve se o e-mail é cadastrado como bolsista
+        const email = req.session.usuario.email;
+
         const [resultado] = await db.query(
             'SELECT email FROM bolsista WHERE email = ?',
-            [req.session.usuario.email]
+            [email]
         );
 
-        // se for bolsista block
+        // Se for bolsista, bloqueia
         if (resultado.length > 0) {
             return res.status(403).send(`
                 <h1>Acesso negado</h1>
-                <p>Você não tem permissão para cadastrar ou editar atividades.</p>
+                <p>Você não tem permissão para cadastrar, editar ou excluir atividades.</p>
                 <a href="/atividades">Voltar para atividades</a>
             `);
         }
 
-        // se não for bolsista continua
-        next();
+        // Se não for bolsista, permite acessar
+        return next();
 
     } catch (erro) {
-        console.error('Erro ao verificar permissão:', erro);
+        console.error('Erro ao verificar permissão do bolsista:', erro);
         return res.status(500).send('Erro ao verificar permissão de acesso.');
     }
 }
@@ -81,7 +82,7 @@ router.get('/cadastroat', bloquearBolsista, async (req, res) => {
 
 
     res.render('telaCadastroA', {
-          layout: 'layouts/cadastroAtividade',
+        layout: 'layouts/cadastroAtividade',
         bolsista,
         ministrante
     });
@@ -129,7 +130,7 @@ router.get('/atividades/:id/editar', bloquearBolsista, async (req, res) => {
              WHERE oficina_idOficina = ?`,
             [id]
         );
-         // DIAS - dias em que a oficina acontece
+        // DIAS - dias em que a oficina acontece
         const [diasRows] = await db.query(
             `SELECT DATE_FORMAT(dia_dtOficinaDia, '%Y-%m-%d') AS dia
              FROM oficina_acontece_dia
@@ -156,7 +157,7 @@ router.get('/atividades/:id/editar', bloquearBolsista, async (req, res) => {
             descricao: oficina.descricao,
             local: oficina.local,
             ministrante_email: oficina.ministrante_email,
-             diasTexto: diasRows.map(d => d.dia).join(','),
+            diasTexto: diasRows.map(d => d.dia).join(','),
             bolsista1: bolsistasSelecionados[0]?.usuario_email || '',
             bolsista2: bolsistasSelecionados[1]?.usuario_email || '',
             bolsista3: bolsistasSelecionados[2]?.usuario_email || ''
@@ -168,7 +169,7 @@ router.get('/atividades/:id/editar', bloquearBolsista, async (req, res) => {
         };
 
         res.render('telaCadastroA', {
-              layout: 'layouts/cadastroAtividade',
+            layout: 'layouts/cadastroAtividade',
             atividade,
             bolsista,
             ministrante
@@ -195,8 +196,8 @@ router.post('/cadastroat', bloquearBolsista, async (req, res) => {
         bolsista2,
         bolsista3
     } = req.body;
-        //"dias" chega do formulario (1 valor = texto, varios = array)
-      const dias = [...new Set([].concat(req.body.dias || []))]
+    //"dias" chega do formulario (1 valor = texto, varios = array)
+    const dias = [...new Set([].concat(req.body.dias || []))]
         .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d))
         .sort();
 
@@ -278,7 +279,7 @@ router.get('/atividades', async (req, res) => {
         // pesquisar
         const letra = req.query.letra || '';
 
-             const [atividades] = await db.query(
+        const [atividades] = await db.query(
             `SELECT o.idOficina, o.titulo, o.local,
                     GROUP_CONCAT(
                       DATE_FORMAT(d.dia_dtOficinaDia, '%d/%m')
@@ -291,15 +292,13 @@ router.get('/atividades', async (req, res) => {
              GROUP BY o.idOficina, o.titulo, o.local
              ORDER BY o.idOficina DESC`,
             [`%${letra}%`]
-       
+
         );
 
-
-
-        // ve se o usuário logado é bolsista
+        // Verifica se o usuário logado é bolsista
         const [resultadoBolsista] = await db.query(
-        'SELECT email FROM bolsista WHERE email = ?',
-        [req.session.usuario.email]
+            'SELECT email FROM bolsista WHERE email = ?',
+            [req.session.usuario.email]
         );
 
         const ehBolsista = resultadoBolsista.length > 0;
@@ -337,7 +336,7 @@ router.post('/atividades/:id/excluir', bloquearBolsista, async (req, res) => {
     } catch (erro) {
         await db.rollback();
         console.error(erro);
-         return res.redirect('/atividades?mensagem=erro');
+        return res.redirect('/atividades?mensagem=erro');
     }
 });
 
@@ -361,8 +360,8 @@ router.get('/atividade/:id', async (req, res) => {
             return String(dataFormatada.getDate()).padStart(2, '0') + '/' +
                 String(dataFormatada.getMonth() + 1).padStart(2, '0') + '/' +
                 dataFormatada.getFullYear();
-}
-        
+        }
+
 
         // pra ver se tem oficina se nao vai dar erro 404 = nao encontrado
         if (oficinas.length === 0) {
@@ -379,7 +378,7 @@ router.get('/atividade/:id', async (req, res) => {
 
         //  dias da oficina em ordem
         const [datas] = await db.query(
-    `SELECT DATE_FORMAT(dia_dtOficinaDia, '%d/%m/%Y') AS data
+            `SELECT DATE_FORMAT(dia_dtOficinaDia, '%d/%m/%Y') AS data
      FROM oficina_acontece_dia
      WHERE oficina_idOficina = ?
      ORDER BY dia_dtOficinaDia`, [id]);
@@ -389,13 +388,13 @@ router.get('/atividade/:id', async (req, res) => {
             o [0] acessa o primeiro elemento
               (...)  chamados de operador spread eles copiam as propriedades do primeiro objeto de oficinas para o novo objeto
                as propriedades id, nome etc  que vaoser retornado s*/
-            res.json({
+        res.json({
             ...oficinas[0],
 
-             //  dt_inicio e dt_termino = primeiro e ultimo dia (o modal continua funcionando)
-        
+            //  dt_inicio e dt_termino = primeiro e ultimo dia (o modal continua funcionando)
+
             // lista completa
-              datas: datas.map(d => d.data),
+            datas: datas.map(d => d.data),
             bolsistas: bolsistas
         });
 

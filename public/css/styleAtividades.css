@@ -400,3 +400,81 @@
 .btn-nova-bloqueada svg {
     opacity: 0.6;
 }
+
+/* =========================================
+   AÇÕES BLOQUEADAS PARA BOLSISTAS
+   ========================================= */
+
+/* =========================================
+   BOTÕES BLOQUEADOS PARA BOLSISTAS
+   ========================================= */
+
+/* Área externa do botão bloqueado */
+.botao-bloqueado,
+.acao-bloqueada {
+    position: relative;
+    display: inline-flex;
+    cursor: not-allowed;
+}
+
+/* Aparência apagada dos botões */
+.btn-nova-bloqueada,
+.edit-bloqueado,
+.delete-bloqueado {
+    opacity: 0.42 !important;
+    filter: grayscale(100%);
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+/* Mantém aparência apagada quando desativado */
+.btn-nova-bloqueada:disabled,
+.edit-bloqueado:disabled,
+.delete-bloqueado:disabled {
+    opacity: 0.42 !important;
+    background-color: #d3d3d3;
+    color: #666;
+    border-color: #bdbdbd;
+    cursor: not-allowed !important;
+}
+
+/* Ícones apagados */
+.btn-nova-bloqueada svg,
+.edit-bloqueado svg,
+.delete-bloqueado svg {
+    opacity: 0.6;
+}
+
+/* =========================================
+   MENSAGEM DE PERMISSÃO AO PASSAR O MOUSE
+   ========================================= */
+
+.botao-bloqueado:hover::after,
+.acao-bloqueada:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+
+    /* Posiciona a mensagem acima do botão */
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Aparência da mensagem */
+    background-color: #333;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 5px;
+
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Remove qualquer símbolo criado anteriormente pelo CSS */
+.botao-bloqueado:hover::before,
+.acao-bloqueada:hover::before {
+    content: none !important;
+}
