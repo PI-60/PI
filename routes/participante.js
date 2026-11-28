@@ -3,6 +3,36 @@ import db from '../database.js';
 
 
 const router = express.Router();
+// Bloqueia bolsistas nas operações de manutenção de participantes
+async function bloquearBolsista(req, res, next) {
+
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
+
+    try {
+        const email = req.session.usuario.email;
+
+        const [resultado] = await db.query(
+            'SELECT email FROM bolsista WHERE email = ?',
+            [email]
+        );
+
+        if (resultado.length > 0) {
+            return res.status(403).send(`
+                <h1>Acesso negado</h1>
+                <p>Você não tem permissão para editar ou excluir participantes.</p>
+                <a href="/participantes">Voltar para participantes</a>
+            `);
+        }
+
+        return next();
+
+    } catch (erro) {
+        console.error('Erro ao verificar permissão do bolsista:', erro);
+        return res.status(500).send('Erro ao verificar permissão.');
+    }
+}
 
 // ============================
 // ROTAS DE FREQUENCIA
@@ -177,10 +207,19 @@ router.get('/participantes', async (req, res) => {
                 [`%${termo}%`]
         );
 
-          res.render('telaParticipante', {
-           layout: 'layouts/telasNavegacao',
-          participantes
-      });
+          // Verifica se o usuário logado é bolsista
+const [resultadoBolsista] = await db.query(
+    'SELECT email FROM bolsista WHERE email = ?',
+    [req.session.usuario.email]
+);
+
+const ehBolsista = resultadoBolsista.length > 0;
+
+res.render('telaParticipante', {
+    layout: 'layouts/telasNavegacao',
+    participantes,
+    ehBolsista
+});
 
     } catch (erro) {
         console.error(erro);
@@ -192,7 +231,7 @@ router.get('/participantes', async (req, res) => {
 // ============================
 // EXCLUIR PARTICIPANTE
 // ============================
-router.post('/participantes/:id/excluir', async (req, res) => {
+router.post('/participantes/:id/excluir', bloquearBolsista, async (req, res) => {
 
     if (!req.session.usuario) {
        return res.redirect('/login');

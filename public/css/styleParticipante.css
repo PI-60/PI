@@ -517,7 +517,52 @@ display:inline-flex;
 .cabecalho-impressao {
     display: none;
 }
+/* =========================================
+   BOTÕES DE PARTICIPANTES BLOQUEADOS
+   PARA BOLSISTAS
+   ========================================= */
 
+.acao-participante-bloqueada {
+    position: relative;
+    display: inline-flex;
+    cursor: not-allowed;
+}
+
+/* Botões apagados */
+.editar-bloqueado,
+.excluir-bloqueado {
+    opacity: 0.42 !important;
+    filter: grayscale(100%);
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.editar-bloqueado:disabled,
+.excluir-bloqueado:disabled {
+    opacity: 0.42 !important;
+    cursor: not-allowed !important;
+}
+
+/* Tooltip de permissão */
+.acao-participante-bloqueada:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: #333;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 5px;
+
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    z-index: 9999;
+    pointer-events: none;
+}
 
 /* =========================================
    IMPRESSÃO 
